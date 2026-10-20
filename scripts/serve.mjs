@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Boot wrapper for `npm run dev`, `npm start` and `npm run preview`.
+ * Boot wrapper for `pnpm dev`, `pnpm start` and `pnpm preview`.
  *
  * Decides the bind address from whether an operator password exists:
  *   - no password  → 127.0.0.1 only. Any other GLADOS_HOST is refused, so a
