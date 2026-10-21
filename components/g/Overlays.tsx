@@ -51,6 +51,26 @@ function Layer({ children }: { children: ReactNode }) {
   return target ? createPortal(children, target) : null;
 }
 
+/**
+ * Keep an overlay mounted while it plays its exit (rules 3, 7). `state` is
+ * 'open' or 'closing' (the data-state value); `mounted` goes false once the
+ * exit has had `ms` to play. Reduced motion shortens the wait to the 120ms
+ * crossfade. A reopen during the exit cancels the unmount.
+ */
+export const EXIT_MS = { sheet: 150, drawer: 200, pop: 120 } as const;
+
+export function useExitPresence(open: boolean, ms: number): { mounted: boolean; state: 'open' | 'closing' } {
+  const [mounted, setMounted] = useState(open);
+  if (open && !mounted) setMounted(true);
+  useEffect(() => {
+    if (open) return;
+    const reduced = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const t = setTimeout(() => setMounted(false), reduced ? Math.min(ms, 120) : ms);
+    return () => clearTimeout(t);
+  }, [open, ms]);
+  return { mounted: open || mounted, state: open ? 'open' : 'closing' };
+}
+
 function CloseButton({ onClose, label = 'Close' }: { onClose: () => void; label?: string }) {
   return (
     <GButton variant="icon" aria-label={label} data-dialog-close="" onClick={onClose}>
@@ -78,22 +98,23 @@ export type GSheetProps = {
 
 /** Centred modal sheet: --g-card, radius 28, Section 30 title, --g-scrim, 240ms in. */
 export function GSheet(props: GSheetProps) {
-  if (!props.open) return null;
+  const { mounted, state } = useExitPresence(props.open, EXIT_MS.sheet);
+  if (!mounted) return null;
   return (
     <Layer>
-      <SheetPanel {...props} />
+      <SheetPanel {...props} state={state} />
     </Layer>
   );
 }
 
-function SheetPanel({ onClose, title, caption, children, footer, width = 1200, initialFocus, className }: GSheetProps) {
+function SheetPanel({ onClose, title, caption, children, footer, width = 1200, initialFocus, className, state }: GSheetProps & { state: 'open' | 'closing' }) {
   const titleId = useId();
-  const dlg = useDialog({ open: true, onClose, labelledBy: titleId, initialFocus });
+  const dlg = useDialog({ open: state === 'open', onClose, labelledBy: titleId, initialFocus });
   return (
     <>
-      <div className="g-layer" data-kind="sheet">
-        <div className="g-scrim" aria-hidden onClick={onClose} />
-        <div {...dlg.props} data-g="GSheet" className={cx('g-sheet', className)} style={{ maxWidth: width }}>
+      <div className="g-layer" data-kind="sheet" data-state={state}>
+        <div className="g-scrim" data-state={state} aria-hidden onClick={onClose} />
+        <div {...dlg.props} data-g="GSheet" data-state={state} className={cx('g-sheet', className)} style={{ maxWidth: width }}>
           <header className="g-sheet-head">
             <div>
               <h2 id={titleId} className="g-sheet-title">
@@ -132,23 +153,24 @@ export type GDrawerProps = {
 
 /** Right sheet with a back stack; swipe right 80px to close on touch. */
 export function GDrawer(props: GDrawerProps) {
-  if (!props.open) return null;
+  const { mounted, state } = useExitPresence(props.open, EXIT_MS.drawer);
+  if (!mounted) return null;
   return (
     <Layer>
-      <DrawerPanel {...props} />
+      <DrawerPanel {...props} state={state} />
     </Layer>
   );
 }
 
-function DrawerPanel({ onClose, title, children, footer, onBack, backLabel = 'Back', width = 480, modal = true, initialFocus, className }: GDrawerProps) {
+function DrawerPanel({ onClose, title, children, footer, onBack, backLabel = 'Back', width = 480, modal = true, initialFocus, className, state }: GDrawerProps & { state: 'open' | 'closing' }) {
   const titleId = useId();
-  const dlg = useDialog({ open: modal, onClose, labelledBy: titleId, initialFocus });
+  const dlg = useDialog({ open: modal && state === 'open', onClose, labelledBy: titleId, initialFocus });
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
   useEffect(() => {
-    if (modal) return;
+    if (modal || state !== 'open') return;
     return pushEscape(() => onCloseRef.current());
-  }, [modal]);
+  }, [modal, state]);
 
   const touch = useRef<{ x: number; y: number } | null>(null);
   const onTouchStart = (e: TouchEvent) => {
@@ -167,11 +189,12 @@ function DrawerPanel({ onClose, title, children, footer, onBack, backLabel = 'Ba
     : { role: 'dialog' as const, 'aria-modal': false as const, 'aria-labelledby': titleId };
   return (
     <>
-      <div className="g-layer" data-kind="drawer" data-modal={modal ? 'true' : 'false'}>
-        {modal && <div className="g-scrim" aria-hidden onClick={onClose} />}
+      <div className="g-layer" data-kind="drawer" data-modal={modal ? 'true' : 'false'} data-state={state}>
+        {modal && <div className="g-scrim" data-state={state} aria-hidden onClick={onClose} />}
         <aside
           {...panelProps}
           data-g="GDrawer"
+          data-state={state}
           className={cx('g-drawer', className)}
           style={{ width: `min(${width}px, 100vw)` }}
           onTouchStart={onTouchStart}
@@ -215,22 +238,23 @@ export type GDialogProps = {
 
 /** 420px confirm. Focus starts on Cancel so Enter never confirms by accident. */
 export function GDialog(props: GDialogProps) {
-  if (!props.open) return null;
+  const { mounted, state } = useExitPresence(props.open, EXIT_MS.sheet);
+  if (!mounted) return null;
   return (
     <Layer>
-      <DialogPanel {...props} />
+      <DialogPanel {...props} state={state} />
     </Layer>
   );
 }
 
-function DialogPanel({ onClose, title, children, confirmLabel, onConfirm, cancelLabel = 'Cancel', tone = 'default', busy = false, confirmDisabledReason }: GDialogProps) {
+function DialogPanel({ onClose, title, children, confirmLabel, onConfirm, cancelLabel = 'Cancel', tone = 'default', busy = false, confirmDisabledReason, state }: GDialogProps & { state: 'open' | 'closing' }) {
   const titleId = useId();
-  const dlg = useDialog({ open: true, onClose: busy ? () => {} : onClose, labelledBy: titleId });
+  const dlg = useDialog({ open: state === 'open', onClose: busy ? () => {} : onClose, labelledBy: titleId });
   return (
     <>
-      <div className="g-layer" data-kind="dialog">
-        <div className="g-scrim" aria-hidden onClick={busy ? undefined : onClose} />
-        <div {...dlg.props} role={tone === 'danger' ? 'alertdialog' : 'dialog'} data-g="GDialog" data-tone={tone} className="g-dialog">
+      <div className="g-layer" data-kind="dialog" data-state={state}>
+        <div className="g-scrim" data-state={state} aria-hidden onClick={busy ? undefined : onClose} />
+        <div {...dlg.props} role={tone === 'danger' ? 'alertdialog' : 'dialog'} data-g="GDialog" data-state={state} data-tone={tone} className="g-dialog">
           <h2 id={titleId} className="g-dialog-title">
             {title}
           </h2>
@@ -296,6 +320,7 @@ export function GPopover({ open, onOpenChange, trigger, children, align = 'start
   const triggerRef = useRef<HTMLButtonElement & HTMLAnchorElement>(null);
   const setOpen = useRef(onOpenChange);
   setOpen.current = onOpenChange;
+  const { mounted, state } = useExitPresence(open, EXIT_MS.pop);
 
   const close = useCallback((refocus: boolean) => {
     setOpen.current(false);
@@ -328,9 +353,10 @@ export function GPopover({ open, onOpenChange, trigger, children, align = 'start
   return (
     <span ref={wrap} data-g={role === 'menu' ? undefined : 'GPopover'} className={cx('g-pop-wrap', className)}>
       {trigger({ ref: triggerRef, onClick: () => onOpenChange(!open), 'aria-expanded': open, 'aria-controls': id, 'aria-haspopup': role })}
-      {open && (
+      {mounted && (
         <div
           ref={panel}
+          data-state={state}
           id={id}
           role={role}
           aria-label={label}
