@@ -7323,7 +7323,7 @@
     "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
-    "description": "Pool shipped: bounded seats, retry, cancel, recovery, usage card. Gateway install on the host left.",
+    "description": "Pool shipped (lib/worker-pool.ts): bounded seats, retry, cancel, recovery, usage card, plus a read-only check (scripts/verify-workers.mjs). Left: gateway install on the host (/api/pool reports the gateway key AI_GATEWAY_API_KEY as not set).",
     "phaseId": "phase-3"
    },
    {
@@ -7341,7 +7341,7 @@
     "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
-    "description": "Dockerfile, railway.json and /api/health ready and built locally; first deploy waits on the account.",
+    "description": "Dockerfile, railway.json and /api/health shipped; pnpm docker:smoke proves build, health, the password gate and login locally. Left: Railway login and your OK for the first public deploy.",
     "phaseId": "phase-4"
    },
    {
@@ -7359,7 +7359,7 @@
     "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
-    "description": "Login lockout, secure cookies, session expiry and the Remote access card shipped; linking Tailscale is left.",
+    "description": "Login lockout, secure cookies, session expiry and the Remote access card shipped, plus a read-only check (scripts/verify-remote.mjs). Left: sign in to Tailscale on the host, then share the app on the tailnet.",
     "phaseId": "phase-4"
    },
    {
@@ -7368,7 +7368,7 @@
     "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-clients",
-    "description": "Postiz connector, Setup entry and Social panel shipped; pointing it at the Postiz server is left.",
+    "description": "Postiz connector, Setup entry and Social panel shipped, plus a compose file for a local Postiz (deploy/postiz; config validated, not yet started). Left: start it, create your user, set POSTIZ_URL and POSTIZ_API_KEY.",
     "phaseId": "phase-1"
    },
    {

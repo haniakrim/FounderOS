@@ -1,0 +1,11 @@
+# Layered on Postiz's own compose file (fetched by up.sh, pinned to a commit).
+# Postiz now needs Temporal, Elasticsearch and two databases, so we reuse the
+# upstream stack and only change what must differ for FounderOS:
+# the app port stays on loopback and the secrets come from the shell.
+services:
+  postiz:
+    ports: !override
+      - "127.0.0.1:4007:5000"
+    environment:
+      JWT_SECRET: ${POSTIZ_JWT_SECRET:?set POSTIZ_JWT_SECRET}
+      DISABLE_REGISTRATION: ${POSTIZ_DISABLE_REGISTRATION:-false}

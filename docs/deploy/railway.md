@@ -34,22 +34,14 @@ Sources (checked 2026-10-22): docs.railway.com config-as-code, healthchecks, vol
    | connector keys | per `.env.example` |
 
    `PORT` is injected by Railway and read by `serve.mjs`. `GLADOS_DATA_DIR=/data`, `GLADOS_DB=/data/glados.db` and `GLADOS_ENV_LOCAL=/data/.env.local` are set in the Dockerfile; keep them on the volume. The app's gate reads the password only from the env file, never `process.env` (`lib/auth.ts`). The image entrypoint therefore copies the two password variables into `/data/.env.local` at each start. Without that the gate sees no password and answers 503 to every non-loopback request.
-5. Required code change before the first deploy: `/api/health` must be an open path (see below), or Railway's healthcheck gets 401/503 and the deploy fails.
+5. `/api/health` is an open path in `OPEN_PATHS` (`lib/auth-gate.ts`), so Railway's healthcheck is not gated. Its body reveals nothing.
 6. Deploy. Railway polls `/api/health` from `healthcheck.railway.app` until it gets 2xx (up to 300 s).
-7. Verify: `RAILWAY_URL=https://<service>.up.railway.app node scripts/verify-railway.mjs`.
+7. Verify: `RAILWAY_PASSWORD='your-password' RAILWAY_URL=https://<service>.up.railway.app node scripts/verify-railway.mjs`.
 8. Back up: the volume holds `glados.db` plus the stores. Use Railway volume backups or copy `/data` out before risky changes.
-
-## Gate change needed (owned elsewhere)
-
-In `lib/auth-gate.ts`:
-```
-export const OPEN_PATHS = ['/login', '/api/auth/login', '/api/auth/check', '/api/health'] as const;
-```
-`middleware.ts` needs no change (it calls `isOpenPath`). The health body reveals nothing, so opening it leaks no data.
 
 ## Verified locally (2026-10-22)
 
-`docker build` passes. With password variables set, anonymous `/` answers 307 to `/login`. `/api/health` answers 200 `{"ok":true}` when the gate lets it through (loopback inside the container) and 401 from outside until the `OPEN_PATHS` change above lands.
+`pnpm docker:smoke` (2026-10-22): build, `/api/health` 200 `{"ok":true}`, entrypoint copy of both variables, anonymous `/` gated (307 to `/login`), wrong password 401, right password 200, session unlocks `/`.
 
 ## Notes
 

@@ -38,7 +38,9 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [x] 2026-10-22: remote-access hardening and Setup → Security Remote access card
 - [x] 2026-10-22: Postiz connector, Setup entry and Social panel
 - [x] 2026-10-22: Railway deploy files (`Dockerfile`, `railway.json`, `/api/health`, `docs/deploy/railway.md`)
-- [ ] ! Link Tailscale or Cloudflare for outside access (operator login)
-- [ ] ! Point Postiz at a server: set POSTIZ_URL and POSTIZ_API_KEY
-- [ ] ! First Railway deploy (operator account and OK)
-- [ ] ! Install the AI gateway on the host for the worker pool
+- [x] 2026-10-22: Q4 closeout checks added and run: `pnpm docker:smoke` (Railway image, login), `scripts/verify-workers.mjs`, `scripts/verify-remote.mjs`, roadmap synced
+- [x] 2026-10-22: Postiz compose file added (`deploy/postiz`); config validated, stack not started
+- [ ] ! Tailscale: `sudo brew services start tailscale`, `tailscale up`, then `node scripts/verify-remote.mjs` and the Remote access card commands
+- [ ] ! Postiz: `sh deploy/postiz/up.sh up`, create your user at http://127.0.0.1:4007, set POSTIZ_URL and POSTIZ_API_KEY, then `node scripts/verify-postiz.mjs`
+- [ ] ! Railway: install CLI, log in, OK to deploy (first public deploy), then `verify-railway.mjs` with RAILWAY_PASSWORD
+- [ ] ! Gateway on the host for the worker pool: `/api/pool` reports AI_GATEWAY_API_KEY not set; set it at /integrations, then `node scripts/verify-workers.mjs`
