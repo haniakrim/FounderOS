@@ -7330,7 +7330,7 @@
     "id": "rm-statements",
     "title": "Statement ingestion",
     "quarter": "2026-Q4",
-    "status": "now",
+    "status": "done",
     "departmentId": "dept-finance",
     "description": "Card and bank statements parsed into /finances instead of hand entry.",
     "phaseId": "phase-1"
@@ -7357,9 +7357,9 @@
     "id": "rm-auth",
     "title": "Auth + remote access",
     "quarter": "2026-Q4",
-    "status": "next",
+    "status": "now",
     "departmentId": "dept-tech",
-    "description": "Reach FOUNDER OS on the host from anywhere, safely.",
+    "description": "Password login, sessions and Setup → Security shipped; reaching the host from outside the network is next.",
     "phaseId": "phase-4"
    },
    {

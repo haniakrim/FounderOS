@@ -32,3 +32,4 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [ ] ! Decide `SetupLink` default href in the Classic kit (`/setup` or `/integrations`)
 - [ ] ! OK to push `design/fluid-pass` and `docs/user-manual`
 - [ ] Fix Legacy `Strip` clipping long values in narrow cards (portable kit)
+- [x] 2026-10-22: demo roadmap matched to the code: Statement ingestion done (`lib/statements.ts`, `/finances` upload), Auth + remote access now (login shipped, outside-network access open); unfinished Q3 items rolled into Q4
