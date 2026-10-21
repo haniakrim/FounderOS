@@ -5,6 +5,8 @@ import {
   checkPassword,
   clearFailures,
   clientKey,
+  cookieFromHeader,
+  sessionIsValid,
   isConfigured,
   passwordShapeError,
   recordFailure,
@@ -36,9 +38,9 @@ const Body = z.discriminatedUnion('action', [
   z.object({ action: z.literal('remove'), current: z.string() }),
 ]);
 
-function withSession(secret: string) {
+function withSession(req: Request, secret: string) {
   const res = NextResponse.json({ ok: true, configured: true });
-  res.cookies.set(SESSION_COOKIE, secret, sessionCookieOptions());
+  res.cookies.set(SESSION_COOKIE, secret, sessionCookieOptions(req));
   return res;
 }
 
@@ -59,13 +61,14 @@ export async function POST(req: Request) {
     if (configured) return NextResponse.json({ error: 'a password is already set' }, { status: 409 });
     const shape = passwordShapeError(body.password);
     if (shape) return NextResponse.json({ error: shape }, { status: 400 });
-    return withSession(setPassword(body.password));
+    return withSession(req, setPassword(body.password));
   }
 
   if (!configured) return NextResponse.json({ error: 'no password is set' }, { status: 409 });
 
   const key = clientKey(req);
-  if (throttled(key)) return NextResponse.json({ error: 'too many attempts — wait a minute' }, { status: 429 });
+  const hasSession = sessionIsValid(cookieFromHeader(req.headers.get('cookie'), SESSION_COOKIE));
+  if (!hasSession && throttled(key)) return NextResponse.json({ error: 'too many attempts — wait a minute' }, { status: 429 });
   if (!checkPassword(body.current)) {
     recordFailure(key);
     return NextResponse.json({ error: 'current password is wrong' }, { status: 401 });
@@ -76,14 +79,14 @@ export async function POST(req: Request) {
     case 'change': {
       const shape = passwordShapeError(body.password);
       if (shape) return NextResponse.json({ error: shape }, { status: 400 });
-      return withSession(setPassword(body.password));
+      return withSession(req, setPassword(body.password));
     }
     case 'rotate':
-      return withSession(rotateSession());
+      return withSession(req, rotateSession());
     case 'remove': {
       removePassword();
       const res = NextResponse.json({ ok: true, configured: false });
-      res.cookies.set(SESSION_COOKIE, '', { path: '/', maxAge: 0 });
+      res.cookies.set(SESSION_COOKIE, '', { ...sessionCookieOptions(req), maxAge: 0 });
       return res;
     }
   }

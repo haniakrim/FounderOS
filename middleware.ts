@@ -20,7 +20,9 @@ import { SESSION_COOKIE, UNCONFIGURED_REMOTE_MESSAGE, decideGate, isOpenPath, pa
 // inlined at build time anyway.
 const TRUSTED_HOSTS = parseTrustedHosts(process.env.GLADOS_TRUSTED_HOSTS);
 
-const TTL_MS = 10_000;
+const TRUST_PROXY = (process.env.GLADOS_TRUST_PROXY ?? '').trim() === '1';
+
+const TTL_MS = 1_500;
 const CACHE_MAX = 500;
 const cache = new Map<string, { configured: boolean; authed: boolean; at: number }>();
 
@@ -64,7 +66,7 @@ export async function middleware(req: NextRequest) {
 
   // Self-hosted Next puts its internal host on req.nextUrl, so both the
   // loopback rule and the CSRF origin comparison read the real headers.
-  const { hostname, origin: requestOrigin } = requestOriginOf(req.headers);
+  const { hostname, origin: requestOrigin } = requestOriginOf(req.headers, TRUST_PROXY);
   const { configured, authed } = await authStatus(req);
   const decision = decideGate({
     pathname,

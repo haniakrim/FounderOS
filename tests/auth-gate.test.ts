@@ -37,7 +37,7 @@ describe('reading the real Host (self-hosted Next reports its internal host on n
   test('requestOriginOf prefers forwarded headers and defaults to http', () => {
     const h = (m: Record<string, string>) => ({ get: (k: string) => m[k.toLowerCase()] ?? null });
     expect(requestOriginOf(h({ host: '127.0.0.1:4811' }))).toEqual({ hostname: '127.0.0.1', origin: 'http://127.0.0.1:4811' });
-    expect(requestOriginOf(h({ host: 'internal:4100', 'x-forwarded-host': 'os.example.com', 'x-forwarded-proto': 'https' }))).toEqual({
+    expect(requestOriginOf(h({ host: 'internal:4100', 'x-forwarded-host': 'os.example.com', 'x-forwarded-proto': 'https' }), true)).toEqual({
       hostname: 'os.example.com',
       origin: 'https://os.example.com',
     });

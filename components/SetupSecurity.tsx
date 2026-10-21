@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { RemoteAccess } from '@/components/RemoteAccess';
 import { KeyRound, LogOut, ShieldCheck, ShieldOff, Trash2 } from 'lucide-react';
 
 type Mode = 'idle' | 'set' | 'change' | 'rotate' | 'remove';
@@ -217,6 +218,7 @@ function SecurityClassic({
           </div>
         </form>
       )}
+      <RemoteAccess />
     </div>
   );
 }

@@ -80,6 +80,10 @@ if (!isLoopback(host) && !hasPassword) {
   process.exit(1);
 }
 
+if (get('GLADOS_TRUST_PROXY') === '1' && isLoopback(host) === false) {
+  console.warn('GLADOS_TRUST_PROXY=1 while listening beyond loopback: anyone who reaches the port directly can forge x-forwarded-* headers. Bind to 127.0.0.1 behind the proxy.');
+}
+
 console.log(
   hasPassword
     ? `${brandName} · password set · listening on ${host}:${port}`
@@ -114,7 +118,8 @@ const require = createRequire(import.meta.url);
 const nextBin = require.resolve('next/dist/bin/next');
 // next.config.mjs reads NEXT_DIST_DIR; preview pins its own dir so it never shares `.next` with dev.
 const distDir = mode === 'preview' ? process.env.NEXT_DIST_DIR || '.next-preview' : process.env.NEXT_DIST_DIR;
-const childEnv = { ...process.env, GLADOS_HOST: host, PORT: port, ...(distDir ? { NEXT_DIST_DIR: distDir } : {}) };
+const trustProxy = get('GLADOS_TRUST_PROXY');
+const childEnv = { ...process.env, GLADOS_HOST: host, PORT: port, ...(trustProxy ? { GLADOS_TRUST_PROXY: trustProxy } : {}), ...(distDir ? { NEXT_DIST_DIR: distDir } : {}) };
 
 let current = null;
 for (const sig of ['SIGINT', 'SIGTERM']) process.on(sig, () => (current ? current.kill(sig) : process.exit(1)));

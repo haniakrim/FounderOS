@@ -1,13 +1,18 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { SESSION_COOKIE } from '@/lib/auth-gate';
+import { SESSION_COOKIE, requestOriginOf } from '@/lib/auth-gate';
 import {
   checkPassword,
+  cookieFromHeader,
   clearFailures,
   clientKey,
   readAuthState,
+  refreshSessionIssued,
+  sessionIsValid,
   recordFailure,
+  retryAfterMs,
   sessionCookieOptions,
+  trustProxy,
   throttled,
 } from '@/lib/auth';
 
@@ -23,9 +28,22 @@ export async function POST(req: Request) {
     );
   }
 
+  // Login CSRF: a hostile page must not be able to sign the operator in as
+  // someone else's session. The gate skips this path, so check here.
+  const origin = req.headers.get('origin');
+  if (origin !== null && origin !== requestOriginOf(req.headers, trustProxy()).origin) {
+    return NextResponse.json({ error: 'cross-origin request refused' }, { status: 403 });
+  }
+
   const key = clientKey(req);
-  if (throttled(key)) {
-    return NextResponse.json({ error: 'too many attempts — wait a minute' }, { status: 429 });
+  // A holder of a currently valid session is not a guesser: never throttle them.
+  const hasSession = sessionIsValid(cookieFromHeader(req.headers.get('cookie'), SESSION_COOKIE));
+  if (!hasSession && throttled(key)) {
+    const secs = Math.ceil(retryAfterMs(key) / 1000);
+    return NextResponse.json(
+      { error: `too many attempts — try again in ${secs < 90 ? `${secs}s` : `${Math.ceil(secs / 60)} min`}` },
+      { status: 429, headers: { 'retry-after': String(secs) } },
+    );
   }
 
   const parsed = z.object({ password: z.string().min(1).max(512) }).safeParse(
@@ -39,7 +57,8 @@ export async function POST(req: Request) {
   }
 
   clearFailures(key);
+  refreshSessionIssued();
   const res = NextResponse.json({ ok: true });
-  res.cookies.set(SESSION_COOKIE, state.sessionSecret, sessionCookieOptions());
+  res.cookies.set(SESSION_COOKIE, state.sessionSecret, sessionCookieOptions(req));
   return res;
 }

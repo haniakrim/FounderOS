@@ -5,6 +5,7 @@ import { GButton, GInput, GTag } from '@/components/g';
 import { useManualCheck } from '@/components/SetupManualCheck';
 import { useKeySave } from '@/components/SetupKeyInput';
 import { useFilmingToggle } from '@/components/SetupFilming';
+import { RemoteAccess } from '@/components/RemoteAccess';
 import { usePasswordForm } from '@/components/SetupSecurity';
 
 /**
@@ -153,6 +154,7 @@ export function SecurityG({ configured }: { configured: boolean }) {
           </div>
         </form>
       )}
+      <RemoteAccess />
     </div>
   );
 }

@@ -18,7 +18,7 @@ export const SESSION_COOKIE = 'glados_session';
 
 /** Reachable without a session: the login page + endpoint, the status probe the
  *  middleware itself calls, and webhooks (which carry their own shared secret). */
-export const OPEN_PATHS = ['/login', '/api/auth/login', '/api/auth/check'] as const;
+export const OPEN_PATHS = ['/login', '/api/auth/login', '/api/auth/check', '/api/health'] as const;
 
 /** Push endpoints another machine calls with a bearer token instead of a session
  *  (FounderOS merge). Exact paths only. Each route runs lib/push-auth.ts, which
@@ -63,11 +63,16 @@ export function hostnameOf(hostHeader: string | null | undefined): string {
   return colon > 0 && h.indexOf(':') === colon ? h.slice(0, colon) : h;
 }
 
-/** The origin the browser believes it is talking to, from the headers a
- *  reverse proxy forwards (or the plain Host header when there is none). */
-export function requestOriginOf(headers: { get(name: string): string | null }): { hostname: string; origin: string } {
-  const host = headers.get('x-forwarded-host') ?? headers.get('host') ?? '';
-  const proto = headers.get('x-forwarded-proto') ?? 'http';
+/** The origin the browser believes it is talking to: the forwarded headers when
+ *  trustProxy, the plain Host header otherwise. */
+export function requestOriginOf(
+  headers: { get(name: string): string | null },
+  trustProxy = false,
+): { hostname: string; origin: string } {
+  // x-forwarded-* are forgeable by anyone who can reach the port, so they count
+  // only when the operator said a proxy fronts this server (GLADOS_TRUST_PROXY=1).
+  const host = (trustProxy ? headers.get('x-forwarded-host') : null) ?? headers.get('host') ?? '';
+  const proto = (trustProxy ? headers.get('x-forwarded-proto')?.split(',')[0]?.trim() : null) || 'http';
   return { hostname: hostnameOf(host), origin: `${proto}://${host}` };
 }
 

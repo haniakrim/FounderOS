@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { SESSION_COOKIE } from '@/lib/auth-gate';
-import { cookieFromHeader, readAuthState, sameSecret } from '@/lib/auth';
+import { cookieFromHeader, readAuthState, sessionIsValid } from '@/lib/auth';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: Request) {
   const state = readAuthState();
   const cookie = cookieFromHeader(req.headers.get('cookie'), SESSION_COOKIE);
-  const authed = state.configured && !!cookie && !!state.sessionSecret && sameSecret(cookie, state.sessionSecret);
+  const authed = state.configured && sessionIsValid(cookie);
   return NextResponse.json(
     { configured: state.configured, authed },
     { headers: { 'cache-control': 'no-store' } },
