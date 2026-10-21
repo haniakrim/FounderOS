@@ -7348,9 +7348,9 @@
     "id": "rm-ui",
     "title": "Interaction rebrand",
     "quarter": "2026-Q3",
-    "status": "now",
+    "status": "done",
     "departmentId": "dept-tech",
-    "description": "Alex-led design pass over the whole OS now the integrations are live.",
+    "description": "Design pass over the whole OS now the integrations are live; continues as the Apple fluid design pass.",
     "phaseId": "phase-2"
    },
    {
@@ -7379,6 +7379,24 @@
     "departmentId": "dept-tech",
     "description": "Conductor and 40+ agents driven from the OS, SOPs running as real skills.",
     "phaseId": "phase-3"
+   },
+   {
+    "id": "rm-fluid",
+    "title": "Apple fluid design pass",
+    "quarter": "2026-Q4",
+    "status": "now",
+    "departmentId": "dept-tech",
+    "description": "17-rule audit and DESIGN.md; press feedback, focus ring and materials shipped, 11 findings left.",
+    "phaseId": "phase-2"
+   },
+   {
+    "id": "rm-kit",
+    "title": "Portable theme and design kit",
+    "quarter": "2026-Q4",
+    "status": "done",
+    "departmentId": "dept-tech",
+    "description": "GladOS, Classic and Legacy kits with shells, tokens and the Appearance picker, reusable in any app.",
+    "phaseId": "phase-2"
    }
   ]
  },

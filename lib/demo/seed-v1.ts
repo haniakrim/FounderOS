@@ -1097,10 +1097,12 @@ const roadmap: (RoadmapItem & { phaseId?: string })[] = [
   { id: 'rm-workers', title: 'Worker pool on the host', quarter: '2026-Q3', status: 'now', departmentId: 'dept-tech', description: 'Cheap model seats behind the Conductor. Hardening and gateway install left.', phaseId: 'phase-3' },
   { id: 'rm-statements', title: 'Statement ingestion', quarter: '2026-Q3', status: 'now', departmentId: 'dept-finance', description: 'Card and bank statements parsed into /finances instead of hand entry.', phaseId: 'phase-1' },
   { id: 'rm-railway', title: 'Move hosting to Railway', quarter: '2026-Q3', status: 'now', departmentId: 'dept-tech', description: 'Every app moving to one platform; the gated OS demo went first as the pilot.', phaseId: 'phase-4' },
-  { id: 'rm-ui', title: 'Interaction rebrand', quarter: '2026-Q3', status: 'now', departmentId: 'dept-tech', description: 'Alex-led design pass over the whole OS now the integrations are live.', phaseId: 'phase-2' },
+  { id: 'rm-ui', title: 'Interaction rebrand', quarter: '2026-Q3', status: 'done', departmentId: 'dept-tech', description: 'Design pass over the whole OS now the integrations are live; continues as the Apple fluid design pass.', phaseId: 'phase-2' },
   { id: 'rm-auth', title: 'Auth + remote access', quarter: '2026-Q4', status: 'next', departmentId: 'dept-tech', description: 'Reach FOUNDER OS on the host from anywhere, safely.', phaseId: 'phase-4' },
   { id: 'rm-postiz', title: 'Replace Postly with Postiz', quarter: '2026-Q4', status: 'next', departmentId: 'dept-clients', description: 'Self-hosted scheduler with ungated post and channel analytics.', phaseId: 'phase-1' },
   { id: 'rm-board-embed', title: 'Board fully inside the OS', quarter: '2026-Q4', status: 'later', departmentId: 'dept-tech', description: 'Conductor and 40+ agents driven from the OS, SOPs running as real skills.', phaseId: 'phase-3' },
+  { id: 'rm-fluid', title: 'Apple fluid design pass', quarter: '2026-Q4', status: 'now', departmentId: 'dept-tech', description: '17-rule audit and DESIGN.md; press feedback, focus ring and materials shipped, 11 findings left.', phaseId: 'phase-2' },
+  { id: 'rm-kit', title: 'Portable theme and design kit', quarter: '2026-Q4', status: 'done', departmentId: 'dept-tech', description: 'GladOS, Classic and Legacy kits with shells, tokens and the Appearance picker, reusable in any app.', phaseId: 'phase-2' },
 ];
 
 // Honest zeros — these flip to live numbers as connectors come online.
