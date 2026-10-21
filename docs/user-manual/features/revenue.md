@@ -20,6 +20,8 @@ Three things apply to every page below:
 
 ## Funnel
 
+![Funnel screen](../img/funnel.png)
+
 **What it is for.** The Funnel shows every lead as a *journey* through five stages, so you can see where leads come from, who is hot, and who is fading. Its job is to answer "who should I contact today?"
 
 The five stages are **First touch**, **Engaged**, **Nurtured**, **Opted in** and **Converted**.
@@ -101,6 +103,8 @@ In demo mode the Funnel shows invented journeys from the demo company, including
 
 ## Brand Deals
 
+![Brand Deals screen](../img/brand-deals.png)
+
 **What it is for.** The page is called *Deal Journeys*. It follows sponsorship email chains from the first brand message to a won or lost outcome. A background helper called bdpilot reads the emails, drafts replies and tags the unusual ones. You stay in control: nothing is sent without a human approval.
 
 ### What you need
@@ -155,6 +159,8 @@ In demo mode the board is filled from the demo company's deals. Sending, editing
 
 ## Clients
 
+![Clients screen](../img/clients.png)
+
 **What it is for.** A short list of the people you serve, and a queue of work requests per client. It is deliberately simple: a payer is not a client until you confirm them.
 
 ### What you need
@@ -201,6 +207,8 @@ In demo mode the page shows three invented clients and their requests, marked as
 ---
 
 ## Finances
+
+![Finances screen](../img/finances.png)
 
 **What it is for.** Every place money lands, in one view. Income comes from your payment processors. Expenses come from statements you upload. The page shows net income and where the money went.
 
@@ -263,6 +271,8 @@ On a real install with no statement, add `?sample=1` to preview the Spending car
 ---
 
 ## Trading
+
+![Trading screen](../img/trading.png)
 
 **What it is for.** A read-only window on your accounts, plus the limits for the trading agent. FounderOS never places an order itself. A separate Markets agent does the trading and pushes its results here. You decide how much freedom it has.
 

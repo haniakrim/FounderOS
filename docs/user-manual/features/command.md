@@ -18,6 +18,8 @@ Three things apply to every page below:
 
 ## Home
 
+![Home screen](../img/home.png)
+
 **What it is for.** Home is the operator console. It answers one question: is the business running, and does anything need me? Everything on it is read from your own data, and every tile is a link to the page behind it.
 
 ### What you see
@@ -90,6 +92,8 @@ In demo mode Home shows the fictional company: invented agents, runs, inbound me
 
 ## Wizard
 
+![Wizard screen](../img/wizard.png)
+
 **What it is for.** The Wizard is a chat with the system itself. Each conversation is a *project*. You say what you need in plain words. The Wizard answers, and when it plans or delegates work it can create tasks, tick tasks off, and run one of your agents. You see exactly what it did as small receipts under its reply.
 
 ### What you need
@@ -156,6 +160,8 @@ The Wizard works the same way in demo mode, but its projects, tasks and crew his
 ---
 
 ## Comms (Inbox)
+
+![Comms (Inbox) screen](../img/inbox.png)
 
 **What it is for.** One place for everything people send you: email, Slack, WhatsApp and calendar meetings, in a single list with a clear "who owes whom a reply" state. Beyond threads, the same page holds a morning digest, call recordings, one lane per client Slack channel, and a week calendar. Instagram DMs have their own inbox on [Social](growth.md#instagram-dm-inbox).
 

@@ -23,6 +23,8 @@ Three things apply to every page below:
 
 ## Social
 
+![Social screen](../img/social.png)
+
 **What it is for.** The hub for your audience. It shows how many followers you have on each platform, how fast they are growing, what you have posted, and the Instagram messages waiting for a reply. It also holds the composer for queuing new posts.
 
 ### What you need
@@ -114,6 +116,8 @@ If the platform is not connected, the page says "<platform> is not connected yet
 
 ## AdPilot
 
+![AdPilot screen](../img/adpilot.png)
+
 **What it is for.** Two things on one page. The top half is a deck for your paid campaigns. The bottom half is an *ad library*, a research tool that shows what ads competitors in your niche have kept running.
 
 ### What you need
@@ -184,6 +188,8 @@ In demo mode the deck shows staged campaign data and a chip says it is not a liv
 
 ## Creative Engine
 
+![Creative Engine screen](../img/creative-engine.png)
+
 **What it is for.** A guided workshop for making ads. You describe an idea in a sentence. It researches proven ads, proposes angles, writes scripts, produces a brief with proof, and can make a video. It lives under AdPilot. (The old address `/ad-engine` redirects here.)
 
 ### What you need
@@ -248,6 +254,8 @@ If `CREATIVE_ENGINE_DRY=1` is set, every request returns fixtures and costs zero
 
 ## Analytics
 
+![Analytics screen](../img/analytics.png)
+
 **What it is for.** One page of headline numbers from across the business, so you do not have to open six pages.
 
 ### What you see
@@ -284,6 +292,8 @@ The demo company's connectors are scripted, so most tiles are live with invented
 ---
 
 ## Content Lab
+
+![Content Lab screen](../img/lab.png)
 
 **What it is for.** The Content Lab studies your niche so you stop guessing. It reads public posts from your accounts and the creators you track, works out what makes some posts break out, watches for launches you could cover early, and helps you write scripts that fit the pattern. Every prediction it makes is written down before you post and graded afterwards, so you can see whether to trust it.
 
@@ -411,6 +421,8 @@ Add `?sample=1` to any Lab address (for example `/lab?sample=1`) on a blank inst
 ---
 
 ## Lead Magnets
+
+![Lead Magnets screen](../img/lead-magnets.png)
 
 **What it is for.** A register of the free pages you give away to collect leads: what each one offers, where it lives, where its leads go and whether it is live. Nothing is published from here. It is a record.
 

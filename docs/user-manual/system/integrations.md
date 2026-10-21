@@ -4,6 +4,8 @@ The Connections page, at `/integrations`, lists every outside tool FounderOS can
 
 ## How the page works
 
+![How the page works screen](../img/integrations.png)
+
 - **Your connected tools** lists tools that are answering right now.
 - **Popular** lists common tools you have not connected yet.
 - **Browse by category** lists everything, grouped (Communication, Productivity, CRM and Sales, Developer, Scheduling, Finance, Marketing, Storage, AI and Automation, Creative). You can search and filter it.

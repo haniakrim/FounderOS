@@ -22,6 +22,8 @@ Two things apply to every page below:
 
 ## Agents
 
+![Agents screen](../img/agents.png)
+
 **What it is for.** `/agents` is the board: the live view of your agent seats, their runs, and the work moving between stages. You also talk to the Conductor here. The Conductor is the lead agent (the CEO seat) that routes work to the others.
 
 The page title is "Real Agents". It reads a Paperclip board, which is the harness that actually runs your agents. In demo mode it reads the demo company's board instead.
@@ -155,6 +157,8 @@ Keys are never shown in full and are never committed to git. See [Settings](../s
 
 ## Org chart
 
+![Org chart screen](../img/org.png)
+
 **What it is for.** A picture of who reports to whom: you at the top, the Wizard (the super agent) below you, then each department's crew.
 
 ### What you see
@@ -187,6 +191,8 @@ The org chart is built from the demo company's agents and ventures. Real install
 ---
 
 ## Chats
+
+![Chats screen](../img/chats.png)
 
 **What it is for.** Every conversation with every agent in one place, plus the Wizard thread, which is pinned at the top.
 
@@ -226,6 +232,8 @@ You can also arrive here from a link that names an agent (`/chats?agent=<id>`), 
 ---
 
 ## Tasks
+
+![Tasks screen](../img/tasks.png)
 
 **What it is for.** One view of all work on the board: tasks the agents are doing, tasks waiting on you, and your own to-do list.
 
@@ -274,6 +282,8 @@ The Tasks page creates tasks that you own. It has no field for assigning a task 
 
 ## Workflows
 
+![Workflows screen](../img/workflows.png)
+
 **What it is for.** A canvas where you map a process as connected steps, each owned by a person or by a named agent, and see how much of it is human work and how much is agent work.
 
 ### What you see
@@ -321,6 +331,8 @@ The demo company's workflows are shown. Saves go to the demo data only.
 
 ## Skills
 
+![Skills screen](../img/skills.png)
+
 **What it is for.** A library of the capabilities your agents can draw on. Each skill is a folder with a `SKILL.md` instruction file.
 
 ### What you see
@@ -354,6 +366,8 @@ If the machine has no skills folder, you see the seeded catalog. If it has one, 
 ---
 
 ## Compute
+
+![Compute screen](../img/compute.png)
 
 **What it is for.** The cloud computers your agents work on, with a live view of each desktop. It uses MIOSA as the provider. Nothing is stored in FounderOS; it reads MIOSA on every visit.
 

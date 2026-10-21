@@ -18,6 +18,8 @@ Two things apply to every page below:
 
 ## Optimal Engine (Brain)
 
+![Optimal Engine (Brain) screen](../img/brain.png)
+
 **What it is for.** Optimal Engine is your searchable knowledge base. It is a folder of markdown notes (the brain store) that FounderOS indexes so you and your agents can ask questions in plain language. Behind it sits the gbrain command-line tool, which handles the indexing and searching.
 
 ### What you see
@@ -95,6 +97,8 @@ The demo company ships its own brain: a store of 180 sample pages and a stub eng
 
 ## Brain files (Database)
 
+![Brain files (Database) screen](../img/database.png)
+
 **What it is for.** A map of the brain folder on disk, so you can see what is taking up space and read individual files. The page title is "Brain files". It reads the folder straight from disk each time you visit (cached for about a minute).
 
 ### What you see
@@ -133,6 +137,8 @@ The map shows the demo company's sample brain folder.
 ---
 
 ## Knowledge visualizer
+
+![Knowledge visualizer screen](../img/knowledge.png)
 
 **What it is for.** One graph over everything FounderOS knows: notes, skills, agents, people, clients, workflows, tools and departments. Optimal Engine is where you retrieve; this page is where you analyse. Every connection shows the evidence behind it, so you can check a relationship instead of taking it on trust.
 
@@ -178,6 +184,8 @@ It indexes the demo company's sample pages, skills and records.
 ---
 
 ## Drift
+
+![Drift screen](../img/drift.png)
 
 **What it is for.** Drift catches contradictions. Claims made in incoming calls and threads are checked against your knowledge canon. When the same contradiction shows up across independent sources, it appears here with the evidence on both sides.
 

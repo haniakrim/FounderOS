@@ -4,6 +4,8 @@ Five smaller pages in one place.
 
 ## Usage
 
+![Usage screen](../img/usage.png)
+
 Path: `/usage` (System group).
 
 Usage shows how many AI tokens you burn, by plan, model, lane and machine, against the provider's own limit gauges. It reads the transcript folders that Claude and Codex keep on your computer, so it needs no key.
@@ -27,6 +29,8 @@ If there is no transcript folder and nothing was pushed, the page shows **Not co
 
 ## Blueprint
 
+![Blueprint screen](../img/blueprint.png)
+
 Path: `/blueprint` (System group).
 
 Blueprint is a live map of FounderOS itself: its machines, groups and parts (agents, daemons, connectors and more), drawn from the system's own registries on every visit. The line under the title counts components, agents, daemons and machines, and says when the map was compiled. The counts change when the system does.
@@ -34,6 +38,8 @@ Blueprint is a live map of FounderOS itself: its machines, groups and parts (age
 Use it to see what exists and how it connects. It is read-only.
 
 ## Roadmap
+
+![Roadmap screen](../img/roadmap.png)
 
 Path: `/roadmap` (System group).
 

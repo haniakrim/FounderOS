@@ -15,6 +15,8 @@ The page has these sections, top to bottom:
 
 ## Appearance
 
+![Appearance screen](../img/setup.png)
+
 Controls how every page looks. Changes apply immediately and are kept per browser, so another device can use a different look.
 
 1. Open **Settings**, then find **Appearance**.
