@@ -36,7 +36,10 @@ const ROUTES: RouteEntry[] = [
   { route: 'calls/archive', load: () => import('@/app/api/calls/archive/route'), url: 'http://localhost/api/calls/archive' },
   { route: 'cron/tick', load: () => import('@/app/api/cron/tick/route'), url: 'http://localhost/api/cron/tick' },
   { route: 'trakyo/links', load: () => import('@/app/api/trakyo/links/route'), url: 'http://localhost/api/trakyo/links' },
+  { route: 'health', load: () => import('@/app/api/health/route'), url: 'http://localhost/api/health' },
+  { route: 'postiz', load: () => import('@/app/api/postiz/route'), url: 'http://localhost/api/postiz' },
   { route: 'auth/check', load: () => import('@/app/api/auth/check/route'), url: 'http://localhost/api/auth/check' },
+  { route: 'remote-access', load: () => import('@/app/api/remote-access/route'), url: 'http://localhost/api/remote-access' },
   { route: 'blueprint', load: () => import('@/app/api/blueprint/route'), url: 'http://localhost/api/blueprint' },
   { route: 'database', load: () => import('@/app/api/database/route'), url: 'http://localhost/api/database' },
   { route: 'compute', load: () => import('@/app/api/compute/route'), url: 'http://localhost/api/compute' },
@@ -71,6 +74,7 @@ const ROUTES: RouteEntry[] = [
   { route: 'brain/overview', load: () => import('@/app/api/brain/overview/route'), url: 'http://localhost/api/brain/overview' },
   { route: 'comms', load: () => import('@/app/api/comms/route'), url: 'http://localhost/api/comms' },
   // FounderOS's own Agents board (founderos/)
+  { route: 'pool', load: () => import('@/app/api/pool/route'), url: 'http://localhost/api/pool' },
   { route: 'board/live', load: () => import('@/app/api/board/live/route'), url: 'http://localhost/api/board/live' },
   { route: 'board/deliverables', load: () => import('@/app/api/board/deliverables/route'), url: 'http://localhost/api/board/deliverables' },
   { route: 'conductor/chat', load: () => import('@/app/api/conductor/chat/route'), url: 'http://localhost/api/conductor/chat' },
@@ -178,6 +182,8 @@ describe('platform smoke — every GET API route answers 200 with JSON', () => {
       'lab/oauth/[provider]/callback',
       // serves the contact sheet image (raw bytes, 404 without a sheet); covered in tests/lab-gen-frames.test.ts
       'lab/frames',
+      // 404s for an unknown run; covered in tests/pool-routes.test.ts
+      'pool/runs/[id]',
     ]);
     const discovered = discoverGetRoutes(path.join(process.cwd(), 'app', 'api')).filter((r) => !IGNORE.has(r)).sort();
     const covered = ROUTES.map((r) => r.route).sort();

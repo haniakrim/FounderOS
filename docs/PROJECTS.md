@@ -33,3 +33,12 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [ ] ! OK to push `design/fluid-pass` and `docs/user-manual`
 - [ ] Fix Legacy `Strip` clipping long values in narrow cards (portable kit)
 - [x] 2026-10-22: demo roadmap matched to the code: Statement ingestion done (`lib/statements.ts`, `/finances` upload), Auth + remote access now (login shipped, outside-network access open); unfinished Q3 items rolled into Q4
+- [x] 2026-10-22: fluid pass closed (all 15 findings)
+- [x] 2026-10-22: worker pool (`lib/worker-pool.ts`, `pool_runs` table) and agents board driving runs and skills
+- [x] 2026-10-22: remote-access hardening and Setup → Security Remote access card
+- [x] 2026-10-22: Postiz connector, Setup entry and Social panel
+- [x] 2026-10-22: Railway deploy files (`Dockerfile`, `railway.json`, `/api/health`, `docs/deploy/railway.md`)
+- [ ] ! Link Tailscale or Cloudflare for outside access (operator login)
+- [ ] ! Point Postiz at a server: set POSTIZ_URL and POSTIZ_API_KEY
+- [ ] ! First Railway deploy (operator account and OK)
+- [ ] ! Install the AI gateway on the host for the worker pool

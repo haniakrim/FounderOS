@@ -7323,7 +7323,7 @@
     "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
-    "description": "Cheap model seats behind the Conductor. Hardening and gateway install left.",
+    "description": "Pool shipped: bounded seats, retry, cancel, recovery, usage card. Gateway install on the host left.",
     "phaseId": "phase-3"
    },
    {
@@ -7341,7 +7341,7 @@
     "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
-    "description": "Every app moving to one platform; the gated OS demo went first as the pilot.",
+    "description": "Dockerfile, railway.json and /api/health ready and built locally; first deploy waits on the account.",
     "phaseId": "phase-4"
    },
    {
@@ -7359,34 +7359,34 @@
     "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
-    "description": "Password login, sessions and Setup → Security shipped; reaching the host from outside the network is next.",
+    "description": "Login lockout, secure cookies, session expiry and the Remote access card shipped; linking Tailscale is left.",
     "phaseId": "phase-4"
    },
    {
     "id": "rm-postiz",
     "title": "Replace Postly with Postiz",
     "quarter": "2026-Q4",
-    "status": "next",
+    "status": "now",
     "departmentId": "dept-clients",
-    "description": "Self-hosted scheduler with ungated post and channel analytics.",
+    "description": "Postiz connector, Setup entry and Social panel shipped; pointing it at the Postiz server is left.",
     "phaseId": "phase-1"
    },
    {
     "id": "rm-board-embed",
     "title": "Board fully inside the OS",
     "quarter": "2026-Q4",
-    "status": "later",
+    "status": "done",
     "departmentId": "dept-tech",
-    "description": "Conductor and 40+ agents driven from the OS, SOPs running as real skills.",
+    "description": "Agents board starts, queues and stops runs through the worker pool; skills run as SOP tasks.",
     "phaseId": "phase-3"
    },
    {
     "id": "rm-fluid",
     "title": "Apple fluid design pass",
     "quarter": "2026-Q4",
-    "status": "now",
+    "status": "done",
     "departmentId": "dept-tech",
-    "description": "17-rule audit and DESIGN.md; 13 of 15 fixes shipped (exits, glass, rem type, tracking). Last: graph colours, sidebar width.",
+    "description": "All 15 audit fixes shipped: exits, glass, rem type, tracking, tokens, compositor-only motion.",
     "phaseId": "phase-2"
    },
    {
