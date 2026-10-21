@@ -238,8 +238,8 @@ export function PipelineChart<T extends PipelineStage>({
                 <stop offset="1" stopColor="color-mix(in oklab, var(--accent) 55%, var(--pc-shade))" />
               </linearGradient>
               <linearGradient id="pc-fadeg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stopColor="#fff" stopOpacity="0.95" />
-                <stop offset="1" stopColor="#fff" stopOpacity="0.14" />
+                <stop offset="0" stopColor="var(--on-ink)" stopOpacity="0.95" />
+                <stop offset="1" stopColor="var(--on-ink)" stopOpacity="0.14" />
               </linearGradient>
               <mask id="pc-fade">
                 <rect width={W} height={H} fill="url(#pc-fadeg)" />

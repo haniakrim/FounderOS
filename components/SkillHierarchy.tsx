@@ -25,7 +25,8 @@ import { GButton } from '@/components/g';
 // Console-only branch coloring, unchanged. Under red, domain/group/leaf are
 // keyed by DEPTH instead of branch (see domainColor/groupColor/leafColor
 // below) — core red fading through orange to amber/cream at the leaves.
-const PEARLS_CONSOLE = ['#00ffab', '#7fe8ff', '#b49cff', '#ffd47f', '#ff9ecb', '#9fffe0', '#cddbd5', '#8a90a8', '#7fd3a8', '#c9b6ff'];
+// Console pearl colours live as --pearl-1..10 in app/globals.css (:root).
+const PEARLS_CONSOLE = Array.from({ length: 10 }, (_, i) => `var(--pearl-${i + 1})`);
 const VB = 1200; // square viewBox span
 
 // Deep-zoom-into-cluster maths (clicking into a busy
@@ -312,17 +313,17 @@ export function SkillHierarchy({
           {PEARLS_CONSOLE.map((_, i) => (
             <g key={i}>
               <radialGradient id={`skh-pearl-d-${i}`} cx="0.35" cy="0.3" r="0.85">
-                <stop offset="0%" stopColor="#fff" stopOpacity="0.95" />
+                <stop offset="0%" stopColor="var(--on-ink)" stopOpacity="0.95" />
                 <stop offset="28%" stopColor={domainColor(i)} />
                 <stop offset="100%" stopColor={domainColor(i)} stopOpacity="0.55" />
               </radialGradient>
               <radialGradient id={`skh-pearl-g-${i}`} cx="0.35" cy="0.3" r="0.85">
-                <stop offset="0%" stopColor="#fff" stopOpacity="0.95" />
+                <stop offset="0%" stopColor="var(--on-ink)" stopOpacity="0.95" />
                 <stop offset="28%" stopColor={groupColor(i)} />
                 <stop offset="100%" stopColor={groupColor(i)} stopOpacity="0.55" />
               </radialGradient>
               <radialGradient id={`skh-pearl-l-${i}`} cx="0.35" cy="0.3" r="0.85">
-                <stop offset="0%" stopColor="#fff" stopOpacity="0.95" />
+                <stop offset="0%" stopColor="var(--on-ink)" stopOpacity="0.95" />
                 <stop offset="28%" stopColor={leafColor(i)} />
                 <stop offset="100%" stopColor={leafColor(i)} stopOpacity="0.55" />
               </radialGradient>
@@ -414,7 +415,7 @@ export function SkillHierarchy({
                                   y="3"
                                   textAnchor={flip ? 'end' : 'start'}
                                   fontSize="8.5"
-                                  fill={G ? (isSel ? 'var(--g-ink)' : 'var(--g-muted)') : isSel ? '#f2f6f4' : 'rgb(var(--mist-rgb) / 0.78)'}
+                                  fill={G ? (isSel ? 'var(--g-ink)' : 'var(--g-muted)') : isSel ? 'var(--text)' : 'rgb(var(--mist-rgb) / 0.78)'}
                                   style={{ pointerEvents: 'none' }}
                                 >
                                   {leaf.card.id.length > 28 ? `${leaf.card.id.slice(0, 27)}…` : leaf.card.id}
@@ -426,7 +427,7 @@ export function SkillHierarchy({
                                     y="-10"
                                     textAnchor="middle"
                                     fontSize="8.5"
-                                    fill={G ? (isSel ? 'var(--g-ink)' : 'var(--g-muted)') : isSel ? '#f2f6f4' : 'rgb(var(--mist-rgb) / 0.9)'}
+                                    fill={G ? (isSel ? 'var(--g-ink)' : 'var(--g-muted)') : isSel ? 'var(--text)' : 'rgb(var(--mist-rgb) / 0.9)'}
                                     style={{ pointerEvents: 'none' }}
                                   >
                                     {leaf.card.id.length > 18 ? `${leaf.card.id.slice(0, 17)}…` : leaf.card.id}
@@ -522,7 +523,7 @@ export function SkillHierarchy({
             <text y="52" textAnchor="middle" fontSize="12.5" fill={G ? 'var(--g-ink)' : 'var(--text)'} fontWeight="500">
               Skills
             </text>
-            <text y="67" textAnchor="middle" fontSize="9" fill={G ? 'var(--g-muted)' : '#7e8c88'} className={G ? undefined : 'font-mono'}>
+            <text y="67" textAnchor="middle" fontSize="9" fill={G ? 'var(--g-muted)' : 'var(--text-3)'} className={G ? undefined : 'font-mono'}>
               {cards.length} on disk · {tree.length} domains
             </text>
           </g>

@@ -1727,9 +1727,9 @@ export function KnowledgeGraph({
             <stop offset="100%" stopColor="var(--kg-bg-3)" stopOpacity="0.96" />
           </radialGradient>
           <radialGradient id="kg-node-light" cx="0.32" cy="0.24" r="0.72">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.28" />
-            <stop offset="45%" stopColor="#ffffff" stopOpacity="0.06" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+            <stop offset="0%" stopColor="var(--on-ink)" stopOpacity="0.28" />
+            <stop offset="45%" stopColor="var(--on-ink)" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="var(--on-ink)" stopOpacity="0" />
           </radialGradient>
         </defs>
         {/* orbital rings — faint, slowly-rotating backdrop (memoized; static) */}
@@ -2049,7 +2049,7 @@ export function KnowledgeGraph({
                           <title>{`${m.label} · memory`}</title>
                           <circle r={Math.max(4, mr + 3)} fill="transparent" />
                           <polygon points={hexPts(mr + 0.4)} fill={memColor(m)} />
-                          <circle r={mr + 1.6} fill="none" stroke="#ffffff" strokeWidth={0.5} opacity={0.9} />
+                          <circle r={mr + 1.6} fill="none" stroke="var(--on-ink)" strokeWidth={0.5} opacity={0.9} />
                           <g className="kg-mem-upright" transform={`rotate(${(-memRotRef.current * 180) / Math.PI})`}>
                             <text
                               y={mr + 4}
@@ -2077,8 +2077,8 @@ export function KnowledgeGraph({
                         if (!np || !nm) return null;
                         return (
                           <g key={nid}>
-                            <line x1={hp.x} y1={hp.y} x2={np.x} y2={np.y} stroke="#ffffff" strokeWidth={0.4} opacity={0.5} />
-                            <circle cx={np.x} cy={np.y} r={memNodeR(nm) + 1} fill="none" stroke="#ffffff" strokeWidth={0.4} opacity={0.7} />
+                            <line x1={hp.x} y1={hp.y} x2={np.x} y2={np.y} stroke="var(--on-ink)" strokeWidth={0.4} opacity={0.5} />
+                            <circle cx={np.x} cy={np.y} r={memNodeR(nm) + 1} fill="none" stroke="var(--on-ink)" strokeWidth={0.4} opacity={0.7} />
                           </g>
                         );
                       });
@@ -2091,7 +2091,7 @@ export function KnowledgeGraph({
                       const isSel = selectedMemoryId === id;
                       return (
                         <g key={id} transform={`translate(${p.x},${p.y})`}>
-                          <circle r={mr + 1.4} fill="none" stroke="#ffffff" strokeWidth={isSel ? 0.9 : 0.55} opacity={0.95} />
+                          <circle r={mr + 1.4} fill="none" stroke="var(--on-ink)" strokeWidth={isSel ? 0.9 : 0.55} opacity={0.95} />
                           <g className="kg-mem-upright" transform={`rotate(${(-memRotRef.current * 180) / Math.PI})`}>
                             <text
                               y={mr + 4}

@@ -68,11 +68,11 @@ const ALL = Object.values(TOKENS).flat();
 /** Fixed values X2 / S00 §5.1 give for the mode-independent tokens. */
 const FIXED: Record<string, string> = {
   '--g-r-card': '28px', '--g-r-nested': '20px', '--g-r-well': '14px', '--g-r-input': '12px', '--g-r-pill': '999px',
-  '--g-fs-display': '44px', '--g-fs-section': '26px', '--g-fs-title': '28px', '--g-fs-card': '15px',
-  '--g-fs-body': '13.5px', '--g-fs-cap': '11.5px', '--g-fs-faint': '11px',
+  '--g-fs-display': '2.75rem', '--g-fs-section': '1.625rem', '--g-fs-title': '1.75rem', '--g-fs-card': '0.9375rem',
+  '--g-fs-body': '0.84375rem', '--g-fs-cap': '0.71875rem', '--g-fs-faint': '0.6875rem',
   '--g-fw-light': '300', '--g-fw-body': '400', '--g-fw-badge': '500',
-  '--g-space-1': '4px', '--g-space-2': '8px', '--g-space-3': '12px', '--g-space-4': '16px',
-  '--g-space-5': '20px', '--g-space-6': '24px', '--g-space-7': '36px', '--g-space-8': '48px',
+  '--g-space-1': '0.25rem', '--g-space-2': '0.5rem', '--g-space-3': '0.75rem', '--g-space-4': '1rem',
+  '--g-space-5': '1.25rem', '--g-space-6': '1.5rem', '--g-space-7': '2.25rem', '--g-space-8': '3rem',
   '--g-dur-colour': '150ms', '--g-dur-lift': '180ms', '--g-dur-sheet': '240ms', '--g-dur-arrive': '420ms',
 };
 
