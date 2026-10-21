@@ -77,6 +77,7 @@ export const INTEGRATIONS: Integration[] = [
   { slug: 'beehiiv', name: 'beehiiv', tagline: 'Newsletter & subscribers', category: 'Marketing', connectorId: 'beehiiv', envKeys: ['BEEHIIV_API_KEY'] },
   { slug: 'buffer', name: 'Buffer', tagline: 'Schedule social posts', category: 'Marketing' },
   { slug: 'hootsuite', name: 'Hootsuite', tagline: 'Social management', category: 'Marketing' },
+  { slug: 'postiz', name: 'Postiz', tagline: 'Self-hosted post scheduler and channel analytics', category: 'Marketing', connectorId: 'postiz', envKeys: ['POSTIZ_URL', 'POSTIZ_API_KEY'] },
   { slug: 'zernio', name: 'Zernio', tagline: 'Cross-platform posting', category: 'Marketing', connectorId: 'zernio', envKeys: ['ZERNIO_API_KEY'] },
   { slug: 'webinarjam', name: 'WebinarJam', tagline: 'Webinar registrants', category: 'Marketing', connectorId: 'webinarjam', envKeys: ['WEBINARJAM_API_KEY'] },
   // FounderOS merge (F11): VSL video analytics. Catalogue entry only (T10): no page reads it yet,

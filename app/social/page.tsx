@@ -33,6 +33,9 @@ import { formatFollowers, formatPct } from '@/founderos/components/SocialStats';
 import { SocialStatStrip } from '@/founderos/components/SocialStatStrip';
 import { AudienceConsistencyLazy } from '@/components/AudienceConsistencyLazy';
 import { AudiencePie } from '@/founderos/components/AudiencePie';
+import { PostizPanel } from '@/founderos/components/PostizPanel';
+import { loadPostizOverview } from '@/lib/connectors/postiz';
+import { writesEnabled } from '@/lib/gates';
 import { PostComposer } from '@/founderos/components/PostComposer';
 import { CountUp } from '@/founderos/components/CountUp';
 import { Rise } from '@/founderos/components/motion';
@@ -135,6 +138,7 @@ export default async function SocialPage() {
   const knownDays = await zernioPostDays().catch(() => null);
   // The status pill reads the connector, never a hard-coded "live" (GladOS H15).
   const filming = isFilming();
+  const postiz = filming ? ({ state: 'not_configured' } as const) : await loadPostizOverview();
   const zernio = (filming ? demoConnector('zernio') : null) ?? (await zernioStatus());
   const pill = zernioStatusPill({
     state: zernio.state,
@@ -434,6 +438,9 @@ export default async function SocialPage() {
           <PostComposer initialPosts={posts} />
         </div>
       </SlabCard>
+
+      {/* Postiz: self-hosted scheduler, channels and analytics */}
+      <PostizPanel overview={postiz} setupHref={setupHrefFor('postiz')} writes={writesEnabled()} />
     </Slab>
   );
 }

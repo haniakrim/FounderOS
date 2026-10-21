@@ -4,6 +4,7 @@ import { slackStatus } from '@/lib/connectors/slack';
 import { paymentsStatus } from '@/lib/connectors/payments';
 import { notionStatus } from '@/lib/connectors/notion';
 import { zernioStatus } from '@/lib/connectors/zernio';
+import { postizStatus } from '@/lib/connectors/postiz';
 import { beehiivStatus } from '@/lib/connectors/beehiiv';
 import { manychatStatus } from '@/lib/connectors/manychat';
 import { attioStatus } from '@/lib/connectors/attio';
@@ -48,6 +49,7 @@ const CHECKS: [string, ConnectorStatus['kind'], () => Promise<ConnectorStatus>][
   ['llm', 'orchestration', llmStatus],
   ['whatsapp', 'social', whatsappStatus],
   ['zernio', 'social', zernioStatus],
+  ['postiz', 'social', () => postizStatus()],
   ['beehiiv', 'social', () => beehiivStatus(runtimeEnv())],
   [
     'manychat',
