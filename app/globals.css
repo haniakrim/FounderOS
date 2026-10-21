@@ -9435,6 +9435,40 @@ button.g-row-main:not(:disabled), a.g-row-main { cursor: pointer; }
 }
 /* ── end 1d G kit ── */
 
+/* ── Fluid pass (DESIGN.md, docs/design-audit.md) ──────────────────────────
+ * Press on pointer-down (rule 1), popovers grow from their trigger (rule 7),
+ * a focus ring that clears 3:1 (rule 14), materials that honour
+ * reduced-transparency and contrast (rules 12, 14). */
+:root[data-ui='glados'] { --g-focus: color-mix(in srgb, var(--g-ink) 65%, transparent); --g-dur-press: 100ms; }
+:is(.g-btn, .g-chip, .g-seg-opt, .g-tab, .g-pill, .g-menu-item, .g-side-item):active:not(:disabled) { transform: scale(0.97); transition-duration: var(--g-dur-press); transition-timing-function: ease-out; }
+.g-btn:hover:active:not(:disabled), .g-pill:hover:active { transform: scale(0.97); }
+:is(a.g-card, button.g-card, a.g-card-raised, button.g-card-raised, .g-card[data-action], .g-card-raised[data-action]):active { transform: scale(0.985); transition-duration: var(--g-dur-press); }
+.g-pop { transform-origin: top left; animation: g-pop-in 150ms var(--ease) both; }
+.g-pop[data-align='end'] { transform-origin: top right; }
+.g-pop[data-side='top'] { transform-origin: bottom left; }
+.g-pop[data-side='top'][data-align='end'] { transform-origin: bottom right; }
+[dir='rtl'] .g-pop { transform-origin: top right; }
+[dir='rtl'] .g-pop[data-align='end'] { transform-origin: top left; }
+@keyframes g-pop-in { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+:is(.g-btn, .g-chip, .g-tab, .g-toggle, .g-check, .g-pill, .g-th-sort, .g-swatch-btn, a.g-card, button.g-card, a.g-card-raised, button.g-card-raised, a.g-hero, button.g-hero, a.g-stat, button.g-stat, .g-seg-opt, .g-row-main, .g-menu-item, .ui-toast-close):focus-visible { outline-color: var(--g-focus); }
+:root[data-ui='glados'] .g-topbar { background: color-mix(in srgb, var(--g-bg) 60%, transparent); -webkit-backdrop-filter: blur(20px) saturate(180%); backdrop-filter: blur(20px) saturate(180%); }
+@media (prefers-reduced-motion: reduce) {
+  :is(.g-btn, .g-chip, .g-seg-opt, .g-tab, .g-pill, .g-menu-item, .g-side-item, .g-card, .g-card-raised):active { transform: none; }
+  .g-scrim, .g-sheet, .g-drawer, .g-dialog, .g-pop { animation: g-fade 120ms linear both; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root[data-ui='glados'] .g-topbar { background: var(--g-bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .g-scrim { -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  :root[data-ui='glados'] { --g-focus: var(--g-ink); }
+  .g-sheet, .g-dialog, .g-drawer, .g-pop { box-shadow: inset 0 0 0 1px var(--g-ink), var(--g-shadow); }
+  :root[data-ui='glados'] .g-topbar { background: var(--g-bg); border-bottom-color: var(--g-ink); }
+  .g-btn, .g-chip, .g-input { box-shadow: inset 0 0 0 1px currentColor; }
+}
+/* ── end fluid pass ── */
+
+
 /* ── G kit data viz (lane 1e: SPEC S00 §5.3, GP3, S02 §5.3/§5.7) ─────────────
  * Recipes for components/g data viz. Every colour is a `--g-*` token (X2);
  * the tokens exist only under :root[data-ui='glados'] (lane 1c), and these
