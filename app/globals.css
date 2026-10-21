@@ -1529,6 +1529,37 @@ html.conductor-dragging .os-shell {
   transition: none;
 }
 
+/* ── Knowledge Graph life-area tokens ─────────────────────────
+   One token per lib/life-map.ts area id; the graph reads var(--kg-life-<id>).
+   Only communication, clients and finances re-tone per theme (the hues a
+   theme bans); the rest pass through unchanged. Console is the base. Separate from the --life-* skin tokens above (/org), which re-key every hue; the graph only ever re-toned these three. */
+:root {
+  --kg-life-marketing: #f59e0b;
+  --kg-life-sales: #ef4444;
+  --kg-life-finances: #22c55e;
+  --kg-life-communication: #3b82f6;
+  --kg-life-clients: #14b8a6;
+  --kg-life-knowledge: #a855f7;
+  --kg-life-operations: #fafafa;
+}
+:root[data-theme='red'] {
+  --kg-life-finances: #ffd98f;
+  --kg-life-communication: #ff6a4d;
+  --kg-life-clients: #ffab4f;
+}
+:root[data-theme='light'] {
+  --kg-life-finances: #1f9d4a;
+  --kg-life-communication: #2f6fd6;
+  --kg-life-clients: #0e8f80;
+}
+:root[data-theme='frost'],
+:root[data-theme='grey-frost'] {
+  --kg-life-finances: #cfe4ff;
+  --kg-life-communication: #9fc6ff;
+  --kg-life-clients: #6ee7ff;
+}
+/* ── end life-area tokens ── */
+
 /* ── S09 sidebar width ──────────────────────────────────────────────────
    One variable: --sidebar-w on <html> (inline, set before first paint by
    SIDEBAR_INIT_SCRIPT in lib/sidebar.ts and kept in step by Sidebar.tsx).
@@ -2557,7 +2588,26 @@ html.conductor-dragging .os-shell {
    The look at 232 and 64 is the S12 look (shots/nav/after-*). */
 .os-sidebar {
   container: os-side / inline-size;
-  transition: width 220ms var(--ease);
+  /* No width transition (layout every frame, re-runs the container queries).
+     The width snaps; the content re-enters on opacity + transform. The two
+     keyframe names differ per mode so a rail/full switch restarts the cue. */
+}
+html[data-sidebar='full'] .os-sidebar .os-nav,
+html:not([data-sidebar]) .os-sidebar .os-nav {
+  animation: os-side-in-full 220ms var(--ease) both;
+}
+html[data-sidebar='rail'] .os-sidebar .os-nav {
+  animation: os-side-in-rail 220ms var(--ease) both;
+}
+@keyframes os-side-in-full { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: none; } }
+@keyframes os-side-in-rail { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: none; } }
+html.sidebar-dragging .os-sidebar .os-nav {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  html .os-sidebar .os-nav {
+    animation: none;
+  }
 }
 .os-shell {
   transition:
@@ -9664,7 +9714,7 @@ button.g-stage-col:focus-visible { outline-offset: -2px; border-radius: var(--g-
 .g-stage-bar {
   position: absolute; left: 50%; bottom: 0; width: var(--gk-stage-bar); margin-left: calc(var(--gk-stage-bar) / -2);
   border-radius: 16px; background: var(--g-track-soft); overflow: hidden; transform-origin: bottom;
-  transition: height var(--g-dur-arrive) var(--ease), filter var(--g-dur-colour) var(--ease);
+  transition: filter var(--g-dur-colour) var(--ease); /* height is not animated (layout); mount grows on scaleY */
   animation: g-viz-grow var(--g-dur-arrive) var(--ease) both;
 }
 .g-stage-bar[data-zero] { background: var(--g-track); }

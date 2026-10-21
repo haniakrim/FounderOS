@@ -162,6 +162,11 @@ export const CONTACT_TIERS: ContactTier[] = [
   { tier: 3, label: 'Priority 3', color: '#22c55e', respond: 'when free', tags: ['personal', 'friend', 'community'] },
 ];
 
+/** The CSS custom property (app/globals.css) that carries this area's per-theme colour. */
+export function lifeAreaToken(areaId: string): string {
+  return `var(--kg-life-${areaId})`;
+}
+
 export function lifeAreaForDepartment(departmentId: string): LifeArea | null {
   return LIFE_AREAS.find((a) => a.departmentIds.includes(departmentId)) ?? null;
 }

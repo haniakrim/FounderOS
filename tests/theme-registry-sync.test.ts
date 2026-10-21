@@ -4,7 +4,7 @@ import { describe, expect, test } from 'vitest';
 import { THEMES, THEME_META, THEME_STORAGE_KEY, type Theme } from '@/lib/theme';
 import { APPEARANCE_INIT_SCRIPT, DEFAULT_APPEARANCE, defaultAppearanceFor, resolveAppearance } from '@/lib/appearance';
 import { paletteFor } from '@/lib/use-palette';
-import { LIFE_AREA_MAPS } from '@/components/KnowledgeGraph';
+import { LIFE_AREAS } from '@/lib/life-map';
 
 /**
  * S06 T2: the theme registry (lib/theme.ts) and everything keyed by theme id
@@ -63,8 +63,13 @@ describe('theme registry sync (S06 T2)', () => {
     expect(paletteFor(t).name).toBe(t);
   });
 
-  test.each(colourways)('%s has a life-area colour map', (t) => {
-    expect(LIFE_AREA_MAPS).toHaveProperty(t);
+  test('every life area has a --kg-life-<id> token on the base theme', () => {
+    for (const a of LIFE_AREAS) expect(css, a.id).toMatch(new RegExp(`--kg-life-${a.id}:\\s*#[0-9a-f]{6};`));
+  });
+
+  test.each(['red', 'light', 'frost', 'grey-frost'])('%s re-tones the life-area tokens', (t) => {
+    const sel = new RegExp(`:root\\[data-theme='${t}'\\][^{]*\\{[^}]*--kg-life-communication:`);
+    expect(css).toMatch(sel);
   });
 
   test.each(colourways)('%s picker swatch ground equals its --bg', (t) => {
@@ -86,7 +91,7 @@ describe('theme registry sync (S06 T2)', () => {
     expect(gf.pearls).toEqual(frost.pearls);
     expect(gf.observatory).toEqual(frost.observatory);
     expect(gf.glow).toBe('rgba(120, 180, 255, 0.07)');
-    expect(LIFE_AREA_MAPS['grey-frost']).toEqual(LIFE_AREA_MAPS.frost);
+    expect(css).toMatch(/:root\[data-theme='frost'\],\s*:root\[data-theme='grey-frost'\] \{\s*--kg-life-finances/);
   });
 
   test('every Frost-scoped rule has a Grey Frost twin, so the theme never falls back to Console', () => {

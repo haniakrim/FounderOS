@@ -31,41 +31,21 @@ import { KnowledgeGraphFullscreen } from '@/components/KnowledgeGraphFullscreen'
 import { usePalette } from '@/lib/use-palette';
 import { useGc } from '@/components/system-g/style-context';
 import { OPERATOR_NAME } from '@/lib/operator';
+import { lifeAreaForDepartment, lifeAreaToken } from '@/lib/life-map';
 
-// Team ("life area") node colors come from lib/life-map.ts's LIFE_AREAS,
-// which also feeds /api/life/map (Zod-validated as a plain hex string there),
-// so that source stays literal — the red re-tone happens here instead, at
-// the one place the server-built graph reaches a themed client. Only the
-// banned hues are remapped; knowledge's purple and the already-warm ones
-// pass through untouched.
-const FROST_LIFE_AREAS: Record<string, string> = {
-  '#3b82f6': '#9fc6ff',
-  '#14b8a6': '#6ee7ff',
-  '#22c55e': '#cfe4ff',
-};
-export const LIFE_AREA_MAPS: Record<string, Record<string, string>> = {
-  red: {
-    '#3b82f6': '#ff6a4d', // communication (blue)
-    '#14b8a6': '#ffab4f', // clients (teal)
-    '#22c55e': '#ffd98f', // finances (green)
-  },
-  light: {
-    '#3b82f6': '#2f6fd6',
-    '#14b8a6': '#0e8f80',
-    '#22c55e': '#1f9d4a',
-  },
-  frost: FROST_LIFE_AREAS,
-  'grey-frost': FROST_LIFE_AREAS,
-};
-const LIFE_AREA_RED_MAP = LIFE_AREA_MAPS.red;
-function remapGraphForRed(graph: KGData, isRed: boolean, map: Record<string, string> = LIFE_AREA_RED_MAP): KGData {
-  if (!isRed) return graph;
+// Team ("life area") node colors: lib/life-map.ts keeps literal hex for
+// /api/life/map (Zod-validated there), so the graph ignores it and keys each
+// pillar by life-area id instead, reading the --kg-life-<id> token from
+// app/globals.css. The per-theme re-tone (red, light, frost, grey-frost)
+// lives in those tokens, so no hex and no theme tables are needed here.
+function tokenizeLifeColors(graph: KGData): KGData {
   let changed = false;
   const nodes = graph.nodes.map((n) => {
-    const mapped = n.color ? map[n.color] : undefined;
-    if (!mapped) return n;
+    if (n.kind !== 'team' || !n.color) return n;
+    const area = lifeAreaForDepartment(n.id.replace(/^team:/, ''));
+    if (!area) return n;
     changed = true;
-    return { ...n, color: mapped };
+    return { ...n, color: lifeAreaToken(area.id) };
   });
   return changed ? { ...graph, nodes } : graph;
 }
@@ -261,7 +241,7 @@ export function KnowledgeGraph({
   const palette = usePalette();
   // GladOS tree (glados-ui S05 F05.13): kit control classes; Classic classes unchanged otherwise.
   const gc = useGc();
-  const graph = useMemo(() => remapGraphForRed(rawGraph, palette.name in LIFE_AREA_MAPS, LIFE_AREA_MAPS[palette.name]), [rawGraph, palette.name]);
+  const graph = useMemo(() => tokenizeLifeColors(rawGraph), [rawGraph]);
   // fixed physics — the slider editor gave way to the always-on directory
   const centerForce = centerDefault;
   const repel = repelDefault;
