@@ -45,3 +45,10 @@ public/content-media/ad-engine/
 # Everything under data/ is per-machine state; none of it is ever tracked.
 /data/
 brag-output*/
+.arena/
+# Autoharness per-machine state and skill evidence (local paths, never published).
+/.claude/autoharness/*
+!/.claude/autoharness/session-330c9c6d-489b-4037-b045-71e476bed3b6
+/.claude/skills/**/references/evidence-*.md
+/.claude/skills/*/.ledger.jsonl
+/.claude/skills/*/.sidecar.json*
