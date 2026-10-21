@@ -11,7 +11,7 @@ import { chat as llmChat, type LlmMessage } from '@/lib/connectors/llm';
 import type { GladosDb } from '@/lib/db';
 import type { RuntimeAgent } from '@/lib/agents/runtime';
 import type { AgentMessage } from '@/lib/schemas';
-import { chatModelFor } from '@/lib/agent-review';
+import { getWorkerPool, modelArg } from '@/lib/worker-pool';
 
 export type ChatResult = { reply: string; messages: AgentMessage[] };
 
@@ -37,7 +37,7 @@ export async function chatWithAgent(
   agents: RuntimeAgent[],
   agentId: string,
   message: string,
-  opts: { screenContext?: string } = {},
+  opts: { screenContext?: string; source?: string } = {},
 ): Promise<ChatResult> {
   const agent = agents.find((a) => a.id === agentId);
   if (!agent) throw new Error(`unknown agent: ${agentId}`);
@@ -55,10 +55,23 @@ export async function chatWithAgent(
   const llmMessages: LlmMessage[] = history.map((m) => ({ role: m.role, content: m.content }));
   const tools = agent.chatTools?.();
 
-  // Failover (F9): the stored model id, when the operator moved this agent
-  // onto one, is the model the chat calls; otherwise the gateway default.
-  const model = chatModelFor(db.agents.get(agentId)?.model);
-  const result = await llmChat({ system: systemPromptFor(agent, opts.screenContext), messages: llmMessages, tools, ...(model ? { model } : {}) });
+  // Every chat goes through the worker pool. Model routing: the stored model
+  // (the F9 failover choice) wins, a worker seat otherwise uses WORKER_POOL_MODEL,
+  // and a retry falls back to the gateway default (see lib/worker-pool.ts).
+  const system = systemPromptFor(agent, opts.screenContext);
+  const pooled = await getWorkerPool(db).run({
+    kind: 'chat',
+    agentId,
+    label: agent.name,
+    seat: agentId === 'conductor' ? 'conductor' : 'worker',
+    source: opts.source ?? 'chat',
+    storedModel: db.agents.get(agentId)?.model,
+    exec: async (ctx) => {
+      const r = await llmChat({ system, messages: llmMessages, tools, ...modelArg(ctx) });
+      return { ok: true, summary: r.text.slice(0, 300), data: r };
+    },
+  });
+  const result = pooled.data as Awaited<ReturnType<typeof llmChat>>;
 
   if (result.toolCalls.length) {
     db.agentMessages.insert({

@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { poolFullResponse } from '@/lib/pool-http';
 import { getDb } from '@/lib/data';
 import { realAgents } from '@/lib/agents/real';
 import { chatWithAgent } from '@/lib/agents/chat';
@@ -35,6 +36,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       : await chatWithAgent(getDb(), realAgents, params.id, message, { screenContext });
     return NextResponse.json(result);
   } catch (err) {
+    const full = poolFullResponse(err);
+    if (full) return full;
     return NextResponse.json({ error: err instanceof Error ? err.message : String(err) }, { status: 500 });
   }
 }

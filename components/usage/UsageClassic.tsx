@@ -1,5 +1,6 @@
 'use client';
 
+import { PoolBurn } from '@/components/usage/PoolBurn';
 import { useState, type ReactNode } from 'react';
 import { PageHeader } from '@/components/PageHeader';
 import { SetupLink } from '@/components/SetupLink';
@@ -328,6 +329,7 @@ function Ready({ v }: { v: UsageReadyView }) {
           <PlanCard key={p.plan} p={p} onOpen={() => setOpen(p.plan)} />
         ))}
       </div>
+      <PoolBurn pool={v.pool} />
       <p className="text-[12px] text-os-muted">
         {v.footnote} Read {v.readAgo}.
       </p>

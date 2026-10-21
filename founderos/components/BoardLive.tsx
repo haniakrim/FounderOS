@@ -13,6 +13,7 @@ import {
   Megaphone,
   MessageSquare,
   Sparkles,
+  Square,
   TrendingUp,
   Zap,
   type LucideIcon,
@@ -24,6 +25,9 @@ import { Label } from '@/founderos/components/terminal';
 import { publishBoard } from '@/founderos/components/board-live-store';
 import { boardDecisionFor, boardStats, groupIssues, modelSummary, orderRuns, orderSeats, runDuration, runningSince, RUN_OK, type BoardLivePayload } from '@/founderos/lib/board-live';
 import type { PaperclipAgent } from '@/founderos/lib/connectors/paperclip';
+import type { PoolSnapshot } from '@/lib/worker-pool';
+
+type ActiveRun = PoolSnapshot['active'][number];
 
 /**
  * The live Paperclip board rendered natively in the OS (Alex, 2026-08-07:
@@ -127,12 +131,16 @@ const ago = (iso: string | null): string => {
   return `${Math.floor(h / 24)}d ago`;
 };
 
-function SeatChip({ agent, since }: { agent: PaperclipAgent; since: string | null }) {
+function SeatChip({ agent, since, active }: { agent: PaperclipAgent; since: string | null; active?: ActiveRun }) {
   // A click OWNS this control until its ✓ has been seen. Without that hold the
   // 4s board poll would flip the seat to `running` mid-flight and swap the
   // button out for the monitor, eating the done state the click earned.
   const [owned, setOwned] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [reason, setReason] = useState('run failed');
+  const stop = async () => {
+    if (active) await fetch(`/api/pool/runs/${active.id}/cancel`, { method: 'POST' }).catch(() => undefined);
+  };
   const release = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (release.current) clearTimeout(release.current); }, []);
   const run = async () => {
@@ -140,8 +148,16 @@ function SeatChip({ agent, since }: { agent: PaperclipAgent; since: string | nul
     setFailed(false);
     if (release.current) clearTimeout(release.current);
     try {
-      const res = await fetch(`/api/board/agents/${agent.id}/run`, { method: 'POST' });
-      if (!res.ok) setFailed(true);
+      const res = await fetch(`/api/board/agents/${agent.id}/run`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: agent.name }),
+      });
+      if (!res.ok) {
+        const body = (await res.json().catch(() => null)) as { error?: string; notConfigured?: boolean } | null;
+        setFailed(true);
+        setReason(body?.notConfigured ? 'not configured' : (body?.error ?? 'run failed').slice(0, 60));
+      }
     } catch {
       setFailed(true);
     } finally {
@@ -152,7 +168,7 @@ function SeatChip({ agent, since }: { agent: PaperclipAgent; since: string | nul
   const running = agent.status === 'running';
   // The click answers instantly and the board confirms behind it, so the chip
   // is never silent between the press and the heartbeat showing up.
-  const live = running || owned;
+  const live = running || owned || !!active;
   const startedMs = since ? new Date(since).getTime() : null;
   const { Icon, color } = seatGlyph(agent.name);
   return (
@@ -184,7 +200,8 @@ function SeatChip({ agent, since }: { agent: PaperclipAgent; since: string | nul
         >
           {agent.model ?? agent.adapterType ?? 'unconfigured'}
           {agent.model && agent.adapterType ? ` · ${agent.adapterType}` : ''}
-          {failed && <span className="text-os-err"> · run failed</span>}
+          {failed && <span className="text-os-err" title={reason}> · {reason}</span>}
+          {active && <span className="text-os-warn"> · {active.status === 'queued' ? 'queued' : 'pool running'}</span>}
         </div>
       </div>
       {/* Right column, three exclusive states. A run HE started goes ▸ →
@@ -192,6 +209,17 @@ function SeatChip({ agent, since }: { agent: PaperclipAgent; since: string | nul
           (started from Paperclip, or a heartbeat cron) cedes the slot to the
           monitor instead: its spinner and clock are board truth, not ours. */}
       <div className="flex w-7 shrink-0 flex-col items-center gap-1 self-center">
+        {active && (
+          <button
+            type="button"
+            onClick={() => void stop()}
+            title={`Stop ${active.status} run of ${agent.name}`}
+            aria-label={`Stop ${agent.name}`}
+            className="pressable is-dark flex h-5 w-5 items-center justify-center rounded-ctl text-os-warn hover:text-os-err"
+          >
+            <Square className="h-3 w-3" strokeWidth={1.8} />
+          </button>
+        )}
         {running && !owned ? (
           <>
             <Loader2 className="h-3.5 w-3.5 animate-spin text-os-ok" />
@@ -306,7 +334,12 @@ export function BoardLive({ initial, boardUrl }: { initial: BoardLivePayload; bo
 
           <div className="grid shrink-0 grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-5">
             {orderSeats(data.agents).map((a) => (
-              <SeatChip key={a.id} agent={a} since={runningSince(data.runs, a.id)} />
+              <SeatChip
+                key={a.id}
+                agent={a}
+                since={runningSince(data.runs, a.id)}
+                active={data.pool?.active.find((r) => r.agentId === a.id)}
+              />
             ))}
           </div>
 

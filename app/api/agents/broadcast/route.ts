@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { poolFullResponse } from '@/lib/pool-http';
 import { getDb } from '@/lib/data';
 import { createRuntime } from '@/lib/agents/runtime';
 import { realAgents } from '@/lib/agents/real';
@@ -21,6 +22,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'message is required' }, { status: 400 });
   }
   const runtime = createRuntime(getDb(), realAgents);
-  const broadcast = await runtime.broadcast(message);
-  return NextResponse.json({ broadcast });
+  try {
+    const broadcast = await runtime.broadcast(message);
+    return NextResponse.json({ broadcast });
+  } catch (err) {
+    const full = poolFullResponse(err);
+    if (full) return full;
+    throw err;
+  }
 }

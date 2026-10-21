@@ -10,6 +10,7 @@
  * fixture only on a blank, non-filming install.
  */
 import { getDb } from '@/lib/data';
+import { getWorkerPool, type PoolMetrics } from '@/lib/worker-pool';
 import { filmingMode } from '@/lib/paths';
 import { foMode, sampleUsageLanes, sampleUsageReadings } from '@/lib/fo-sample';
 import { pushTokenConfigured } from '@/lib/push-auth';
@@ -44,6 +45,8 @@ export type UsageOn = UsageSummary & {
   push: { path: string; tokenSet: boolean };
   readAt: string;
   footnote: string;
+  /** Worker pool runs on this host, last 24 h (lib/worker-pool.ts); null when none ran. */
+  pool?: PoolMetrics | null;
 };
 
 export type UsagePayload = UsageOff | UsageOn;
@@ -64,6 +67,16 @@ function lanesFor(lanes: LaneReading[], hasLocal: boolean, range: 7 | 30, now: D
       ollama: null,
     },
   };
+}
+
+/** The pool's own ledger, 24 h. Null when it has run nothing, so a quiet host shows no card. */
+function poolMetrics(): PoolMetrics | null {
+  try {
+    const m = getWorkerPool(getDb()).metrics(24);
+    return m.total > 0 ? m : null;
+  } catch {
+    return null;
+  }
 }
 
 export async function buildUsagePayload(input: { url: string; now?: Date }): Promise<UsagePayload> {
@@ -153,5 +166,6 @@ export async function buildUsagePayload(input: { url: string; now?: Date }): Pro
     push,
     readAt: local.readAt,
     footnote: USAGE_FOOTNOTE,
+    pool: poolMetrics(),
   };
 }

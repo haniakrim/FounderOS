@@ -81,7 +81,7 @@ export async function defaultJobRunner(db: GladosDb): Promise<CronJobRunner> {
       return { ok: true, summary: digestSummary(row.body as never) };
     }
     const [{ createRuntime }, { realAgents }] = await Promise.all([import('@/lib/agents/runtime'), import('@/lib/agents/real')]);
-    const run = await createRuntime(db, realAgents).run(job.agentId);
+    const run = await createRuntime(db, realAgents).run(job.agentId, { source: `cron:${job.id}` });
     return { ok: run.ok, summary: run.summary };
   };
 }

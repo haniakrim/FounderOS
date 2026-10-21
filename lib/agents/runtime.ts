@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import type { GladosDb } from '@/lib/db';
 import type { LlmToolSpec } from '@/lib/connectors/llm';
 import type { AgentRun, Broadcast } from '@/lib/schemas';
+import { getWorkerPool, type WorkerPool } from '@/lib/worker-pool';
 
 export type AgentRunResult = { ok: boolean; summary: string; data?: unknown };
 
@@ -31,34 +32,57 @@ export type RuntimeAgent = {
   chatTools?(): LlmToolSpec[];
 };
 
-export function createRuntime(db: GladosDb, agents: RuntimeAgent[]) {
+export function createRuntime(db: GladosDb, agents: RuntimeAgent[], opts: { pool?: WorkerPool } = {}) {
   const registry = new Map(agents.map((a) => [a.id, a]));
+  const pool = opts.pool ?? getWorkerPool(db);
+  const seatOf = (id: string) => (id === 'conductor' ? ('conductor' as const) : ('worker' as const));
+  const storedModel = (id: string) => {
+    try {
+      return db.agents.get(id)?.model ?? null;
+    } catch {
+      return null;
+    }
+  };
 
   return {
     list(): RuntimeAgent[] {
       return [...registry.values()];
     },
 
-    async run(id: string): Promise<AgentRun> {
+    /**
+     * Queue a run on the worker pool and hand back its id at once. Every agent
+     * run goes through the pool (queue, timeout, retry, cancel, ledger).
+     */
+    start(id: string, o: { source?: string } = {}): { runId: string; done: Promise<AgentRun> } {
       const agent = registry.get(id);
       if (!agent) throw new Error(`unknown agent: ${id}`);
       const startedAt = new Date().toISOString();
-      let result: AgentRunResult;
-      try {
-        result = await agent.run();
-      } catch (err) {
-        result = { ok: false, summary: err instanceof Error ? err.message : String(err) };
-      }
-      const run: AgentRun = {
-        id: randomUUID(),
+      const handle = pool.submit({
+        kind: 'run',
         agentId: id,
-        startedAt,
-        finishedAt: new Date().toISOString(),
-        ok: result.ok,
-        summary: result.summary,
-      };
-      db.agentRuns.insert(run);
-      return run;
+        label: agent.name,
+        seat: seatOf(id),
+        source: o.source ?? 'runtime',
+        storedModel: storedModel(id),
+        exec: () => agent.run(),
+      });
+      const done = handle.done.then((outcome) => {
+        const run: AgentRun = {
+          id: outcome.id,
+          agentId: id,
+          startedAt,
+          finishedAt: new Date().toISOString(),
+          ok: outcome.ok,
+          summary: outcome.summary,
+        };
+        db.agentRuns.insert(run);
+        return run;
+      });
+      return { runId: handle.id, done };
+    },
+
+    async run(id: string, o: { source?: string } = {}): Promise<AgentRun> {
+      return this.start(id, o).done;
     },
 
     /** Speak to every agent at once; each replies in parallel. */
@@ -69,12 +93,18 @@ export function createRuntime(db: GladosDb, agents: RuntimeAgent[]) {
 
       const replies = await Promise.all(
         [...registry.values()].map(async (agent) => {
-          let result: AgentRunResult;
-          try {
-            result = await (agent.respond ? agent.respond(message) : agent.run());
-          } catch (err) {
-            result = { ok: false, summary: err instanceof Error ? err.message : String(err) };
-          }
+          const outcome = await pool
+            .submit({
+              kind: 'run',
+              agentId: agent.id,
+              label: agent.name,
+              seat: seatOf(agent.id),
+              source: 'broadcast',
+              storedModel: storedModel(agent.id),
+              exec: () => (agent.respond ? agent.respond(message) : agent.run()),
+            })
+            .done;
+          const result: AgentRunResult = { ok: outcome.ok, summary: outcome.summary };
           const reply = {
             id: randomUUID(),
             broadcastId,

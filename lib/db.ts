@@ -10,6 +10,7 @@ import { usageReadingsRepo } from '@/lib/db-ext/usage';
 import { commsDigestsRepo } from '@/lib/db-ext/comms-digest';
 import { callRecordingsRepo } from '@/lib/db-ext/recordings';
 import { cronRunsRepo, deliverableDecisionsRepo } from '@/lib/db-ext/agent-ops';
+import { POOL_DDL, poolRunsRepo } from '@/lib/db-ext/pool-runs';
 import {
   AgentCronSchema,
   AgentMessageSchema,
@@ -1456,6 +1457,7 @@ export function openDb(path: string) {
   migrateAgentTasksTable(db);
   migrateWorkflowsTable(db);
   migrateFounderOs(db); // FounderOS UI merge tables (additive)
+  db.exec(POOL_DDL); // worker pool run ledger (additive)
   retireTables(db, path);
 
   const departments = {
@@ -2309,6 +2311,7 @@ export function openDb(path: string) {
     callRecordings: callRecordingsRepo(db),
     deliverableDecisions: deliverableDecisionsRepo(db),
     cronRuns: cronRunsRepo(db),
+    poolRuns: poolRunsRepo(db),
     /** The live journal mode, read from SQLite (S10 FR-17), e.g. "wal". */
     journalMode: (): string => String(db.pragma('journal_mode', { simple: true }) ?? ''),
     close: () => db.close(),

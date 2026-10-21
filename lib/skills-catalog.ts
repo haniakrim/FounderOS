@@ -22,7 +22,7 @@ export type CatalogSkill = {
  * The library root. GLADOS_SKILLS_DIR lets the filming clone point at its own
  * (larger) library without changing how production reads ~/.claude/skills.
  */
-const SLUG_RE = /^[a-zA-Z0-9._-]+$/;
+const SLUG_RE = /^[a-zA-Z0-9][a-zA-Z0-9._-]*$/;
 
 /** Read one frontmatter field, handling inline, quoted, and block scalars (| / >). */
 function readField(frontmatter: string, key: string): string | undefined {
@@ -141,7 +141,7 @@ export function readUserSkills(dir: string = skillsDir()): CatalogSkill[] {
 
 /** Read one skill's full SKILL.md. Null on a bad slug or missing file (honest). */
 export function readSkillMarkdown(slug: string, dir: string = skillsDir()): string | null {
-  if (!SLUG_RE.test(slug)) return null; // no path traversal
+  if (!SLUG_RE.test(slug) || slug.includes('..')) return null; // no path traversal
   try {
     return fs.readFileSync(path.join(dir, slug, 'SKILL.md'), 'utf8');
   } catch {

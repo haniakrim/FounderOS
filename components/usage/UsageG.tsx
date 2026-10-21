@@ -1,5 +1,6 @@
 'use client';
 
+import { PoolBurn } from '@/components/usage/PoolBurn';
 import { useState } from 'react';
 import {
   GButton,
@@ -336,6 +337,7 @@ function Ready({ v, hidden, toggle }: { v: UsageReadyView; hidden: string[]; tog
         </div>
       </section>
 
+      <PoolBurn pool={v.pool} />
       <p className="us-foot">
         {v.footnote} Read {v.readAgo}.
       </p>

@@ -9,6 +9,7 @@
 import { formatCompact } from '@/lib/format-number';
 import type { UsagePlan } from '@/lib/schemas';
 import type { LaneBurn, UsageOn, UsagePayload } from '@/lib/usage-payload';
+import type { PoolMetrics } from '@/lib/worker-pool';
 import type { OfficialWindow, PlanSummary } from '@/lib/usage';
 
 export const USAGE_TITLE = 'Usage';
@@ -116,6 +117,8 @@ export type UsageReadyView = {
     title: string;
   };
   lanes: { rows: LaneRow[] | null; note: string; machine: string };
+  /** Worker pool metrics for the Pool card; null = no pool runs in 24 h. */
+  pool: PoolMetrics | null;
   burnChart: {
     caption: string;
     keys: { id: UsagePlan; label: string; slot: 1 | 2 | 3 }[];
@@ -369,6 +372,7 @@ export function buildUsageView(data: UsagePayload, nowMs: number = Date.now()): 
       note: lanes ? `Lanes on ${data.machine}` : 'Lanes not reported: no transcript folder on this machine',
       machine: data.machine,
     },
+    pool: data.pool ?? null,
     burnChart: {
       caption: `${reportedPlans.join(' + ') || 'No plan'} · ${rangeLabel}`,
       keys: charted.map((p) => ({

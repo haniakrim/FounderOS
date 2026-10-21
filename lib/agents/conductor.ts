@@ -11,6 +11,7 @@ import { chatWithAgent, type ChatResult } from '@/lib/agents/chat';
 import type { GladosDb } from '@/lib/db';
 import type { RuntimeAgent } from '@/lib/agents/runtime';
 import { isFilming } from '@/lib/demo-mode';
+import { getWorkerPool, modelArg } from '@/lib/worker-pool';
 
 export type ConductorResult = ChatResult & { routedTo: string };
 
@@ -26,7 +27,7 @@ function matchAgent(agents: RuntimeAgent[], token: string): RuntimeAgent | undef
 }
 
 /** Ask the model for the single best-fit agent id; fall back to the first agent. */
-async function pickAgent(routable: RuntimeAgent[], message: string): Promise<string> {
+async function pickAgent(db: GladosDb, routable: RuntimeAgent[], message: string): Promise<string> {
   const roster = routable.map((a) => `- ${a.id}: ${a.name} — ${a.description}`).join('\n');
   const system = [
     `You are the Wizard, the router for ${BRAND.name} operator agents.`,
@@ -34,7 +35,19 @@ async function pickAgent(routable: RuntimeAgent[], message: string): Promise<str
     'Reply with ONLY that agent id and nothing else. Options:',
     roster,
   ].join('\n');
-  const res = await llmChat({ system, messages: [{ role: 'user', content: message }] });
+  const pooled = await getWorkerPool(db).run({
+    kind: 'chat',
+    agentId: 'conductor',
+    label: 'Conductor routing',
+    seat: 'conductor',
+    source: 'conductor-route',
+    storedModel: db.agents.get('conductor')?.model,
+    exec: async (ctx) => {
+      const r = await llmChat({ system, messages: [{ role: 'user', content: message }], ...modelArg(ctx) });
+      return { ok: true, summary: r.text.slice(0, 120), data: r };
+    },
+  });
+  const res = pooled.data as Awaited<ReturnType<typeof llmChat>>;
   const picked = (res.text.trim().split(/\s+/)[0] ?? '').replace(/[^a-zA-Z0-9_-]/g, '');
   const found = routable.find((a) => a.id === picked);
   if (found) return found.id;
@@ -74,7 +87,7 @@ export async function routeConductorMessage(
     // unknown @name → fall through to model routing (never throw)
   }
 
-  if (!targetId) targetId = await pickAgent(routable, message);
+  if (!targetId) targetId = await pickAgent(db, routable, message);
 
   const result = await chatWithAgent(db, agents, targetId, delivered, opts);
   return { routedTo: targetId, ...result };

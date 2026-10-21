@@ -9,6 +9,7 @@ import { TaskReviewPanel } from '@/founderos/components/TaskReviewPanel';
 import { needsYou } from '@/founderos/lib/board-approvals';
 import { partitionByDecision } from '@/founderos/lib/deliverable-decisions';
 import type { DeliverableItem } from '@/founderos/lib/board-deliverables';
+import { PoolPanel } from '@/founderos/components/PoolPanel';
 import { useDeliverables } from '@/founderos/components/useDeliverables';
 
 /**
@@ -22,7 +23,7 @@ import { useDeliverables } from '@/founderos/components/useDeliverables';
  * Deliverables data is fetched HERE rather than inside the list, because the
  * unread badge has to count new items while that list is unmounted.
  */
-type TabId = 'roster' | 'hermes' | 'deliverables' | 'needsyou';
+type TabId = 'roster' | 'pool' | 'hermes' | 'deliverables' | 'needsyou';
 
 /** A round count that rides inside a tab label. Round, not square: the square
     badge belongs to SlidingTabs' own `count` slot, which the other two
@@ -135,6 +136,7 @@ export function AgentsTabs({
                 </>
               ),
             },
+            { id: 'pool', label: 'Pool' },
             { id: 'hermes', label: 'Hermes' },
           ]}
           value={tab}
@@ -156,6 +158,9 @@ export function AgentsTabs({
 
       {/* Roster stays mounted always (server-rendered content must not remount) */}
       <div className={tab === 'roster' ? 'min-h-0 flex-1' : 'hidden'}>{children}</div>
+
+      {/* Worker pool: start, queue, stop and read agent and skill runs */}
+      {tab === 'pool' && <PoolPanel />}
 
       {/* The queue of work asking for the operator's decision, from the same payload */}
       {tab === 'needsyou' && (

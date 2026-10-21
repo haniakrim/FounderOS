@@ -1,4 +1,5 @@
 import type { PaperclipAgent, PaperclipIssue, PaperclipRun } from '@/founderos/lib/connectors/paperclip';
+import type { PoolSnapshot } from '@/lib/worker-pool';
 import type { DeliverableDecision } from '@/founderos/lib/deliverable-decisions';
 
 /**
@@ -16,6 +17,8 @@ export type BoardLivePayload = {
    *  payload rather than being fetched separately so a card paints decided on
    *  first render instead of flickering undecided for a frame. */
   decisions: DeliverableDecision[];
+  /** Worker pool state (queue + active runs), so a seat started from the OS reads live. */
+  pool?: PoolSnapshot;
 };
 
 /**

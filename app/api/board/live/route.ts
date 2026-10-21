@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { deliverableDecisions } from '@/founderos/lib/decisions';
 import { paperclipAgents, paperclipIssues, paperclipRuns } from '@/founderos/lib/connectors/paperclip';
 import { getDb } from '@/lib/data';
+import { getWorkerPool } from '@/lib/worker-pool';
 import type { BoardLivePayload } from '@/founderos/lib/board-live';
 
 export const dynamic = 'force-dynamic';
@@ -32,6 +33,7 @@ export async function GET() {
     runs,
     checkedAt: new Date().toISOString(),
     decisions,
+    pool: getWorkerPool(getDb()).snapshot(),
   };
   return NextResponse.json(payload);
 }

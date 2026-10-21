@@ -7,6 +7,7 @@
  * Top burner insight, then one card per plan. Same payload, poll and view as
  * the other trees (use-usage.ts, lib/usage-view.ts); Legacy kit and --l-* only.
  */
+import { PoolBurn } from '@/components/usage/PoolBurn';
 import { useState } from 'react';
 import { Copy, Flame } from 'lucide-react';
 import {
@@ -217,6 +218,7 @@ function Ready({ v }: { v: UsageReadyView }) {
           <PlanCard key={p.plan} p={p} i={6 + i} onOpen={() => setOpen(p.plan)} />
         ))}
       </div>
+      <PoolBurn pool={v.pool} />
       <p className="l-foot-note">
         {v.footnote} Read {v.readAgo}.
       </p>

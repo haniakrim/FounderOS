@@ -63,7 +63,7 @@ export async function POST(request: Request) {
       const agent = roster.find((a) => a.id === id) ?? roster.find((a) => a.name.toLowerCase() === id.toLowerCase());
       if (!agent) continue;
       try {
-        const run = await rt.run(agent.id);
+        const run = await rt.run(agent.id, { source: 'wizard' });
         receipts.push({ kind: 'ran-agent', label: `Ran ${agent.name} · ${run.summary.slice(0, 80)}` });
       } catch (err) {
         receipts.push({ kind: 'note', label: `${agent.name} has no runtime here` });

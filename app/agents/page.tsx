@@ -1,6 +1,7 @@
 import { paperclipAgents, paperclipIssues, paperclipRuns } from '@/founderos/lib/connectors/paperclip';
 import { deliverableDecisions } from '@/founderos/lib/decisions';
 import { getDb } from '@/lib/data';
+import { getWorkerPool } from '@/lib/worker-pool';
 import type { BoardLivePayload } from '@/founderos/lib/board-live';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
@@ -43,6 +44,7 @@ export default async function AgentsPage() {
     runs: liveRuns,
     checkedAt: new Date().toISOString(),
     decisions,
+    pool: getWorkerPool(getDb()).snapshot(),
   };
 
   const boardUrl = process.env.PAPERCLIP_API_URL ?? null;
