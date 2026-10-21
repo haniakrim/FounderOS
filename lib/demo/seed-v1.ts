@@ -1101,7 +1101,7 @@ const roadmap: (RoadmapItem & { phaseId?: string })[] = [
   { id: 'rm-auth', title: 'Auth + remote access', quarter: '2026-Q4', status: 'next', departmentId: 'dept-tech', description: 'Reach FOUNDER OS on the host from anywhere, safely.', phaseId: 'phase-4' },
   { id: 'rm-postiz', title: 'Replace Postly with Postiz', quarter: '2026-Q4', status: 'next', departmentId: 'dept-clients', description: 'Self-hosted scheduler with ungated post and channel analytics.', phaseId: 'phase-1' },
   { id: 'rm-board-embed', title: 'Board fully inside the OS', quarter: '2026-Q4', status: 'later', departmentId: 'dept-tech', description: 'Conductor and 40+ agents driven from the OS, SOPs running as real skills.', phaseId: 'phase-3' },
-  { id: 'rm-fluid', title: 'Apple fluid design pass', quarter: '2026-Q4', status: 'now', departmentId: 'dept-tech', description: '17-rule audit and DESIGN.md; press feedback, focus ring and materials shipped, 11 findings left.', phaseId: 'phase-2' },
+  { id: 'rm-fluid', title: 'Apple fluid design pass', quarter: '2026-Q4', status: 'now', departmentId: 'dept-tech', description: '17-rule audit and DESIGN.md; 13 of 15 fixes shipped (exits, glass, rem type, tracking). Last: graph colours, sidebar width.', phaseId: 'phase-2' },
   { id: 'rm-kit', title: 'Portable theme and design kit', quarter: '2026-Q4', status: 'done', departmentId: 'dept-tech', description: 'GladOS, Classic and Legacy kits with shells, tokens and the Appearance picker, reusable in any app.', phaseId: 'phase-2' },
 ];
 

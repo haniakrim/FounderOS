@@ -7386,7 +7386,7 @@
     "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
-    "description": "17-rule audit and DESIGN.md; press feedback, focus ring and materials shipped, 11 findings left.",
+    "description": "17-rule audit and DESIGN.md; 13 of 15 fixes shipped (exits, glass, rem type, tracking). Last: graph colours, sidebar width.",
     "phaseId": "phase-2"
    },
    {
