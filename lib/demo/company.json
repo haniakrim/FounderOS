@@ -7320,7 +7320,7 @@
    {
     "id": "rm-workers",
     "title": "Worker pool on the host",
-    "quarter": "2026-Q3",
+    "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
     "description": "Cheap model seats behind the Conductor. Hardening and gateway install left.",
@@ -7329,7 +7329,7 @@
    {
     "id": "rm-statements",
     "title": "Statement ingestion",
-    "quarter": "2026-Q3",
+    "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-finance",
     "description": "Card and bank statements parsed into /finances instead of hand entry.",
@@ -7338,7 +7338,7 @@
    {
     "id": "rm-railway",
     "title": "Move hosting to Railway",
-    "quarter": "2026-Q3",
+    "quarter": "2026-Q4",
     "status": "now",
     "departmentId": "dept-tech",
     "description": "Every app moving to one platform; the gated OS demo went first as the pilot.",
