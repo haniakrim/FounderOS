@@ -1256,6 +1256,27 @@ export function migrateLabV2(db: InstanceType<typeof Database>): void {
 }
 /* ── end Content Lab v2 migration ── */
 
+/** agent_runs.sources is JSON text; anything unreadable is "no sources". */
+function parseSources(raw: unknown): string[] {
+  try {
+    const v = JSON.parse(typeof raw === 'string' && raw ? raw : '[]');
+    return Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Additive: agent runs record why + sources. Guarded, so re-running changes nothing. */
+function migrateAgentRunsProvenance(db: InstanceType<typeof Database>): void {
+  const names = () => (db.prepare('PRAGMA table_info(agent_runs)').all() as { name: string }[]).map((c) => c.name);
+  if (names().includes('why') && names().includes('sources')) return;
+  db.transaction(() => {
+    const cols = names();
+    if (!cols.includes('why')) db.exec('ALTER TABLE agent_runs ADD COLUMN why TEXT');
+    if (!cols.includes('sources')) db.exec("ALTER TABLE agent_runs ADD COLUMN sources TEXT NOT NULL DEFAULT '[]'");
+  }).immediate();
+}
+
 /** Databases created before the hierarchy build lack these columns. */
 function migrateAgentsTable(db: InstanceType<typeof Database>): void {
   const columns = new Set(
@@ -1451,6 +1472,7 @@ export function openDb(path: string) {
   db.exec(LAB_DDL); // Content Lab (additive)
   migrateLabV2(db); // Content Lab v2 columns (idempotent, 08.11.2)
   migrateAgentsTable(db);
+  migrateAgentRunsProvenance(db);
   migrateFunnelContactsTable(db);
   migrateSkillsTable(db);
   migrateAgentTasksTable(db);
@@ -1589,6 +1611,8 @@ export function openDb(path: string) {
       finishedAt: r.finished_at,
       ok: Boolean(r.ok),
       summary: r.summary,
+      why: r.why ?? null,
+      sources: parseSources(r.sources),
     });
 
   const agentRuns = {
@@ -1619,8 +1643,8 @@ export function openDb(path: string) {
     },
     insert(run: AgentRun): void {
       db.prepare(
-        'INSERT OR REPLACE INTO agent_runs (id, agent_id, started_at, finished_at, ok, summary) VALUES (?, ?, ?, ?, ?, ?)',
-      ).run(run.id, run.agentId, run.startedAt, run.finishedAt, run.ok ? 1 : 0, run.summary);
+        'INSERT OR REPLACE INTO agent_runs (id, agent_id, started_at, finished_at, ok, summary, why, sources) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      ).run(run.id, run.agentId, run.startedAt, run.finishedAt, run.ok ? 1 : 0, run.summary, run.why ?? null, JSON.stringify(run.sources ?? []));
     },
   };
 

@@ -98,6 +98,10 @@ export const AgentRunSchema = z.object({
   finishedAt: z.string().min(1),
   ok: z.boolean(),
   summary: z.string(),
+  /** Why the agent gave this result (null = none given). Never invented. */
+  why: z.string().nullable().optional(),
+  /** Records, URLs or files the agent used (empty = "No sources given"). */
+  sources: z.array(z.string()).optional(),
 });
 
 export const BroadcastReplySchema = z.object({

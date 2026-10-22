@@ -12,6 +12,7 @@ import type { GladosDb } from '@/lib/db';
 import type { RuntimeAgent } from '@/lib/agents/runtime';
 import type { AgentMessage } from '@/lib/schemas';
 import { chatModelFor } from '@/lib/agent-review';
+import { PROVENANCE_PROMPT, parseProvenance, provenanceLines } from '@/lib/agents/provenance';
 
 export type ChatResult = { reply: string; messages: AgentMessage[] };
 
@@ -23,6 +24,8 @@ export function systemPromptFor(agent: RuntimeAgent, screenContext?: string): st
     agent.description,
     'Answer concisely and use your tools to read live data when it helps.',
     'You are READ-ONLY: never claim to have sent, created, scheduled, or published anything — you can only look things up and report.',
+    'Never invent action items or calendar events. Anything that would change a calendar needs the operator to approve it first.',
+    PROVENANCE_PROMPT,
   ];
   if (screenContext) {
     lines.push(
@@ -71,7 +74,10 @@ export async function chatWithAgent(
     });
   }
 
-  db.agentMessages.insert({ id: randomUUID(), agentId, role: 'assistant', content: result.text, toolCalls: [], createdAt: now() });
+  // Show the work: strip the fenced block and state the why + sources under the answer.
+  const parsed = parseProvenance(result.text);
+  const reply = parsed.text ? `${parsed.text}\n\n${provenanceLines(parsed.provenance)}` : result.text;
+  db.agentMessages.insert({ id: randomUUID(), agentId, role: 'assistant', content: reply, toolCalls: [], createdAt: now() });
 
-  return { reply: result.text, messages: db.agentMessages.byAgent(agentId) };
+  return { reply, messages: db.agentMessages.byAgent(agentId) };
 }

@@ -2,8 +2,16 @@ import { randomUUID } from 'node:crypto';
 import type { GladosDb } from '@/lib/db';
 import type { LlmToolSpec } from '@/lib/connectors/llm';
 import type { AgentRun, Broadcast } from '@/lib/schemas';
+import { normalizeProvenance, parseProvenance } from '@/lib/agents/provenance';
 
-export type AgentRunResult = { ok: boolean; summary: string; data?: unknown };
+export type AgentRunResult = {
+  ok: boolean;
+  summary: string;
+  data?: unknown;
+  /** Optional provenance: why this result, and what was read to get it. */
+  why?: string;
+  sources?: string[];
+};
 
 export type RuntimeAgent = {
   id: string;
@@ -49,13 +57,19 @@ export function createRuntime(db: GladosDb, agents: RuntimeAgent[]) {
       } catch (err) {
         result = { ok: false, summary: err instanceof Error ? err.message : String(err) };
       }
+      // Structured fields win; otherwise a fenced provenance block in the summary is
+      // parsed (and stripped). Missing stays missing: the UI says "No sources given".
+      const parsed = parseProvenance(result.summary);
+      const given = normalizeProvenance({ why: result.why, sources: result.sources });
       const run: AgentRun = {
         id: randomUUID(),
         agentId: id,
         startedAt,
         finishedAt: new Date().toISOString(),
         ok: result.ok,
-        summary: result.summary,
+        summary: parsed.text,
+        why: given.why ?? parsed.provenance.why,
+        sources: given.sources.length ? given.sources : parsed.provenance.sources,
       };
       db.agentRuns.insert(run);
       return run;
