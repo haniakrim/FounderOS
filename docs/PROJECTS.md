@@ -8,9 +8,11 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 
 | Project | State | Last change | Waiting on | Folder |
 |---|---|---|---|---|
-| Design system: Apple fluid pass | All fix batches applied and browser-checked on branch `design/fluid-pass` (2026-10-22); leftovers: Knowledge Graph remap hex, bar height and sidebar width transitions | 2026-10-22 | operator OK to push the branch | `docs/projects/design-system/` |
+| Design system: Apple fluid pass | All fix batches applied and browser-checked on branch `design/fluid-pass` (2026-10-22); leftovers: Knowledge Graph remap hex, bar height and sidebar width transitions | 2026-10-22 | nothing: pushed to the operator's fork and merged to `main` there (2026-10-22) | `docs/projects/design-system/` |
 | Portable theme and design kit | Built 2026-10-21 at `~/Desktop/founderos-themes/` (outside the repo) and installed as the `founderos-themes` skill | 2026-10-21 | Operator review; the `SetupLink` default href decision | `docs/projects/design-system/` |
-| End-user manual | Manual, screenshots and PDF committed on `docs/user-manual` (0b8ea85, 8373fa9) | 2026-10-21 | Operator OK to push and merge | `docs/user-manual/` |
+| End-user manual | Manual, screenshots and PDF committed on `docs/user-manual` (0b8ea85, 8373fa9) | 2026-10-21 | Pushed to the fork 2026-10-22; operator OK to merge | `docs/user-manual/` |
+
+| Match & CO. rebrand and replica fixes | Rebrand (`lib/brand.ts`, mark, favicon), category review research (309 rows, `replica/`) and fixes F1-F7 shipped to `main` on the fork 2026-10-22 | 2026-10-22 | Operator: trademark/domain checks, palette decision, `MATCHCO_SUPPORT_EMAIL` | `replica/` |
 
 ## Shipped
 
@@ -30,7 +32,7 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [x] Portable kit: tokens, fonts, appearance system and picker (Next.js, React, plain HTML)
 - [x] Portable kit: full GladOS, Classic and Legacy component kits with shells and specimens
 - [ ] ! Decide `SetupLink` default href in the Classic kit (`/setup` or `/integrations`)
-- [ ] ! OK to push `design/fluid-pass` and `docs/user-manual`
+- [x] 2026-10-22: remotes switched: `origin` = haniakrim/FounderOS (fork), `upstream` = Bennettxai; all branches pushed, `design/fluid-pass` merged to fork `main`
 - [ ] Fix Legacy `Strip` clipping long values in narrow cards (portable kit)
 - [x] 2026-10-22: demo roadmap matched to the code: Statement ingestion done (`lib/statements.ts`, `/finances` upload), Auth + remote access now (login shipped, outside-network access open); unfinished Q3 items rolled into Q4
 - [x] 2026-10-22: fluid pass closed (all 15 findings)
@@ -45,3 +47,9 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [x] 2026-10-22: 2027-Q1 `rm-postiz-live` done: local Postiz up on 127.0.0.1:4007, owner user created (credentials in gitignored `deploy/postiz/.owner`), keys in `.env.local`, `verify-postiz.mjs` PASS
 - [ ] ! 2027-Q1 `rm-railway-live`: Railway: install CLI, log in, OK to deploy (first public deploy), then `verify-railway.mjs` with RAILWAY_PASSWORD
 - [ ] ! 2027-Q1 `rm-workers-live`: Gateway on the host for the worker pool: `/api/pool` reports AI_GATEWAY_API_KEY not set; set it at /integrations, then `node scripts/verify-workers.mjs`
+- [x] 2026-10-22: rebrand to Match & CO. (name, mark, favicon; internal ids kept)
+- [x] 2026-10-22: replica research: 309 rows across Trustpilot, G2, Hacker News; fix plan and angle in `replica/fixes.md`
+- [x] 2026-10-22: F1-F7 shipped: billing policy doc, data export/delete, connector sync badges, agent why + sources, MCP server, solo setup path, support link
+- [ ] ! Run the Match & CO. trademark, domain and handle checks (`replica/brand.md`), ideally with a lawyer
+- [ ] ! Set `MATCHCO_SUPPORT_EMAIL` in `.env.local`
+- [ ] ! Decide whether Match & CO. gets its own palette (themes unchanged so far)
