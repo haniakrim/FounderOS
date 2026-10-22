@@ -1,28 +1,28 @@
 # What users of the original hate and want
 
-278 reviews from 5 sources (Hacker News, Trustpilot (akiflow.com), Trustpilot (reclaim.ai), Trustpilot (sunsama.com), Trustpilot (usemotion.com)). 166 had star ratings.
+308 reviews from 8 sources (G2 (akiflow), G2 (reclaim-ai), G2 (usemotion.com), Hacker News, Trustpilot (akiflow.com), Trustpilot (reclaim.ai), Trustpilot (sunsama.com), Trustpilot (usemotion.com)). 195 had star ratings.
 1 duplicate reviews removed.
 
 ## What they hate
 
 | rank | theme | score | reviews | share | avg stars | sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Integrations that are not really two-way | 25.6 | 61 | 22% | 3.2 | 4 |
-| 2 | Price and paywalls | 24.5 | 38 | 14% | 1.8 | 5 |
-| 3 | Billing, cancelling and refunds | 22.0 | 24 | 9% | 1.4 | 3 |
-| 4 | Support that does not answer | 16.9 | 27 | 10% | 2.8 | 3 |
-| 5 | Sync and lost data | 8.3 | 17 | 6% | 3.2 | 4 |
-| 6 | Bugs and crashes | 7.9 | 12 | 4% | 2.0 | 3 |
-| 7 | AI agents feel like a gimmick or hallucinate (thin) | 7.4 | 10 | 4% | 2.3 | 1 |
-| 8 | Confusing or clunky to use | 6.6 | 11 | 4% | 2.7 | 3 |
-| 9 | Ads | 6.0 | 7 | 2% | 1.7 | 2 |
-| 10 | Notifications and spam | 5.9 | 8 | 3% | 2.0 | 3 |
-| 11 | Too many features, overwhelming setup | 4.6 | 9 | 3% | 3.4 | 2 |
+| 1 | Integrations that are not really two-way | 30.5 | 79 | 26% | 3.8 | 7 |
+| 2 | Price and paywalls | 25.7 | 42 | 14% | 2.2 | 7 |
+| 3 | Billing, cancelling and refunds | 22.4 | 25 | 8% | 1.5 | 4 |
+| 4 | Support that does not answer | 18.1 | 31 | 10% | 3.0 | 6 |
+| 5 | Sync and lost data | 10.5 | 26 | 8% | 3.9 | 7 |
+| 6 | Confusing or clunky to use | 8.9 | 18 | 6% | 3.4 | 5 |
+| 7 | Bugs and crashes | 8.1 | 13 | 4% | 2.3 | 4 |
+| 8 | AI agents feel like a gimmick or hallucinate (thin) | 7.4 | 10 | 3% | 2.3 | 1 |
+| 9 | Notifications and spam | 7.1 | 12 | 4% | 2.9 | 5 |
+| 10 | Ads | 6.9 | 9 | 3% | 2.1 | 4 |
+| 11 | Too many features, overwhelming setup | 4.8 | 10 | 3% | 3.6 | 3 |
 | 12 | Cannot export or delete own data | 4.5 | 5 | 2% | 1.0 | 2 |
 | 13 | Built for teams, not solo operators | 3.8 | 8 | 3% | 3.6 | 3 |
-| 14 | Privacy and permissions | 3.2 | 8 | 3% | 3.0 | 3 |
+| 14 | Privacy and permissions | 3.4 | 9 | 3% | 3.7 | 4 |
 | 15 | Slow, laggy, heavy | 3.0 | 5 | 2% | 2.0 | 3 |
-| 16 | Login and account problems (thin) | 2.5 | 3 | 1% | 1.0 | 1 |
+| 16 | Login and account problems | 2.9 | 4 | 1% | 1.8 | 2 |
 | 17 | A redesign or update made it worse (thin) | 0.3 | 1 | 0% | - | 1 |
 
 **Integrations that are not really two-way**
@@ -50,20 +50,20 @@
 - "Sync with ClickUp is not actually 2-way." (Trustpilot (akiflow.com), 1*) https://www.trustpilot.com/reviews/6ad63a3cc5c6b502d632d9a6
 - "When I clicked on the notification it would just disappear it never left anywhere." (Trustpilot (reclaim.ai), 1*) https://www.trustpilot.com/reviews/6837ae148f1e6d974e94783e
 
-**Bugs and crashes**
-- "Super buggy for me." (Trustpilot (usemotion.com), 1*) https://www.trustpilot.com/reviews/6935ae044731084ce4b9603e
-- "Not helpful it's buggy." (Trustpilot (reclaim.ai), 1*) https://www.trustpilot.com/reviews/63f89ed0734b3ac28335fbe8
-- "The practical glitches made things worse." (Trustpilot (usemotion.com), 1*) https://www.trustpilot.com/reviews/6917d7c22aa1150b2ced522e
+**Confusing or clunky to use**
+- "Can't find anyway to disable the lunch additions." (Trustpilot (reclaim.ai), 1*) https://www.trustpilot.com/reviews/6a91b9d0f830a480d32ef0f3
+- "When confronted, support admitted the interface is 'confusing' but still refused a refund." (Trustpilot (usemotion.com), 1*) https://www.trustpilot.com/reviews/69b2788034252097236d7e89
+- "Motion has potential, but the gap between what it promises and what it currently delivers is too wide for me to justify the price or the learning curve." (Trustpilot (usemotion.com), 1*) https://www.trustpilot.com/reviews/6917d7c22aa1150b2ced522e
 
 ## What they ask for
 
 | rank | theme | score | reviews | share | avg stars | sources |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Teams and sharing | 14.9 | 44 | 16% | 4.3 | 4 |
-| 2 | Customisation and control | 7.1 | 11 | 4% | 2.1 | 4 |
-| 3 | Platforms, offline and mobile | 3.7 | 8 | 3% | 3.4 | 3 |
+| 1 | Teams and sharing | 16.5 | 50 | 16% | 4.3 | 6 |
+| 2 | Customisation and control | 8.5 | 17 | 6% | 3.3 | 6 |
+| 3 | Platforms, offline and mobile | 4.7 | 12 | 4% | 4.0 | 5 |
 | 4 | Wants Claude / MCP / LLM connection | 2.5 | 8 | 3% | 5.0 | 2 |
-| 5 | Weak mobile or tablet app | 2.1 | 6 | 2% | 4.2 | 2 |
+| 5 | Weak mobile or tablet app | 2.5 | 8 | 3% | 4.4 | 3 |
 
 **Teams and sharing**
 - "There isn’t a simple way to speak to an actual person and share your screen to solve problems quickly." (Trustpilot (usemotion.com), 1*) https://www.trustpilot.com/reviews/6917d7c22aa1150b2ced522e

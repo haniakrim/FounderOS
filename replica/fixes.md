@@ -4,11 +4,14 @@ Collected 2026-10-22. There was no single "original" app on record, so the targe
 
 ## Sample
 
-- **279 rows**: 166 Trustpilot reviews (Motion 100, Akiflow 40, Reclaim about 22, Sunsama 4) and 113 Hacker News comments. The comments come from the Algolia API and have no star rating.
-- **2 platforms, not 3.** The ranker counts each Trustpilot domain as a separate source; the true count is two platforms.
+- **309 rows across 3 platforms**:
+  - Trustpilot: 166 reviews (Motion 100, Akiflow 40, Reclaim about 22, Sunsama 4).
+  - G2: 30 reviews, page 1 of Motion, Akiflow and Reclaim (added 2026-10-22). G2 shows only page 1 without sign-in, and its Sunsama page rendered no reviews.
+  - Hacker News: 113 comments from the Algolia API, with no star rating.
+- The ranker counts each product page as a separate source. The true count is three platforms.
   - The App Store reviews RSS returned no entries for any of the three apps (checked 2026-10-22).
   - Reddit's public JSON API refused unauthenticated requests.
-  - Google Play, G2 and Capterra were not read.
+  - Google Play was not read. Capterra blocked the browser with a bot check.
 - Trustpilot skews to billing anger: people go there to complain about charges. Weigh the billing themes with that in mind.
 - One Motion-page review names "Motionly" and one names "Mootion AI". Trustpilot may be mixing up companies, so those two are weak evidence.
 - Full ranked output: `feedback.md`. Themes file: `themes.json`.
@@ -23,14 +26,17 @@ Collected 2026-10-22. There was no single "original" app on record, so the targe
 3. **Integrations that claim sync but are one-way or need workarounds.** About 61 matches, but many are generic HN mentions of "integration". The strong signal is about 6 Trustpilot reviews.
    - "Sync with ClickUp is not actually 2-way." (https://www.trustpilot.com/reviews/6ad63a3cc5c6b502d632d9a6)
    - "Two-way sync requires workarounds and third-party automation to function reliably." (https://www.trustpilot.com/reviews/69ac79587d01b477fb675059)
-4. **AI agents that feel bolted on, or hallucinate.** 10 reviews, **thin: one platform**.
+4. **AI agents that feel bolted on, or hallucinate.** 10 Trustpilot reviews plus G2. Now 2 platforms, still small.
+   - "The AI agents frequently generate irrelevant email replies or meaningless project" (https://www.g2.com/products/motionapp/reviews/motion-review-11700387)
    - "The AI hallucinates a lot and give you too many action items, things that you never discussed in a meeting." (https://www.trustpilot.com/reviews/6a26910eff12b1eb1f523be5)
    - "the ai agents are useless. (who was asking for them)?" (https://www.trustpilot.com/reviews/69415bf7d1a47c2e0e0a2329)
-5. **Overwhelming setup and too many features.** 9 reviews, 2 sources.
+5. **Overwhelming setup and too many features.** 10 reviews, now on all 3 platforms.
+   - "There are a lot of settings; it's more sophisticated than intuitive." (https://www.g2.com/products/reclaim-ai/reviews/reclaim-ai-review-12879002)
    - "it seems like it's a full-time job just adding data into the system." (https://www.trustpilot.com/reviews/69ef9198378ad51dce780029)
 6. **Cannot export or delete their own data.** 5 reviews, **thin**.
    - "No possible to delete your data after subscription is over" (https://www.trustpilot.com/reviews/69b6a6b4e1275d15464a1aaf)
-7. **Tools that write into your calendar without asking.** Reclaim only, **thin**.
+7. **Tools that write into your calendar without asking.** Reclaim only, on 2 platforms. **Thin.**
+   - "reclaim always creates the tasks on the main calendar" (https://www.g2.com/products/reclaim-ai/reviews/reclaim-ai-review-12345709)
    - "Added hundreds of focus time and lunches to my gcal (with no warning)" (https://www.trustpilot.com/reviews/6a91b9d0f830a480d32ef0f3)
 
 ## 2. What is missing
