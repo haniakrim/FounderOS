@@ -2311,6 +2311,8 @@ export function openDb(path: string) {
     cronRuns: cronRunsRepo(db),
     /** The live journal mode, read from SQLite (S10 FR-17), e.g. "wal". */
     journalMode: (): string => String(db.pragma('journal_mode', { simple: true }) ?? ''),
+    /** Consistent online snapshot into `dest` (better-sqlite3 backup API). */
+    backup: (dest: string) => db.backup(dest),
     close: () => db.close(),
   };
 }

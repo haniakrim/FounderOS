@@ -169,7 +169,8 @@ describe('platform smoke — every GET API route answers 200 with JSON', () => {
     // tests/tasks-metrics.test.ts.
     const IGNORE = new Set([
       'skills/[slug]', 'wizard/projects/[id]', 'whatsapp/avatar/[key]', 'whatsapp/media',
-      'tasks/export', 'creative-engine/campaigns/[id]', 'creative-engine/workflows/[id]',
+      // data/export streams a tar.gz and refuses in demo mode; covered in tests/data-export.test.ts
+      'data/export', 'tasks/export', 'creative-engine/campaigns/[id]', 'creative-engine/workflows/[id]',
       // 404s for an unknown workflow; covered in tests/workflow-versions.test.ts
       'workflows/[id]/versions',
       // 404s for an unknown workflow; covered in tests/creative-engine-workflow-run.test.ts

@@ -42,3 +42,15 @@ export function getDb(): GladosDb {
   }
   return instance;
 }
+
+/** Close and forget the singleton so the next getDb() reopens (and re-seeds) from disk. */
+export function resetDb(): void {
+  if (instance) {
+    try {
+      instance.close();
+    } catch {
+      /* already closed */
+    }
+  }
+  instance = null;
+}
