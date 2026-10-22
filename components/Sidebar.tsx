@@ -24,7 +24,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Mail } from 'lucide-react';
 import { activeHref, navTooltip } from '@/lib/nav';
 import { visibleGroups } from '@/lib/modules';
 import { useDigestUnread } from '@/components/comms-fo/useDigestUnread';
@@ -87,7 +87,7 @@ function paintedWidth(fallback: number): number {
   }
 }
 
-export function Sidebar({ brand, ui = 'classic', off = [] }: { brand: BrandMark; ui?: UiStyle; /** modules switched off in Settings (lib/modules.ts) */ off?: string[] }) {
+export function Sidebar({ brand, ui = 'classic', off = [], supportEmail = null }: { brand: BrandMark; ui?: UiStyle; /** modules switched off in Settings (lib/modules.ts) */ off?: string[]; /** MATCHCO_SUPPORT_EMAIL, resolved on the server; null = not configured */ supportEmail?: string | null }) {
   const g = useUiStyle(ui) === 'glados';
   // Bennett Legacy: FounderOS's lockup and footer strip; the same DOM and behaviour otherwise
   const legacy = useUiStyle(ui) === 'legacy';
@@ -458,6 +458,21 @@ export function Sidebar({ brand, ui = 'classic', off = [] }: { brand: BrandMark;
             ))}
           </div>
         </nav>
+        {!rail && (
+          <div className="os-side-support px-3 py-2 text-[12px] text-os-dim" data-testid="sidebar-support">
+            {supportEmail ? (
+              <a href={`mailto:${supportEmail}`} className="inline-flex items-center gap-1.5 hover:text-os-text">
+                <Mail aria-hidden size={13} strokeWidth={1.75} />
+                Write to the maker
+              </a>
+            ) : (
+              <Link href="/setup#support" className="inline-flex items-center gap-1.5 hover:text-os-text">
+                <Mail aria-hidden size={13} strokeWidth={1.75} />
+                Support: Not configured · Set up
+              </Link>
+            )}
+          </div>
+        )}
         {legacy && <LegacySideFoot />}
 
         {/* edge toggle (FR-7): rail ↔ last labelled width, same recipe as the Wizard dock's edge arrows */}

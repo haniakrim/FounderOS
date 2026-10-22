@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, test } from "vitest";
 import { openDb } from "@/lib/db";
-import { createRuntime } from "@/lib/agents/runtime";
+import { createRuntime, STATUS_CHECK_WHY } from "@/lib/agents/runtime";
 import { realAgents } from "@/lib/agents/real";
 import {
   NO_SOURCES_LABEL,
@@ -154,5 +154,33 @@ describe("calendar approval gate", () => {
     expect(src).not.toMatch(
       /\.(createEvent|insertEvent|updateEvent|deleteEvent)\b/,
     );
+  });
+});
+
+describe("status-check agents name what they read", () => {
+  const agent = (ok: boolean) => ({
+    id: "probe",
+    name: "Probe",
+    description: "",
+    departmentId: "d",
+    reads: ["IMAP inboxes"],
+    run: async () => ({ ok, summary: "3 unread" }),
+  });
+
+  test("a successful run with no provenance uses the agent's reads", async () => {
+    const run = await createRuntime(openDb(":memory:"), [agent(true)]).run("probe");
+    expect(run.sources).toEqual(["IMAP inboxes"]);
+    expect(run.why).toBe(STATUS_CHECK_WHY);
+  });
+
+  test("a failed run claims no sources", async () => {
+    const run = await createRuntime(openDb(":memory:"), [agent(false)]).run("probe");
+    expect(run.sources ?? []).toEqual([]);
+    expect(run.why ?? null).toBeNull();
+  });
+
+  test("every configured built-in agent declares what it reads", () => {
+    const missing = realAgents.filter((a) => a.configured?.() !== false && !a.reads?.length && !["deal-scanner", "deal-alerts", "team-briefing"].includes(a.id)).map((a) => a.id);
+    expect(missing).toEqual([]);
   });
 });

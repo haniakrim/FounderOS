@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { Sidebar } from '@/components/Sidebar';
+import { resolveSupportEmail } from '@/lib/creds';
 import { BRAND } from '@/lib/brand';
 import { Topbar } from '@/components/Topbar';
 import { CommandPalette } from '@/components/CommandPalette';
@@ -97,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* Bare routes (/login, lib/bare-routes.ts) render without the shell:
               ShellOnly drops the chrome and ShellColumn the shell margins. */}
           <ShellOnly>
-            <Sidebar brand={{ name: BRAND.name, mark: BRAND.mark }} ui={ui} off={off} />
+            <Sidebar brand={{ name: BRAND.name, mark: BRAND.mark }} ui={ui} off={off} supportEmail={resolveSupportEmail()} />
           </ShellOnly>
           {/* os-shell yields to the Wizard dock: the panel sets --conductor-w
               and the whole content column glides left instead of being covered.

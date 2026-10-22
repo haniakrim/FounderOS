@@ -130,6 +130,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'conductor',
     name: 'Wizard',
     description: 'Broadcast fan-out plus instance-host availability for future bindings.',
+    reads: ['Local service ports on this host'],
     departmentId: 'dept-tech',
     configured: () => true,
     async run() {
@@ -145,6 +146,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'data-agent',
     name: 'Optimal Engine',
     description: 'Retrieval over the brain store; answers broadcasts by querying it. Grep fallback until the engine CLI is installed.',
+    reads: ['Brain store (markdown on disk)', 'gbrain engine doctor'],
     departmentId: 'dept-tech',
     configured: gbrainInstalled,
     async run() {
@@ -190,6 +192,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'markdown-auditor',
     name: 'Markdown Auditor',
     description: 'Counts and sanity-checks the markdown pages in the brain store.',
+    reads: ['Brain store markdown pages'],
     departmentId: 'dept-tech',
     configured: gbrainInstalled,
     async run() {
@@ -205,6 +208,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'vector-auditor',
     name: 'Vector Auditor',
     description: 'Reports embedding coverage from the engine index.',
+    reads: ['gbrain engine index'],
     departmentId: 'dept-tech',
     configured: gbrainInstalled,
     async run() {
@@ -217,6 +221,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'notion-sync',
     name: 'Notion Sync',
     description: 'Mirrors Notion pages into the brain store.',
+    reads: ['Notion pages mirrored into the brain store'],
     departmentId: 'dept-tech',
     configured: () => envPresent('NOTION_API_KEY'),
     async run() {
@@ -229,6 +234,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'stack-monitor',
     name: 'Stack Monitor',
     description: 'Watches the local service ports and daemons on this host.',
+    reads: ['Local service ports and daemons on this host'],
     departmentId: 'dept-tech',
     configured: () => true,
     async run() {
@@ -240,6 +246,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'daily-briefing',
     name: 'Daily Briefing',
     description: 'Morning digest compiled from the brain and the day\'s inboxes.',
+    reads: ['brain/Automation folder', 'gsend binary'],
     departmentId: 'dept-comms',
     configured: () => automationDir() != null && fs.existsSync(gsendBin()),
     async run() {
@@ -260,6 +267,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'automation-jobs',
     name: 'Automation Jobs',
     description: 'Scheduled jobs registered with the host scheduler (launchd, cron or systemd).',
+    reads: ['brain/Automation folder', '~/Library/LaunchAgents'],
     departmentId: 'dept-comms',
     configured: () => automationDir() != null,
     async run() {
@@ -281,6 +289,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'comms-agent',
     name: 'Comms Agent',
     description: 'Unified feed over email and messaging inboxes.',
+    reads: ['IMAP inboxes', 'WhatsApp ChatStorage', 'Slack API'],
     departmentId: 'dept-comms',
     configured: () => envPresent('INBOX_1_USER', 'INBOX_1_PASS'),
     async run() {
@@ -294,13 +303,14 @@ export const realAgents: RuntimeAgent[] = [
       };
     },
   },
-  { id: 'gmail-worker', name: 'Email Worker', description: 'Unread counts and recent mail from the IMAP inboxes.', departmentId: 'dept-comms', configured: () => parseInboxConfigs(runtimeEnv()).length > 0, run: gmailRun },
-  { id: 'whatsapp-worker', name: 'WhatsApp Worker', description: 'Local WhatsApp ChatStorage, read-only.', departmentId: 'dept-comms', configured: () => true, run: whatsappRun },
-  { id: 'slack-worker', name: 'Slack Worker', description: 'Latest messages across joined Slack channels.', departmentId: 'dept-comms', configured: () => envPresent('SLACK_BOT_TOKEN'), run: slackRun },
+  { id: 'gmail-worker', reads: ['IMAP inboxes'], name: 'Email Worker', description: 'Unread counts and recent mail from the IMAP inboxes.', departmentId: 'dept-comms', configured: () => parseInboxConfigs(runtimeEnv()).length > 0, run: gmailRun },
+  { id: 'whatsapp-worker', reads: ['WhatsApp ChatStorage (local, read-only)'], name: 'WhatsApp Worker', description: 'Local WhatsApp ChatStorage, read-only.', departmentId: 'dept-comms', configured: () => true, run: whatsappRun },
+  { id: 'slack-worker', reads: ['Slack API (recent messages)'], name: 'Slack Worker', description: 'Latest messages across joined Slack channels.', departmentId: 'dept-comms', configured: () => envPresent('SLACK_BOT_TOKEN'), run: slackRun },
   {
     id: 'draft-approval-bot',
     name: 'Draft Approval Bot',
     description: 'Announces every outbound draft to a chat channel for a one-tap approve or skip.',
+    reads: ['Brand-deal daemon state file'],
     departmentId: 'dept-sales',
     configured: () => fs.existsSync(bdpilotState()),
     run: () => bdpilotStateRun('approval'),
@@ -309,6 +319,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'inbound-watcher',
     name: 'Inbound Watcher',
     description: 'Classifies new inbound mail into deal, support or noise.',
+    reads: ['Brand-deal daemon state file'],
     departmentId: 'dept-sales',
     configured: () => fs.existsSync(bdpilotState()),
     run: () => bdpilotStateRun('inbound'),
@@ -317,6 +328,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'brand-deal-drafter',
     name: 'Brand Deal Drafter',
     description: 'Drafts negotiation replies from your rate card and playbook. Draft-only; never sends.',
+    reads: ['claude CLI path', 'brand-deals playbook skill path'],
     departmentId: 'dept-marketing-growth',
     configured: () => probePaths(drafterRails()).missing.length === 0,
     async run() {
@@ -334,6 +346,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'gsend-sender',
     name: 'Verified Sender',
     description: 'The single sanctioned send path: only approved drafts leave, from a verified address.',
+    reads: ['gsend binary', 'gsend token file'],
     departmentId: 'dept-comms',
     configured: () => fs.existsSync(gsendBin()),
     async run() {
@@ -357,6 +370,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'sales-agent',
     name: 'Sales Agent',
     description: 'Owns the pipeline: stage moves, follow-ups and proposal reminders.',
+    reads: ['Attio CRM status', 'Brand-deal daemon state file'],
     departmentId: 'dept-sales',
     configured: () => envPresent('ATTIO_API_KEY') || fs.existsSync(bdpilotState()),
     async run() {
@@ -372,6 +386,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'crm-pulse',
     name: 'CRM Pulse',
     description: 'Reads the pipeline from your CRM. Read-only by default.',
+    reads: ['Attio CRM status'],
     departmentId: 'dept-sales',
     configured: () => envPresent('ATTIO_API_KEY'),
     async run() {
@@ -414,6 +429,7 @@ export const realAgents: RuntimeAgent[] = [
     id: 'adscout',
     name: 'Ad Scout',
     description: 'Ad intelligence: brand dossiers and creative signals from an ad library.',
+    reads: ['Foreplay ad library API'],
     departmentId: 'dept-marketing-growth',
     configured: () => envPresent('FOREPLAY_API_KEY'),
     async run() {

@@ -14,11 +14,16 @@ export type AgentRunResult = {
   sources?: string[];
 };
 
+/** The reason shown for a deterministic status check: it reports, it does not judge. */
+export const STATUS_CHECK_WHY = 'Status check: reports what its sources returned, no model involved.';
+
 export type RuntimeAgent = {
   id: string;
   name: string;
   description: string;
   departmentId: string;
+  /** What a status-check agent reads. Used as its sources when a run gives none. */
+  reads?: string[];
   run(): Promise<AgentRunResult>;
   /**
    * Cheap, synchronous: can this agent actually do its job on this host right
@@ -90,8 +95,8 @@ export function createRuntime(db: GladosDb, agents: RuntimeAgent[], opts: { pool
           finishedAt: new Date().toISOString(),
           ok: outcome.ok,
           summary: parsed.text,
-          why: structured.why ?? parsed.provenance.why,
-          sources: structured.sources.length ? structured.sources : parsed.provenance.sources,
+          why: structured.why ?? parsed.provenance.why ?? (agent.reads?.length && outcome.ok ? STATUS_CHECK_WHY : null),
+          sources: structured.sources.length ? structured.sources : parsed.provenance.sources.length ? parsed.provenance.sources : outcome.ok ? (agent.reads ?? []) : [],
         };
         db.agentRuns.insert(run);
         return run;
