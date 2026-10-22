@@ -20,6 +20,7 @@ import { isConfigured } from '@/lib/auth';
 import { SetupFilming } from '@/components/SetupFilming';
 import { dataDir, filmingMode } from '@/lib/paths';
 import { getModulesOff } from '@/lib/modules-server';
+import { YourData } from '@/components/setup/YourData';
 import { ModulesClassic, ModulesG } from '@/components/setup/Modules';
 
 export const runtime = 'nodejs';
@@ -60,6 +61,7 @@ export default async function SetupPage() {
           <GSectionHeader size={22} id="setup-modules" title="Modules" caption="Which pages this OS shows. A module that is off leaves the sidebar, search and number keys; its data is kept." />
           <ModulesG initialOff={getModulesOff()} />
         </section>
+        <YourData tree="glados" demo={filmingMode()} />
         <section className="kg-section" aria-label="Bring-up">
           <BringUpHero totals={setup.totals} firstOpen={firstOpen} />
         </section>
@@ -113,6 +115,8 @@ export default async function SetupPage() {
         </p>
         <ModulesClassic initialOff={getModulesOff()} />
       </section>
+
+      <YourData tree="classic" demo={filmingMode()} />
 
       {/* Progress: verified fills solid, marked-done fills dimmer — the split stays visible. */}
       <Label rule>Bring-up</Label>
