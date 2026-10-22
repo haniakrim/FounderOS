@@ -10,7 +10,7 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 |---|---|---|---|---|
 | Design system: Apple fluid pass | All fix batches applied and browser-checked on branch `design/fluid-pass` (2026-10-22); leftovers: Knowledge Graph remap hex, bar height and sidebar width transitions | 2026-10-22 | nothing: pushed to the operator's fork and merged to `main` there (2026-10-22) | `docs/projects/design-system/` |
 | Portable theme and design kit | Built 2026-10-21 at `~/Desktop/founderos-themes/` (outside the repo) and installed as the `founderos-themes` skill | 2026-10-21 | Operator review; the `SetupLink` default href decision | `docs/projects/design-system/` |
-| End-user manual | Manual, screenshots and PDF committed on `docs/user-manual` (0b8ea85, 8373fa9) | 2026-10-21 | Pushed to the fork 2026-10-22; operator OK to merge | `docs/user-manual/` |
+| End-user manual | Manual, screenshots and PDF committed on `docs/user-manual` (0b8ea85, 8373fa9) | 2026-10-21 | Merged to `main` (already contained) 2026-10-22 | `docs/user-manual/` |
 
 | Match & CO. rebrand and replica fixes | Rebrand (`lib/brand.ts`, mark, favicon), category review research (309 rows, `replica/`) and fixes F1-F7 shipped to `main` on the fork 2026-10-22 | 2026-10-22 | Operator: trademark/domain checks, palette decision, `MATCHCO_SUPPORT_EMAIL` | `replica/` |
 
@@ -31,7 +31,7 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [x] Browser check of the fluid pass at 1440 and 390, both modes
 - [x] Portable kit: tokens, fonts, appearance system and picker (Next.js, React, plain HTML)
 - [x] Portable kit: full GladOS, Classic and Legacy component kits with shells and specimens
-- [ ] ! Decide `SetupLink` default href in the Classic kit (`/setup` or `/integrations`)
+- [x] 2026-10-22: Classic kit `SetupLink` default href kept at `/setup` (generic apps; it is a prop, FounderOS passes `/integrations`)
 - [x] 2026-10-22: remotes switched: `origin` = haniakrim/FounderOS (fork), `upstream` = Bennettxai; all branches pushed, `design/fluid-pass` merged to fork `main`
 - [ ] Fix Legacy `Strip` clipping long values in narrow cards (portable kit)
 - [x] 2026-10-22: demo roadmap matched to the code: Statement ingestion done (`lib/statements.ts`, `/finances` upload), Auth + remote access now (login shipped, outside-network access open); unfinished Q3 items rolled into Q4
@@ -45,7 +45,7 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [x] 2026-10-22: Q4 code scope shipped; rm-auth, rm-postiz, rm-railway and rm-workers marked done, their operator steps split into four 2027-Q1 items (Q4 now 8/8)
 - [x] 2026-10-22: 2027-Q1 `rm-auth-live` done: Tailscale signed in (userspace daemon, state in ~/.local/state/tailscale), `tailscale serve` shares port 4100 on the tailnet, gate checked over HTTPS (307 / 200 / 200)
 - [x] 2026-10-22: 2027-Q1 `rm-postiz-live` done: local Postiz up on 127.0.0.1:4007, owner user created (credentials in gitignored `deploy/postiz/.owner`), keys in `.env.local`, `verify-postiz.mjs` PASS
-- [ ] ! 2027-Q1 `rm-railway-live`: Railway: install CLI, log in, OK to deploy (first public deploy), then `verify-railway.mjs` with RAILWAY_PASSWORD
+- [ ] 2027-Q1 `rm-railway-live`: CLI installed and logged in, deploy OK given 2026-10-22; blocked: Railway answered "Deploys have been paused due to an upstream issue" on `railway init`. Retry, then `verify-railway.mjs`
 - [ ] ! 2027-Q1 `rm-workers-live`: Gateway on the host for the worker pool: `/api/pool` reports AI_GATEWAY_API_KEY not set; set it at /integrations, then `node scripts/verify-workers.mjs`
 - [x] 2026-10-22: rebrand to Match & CO. (name, mark, favicon; internal ids kept)
 - [x] 2026-10-22: replica research: 309 rows across Trustpilot, G2, Hacker News; fix plan and angle in `replica/fixes.md`
