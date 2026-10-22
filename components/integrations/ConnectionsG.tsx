@@ -2,6 +2,8 @@ import type { ReactNode } from 'react';
 import { GButton, GCard, GSectionHeader, GTag } from '@/components/g';
 import { BrandLogo } from '@/lib/brand-logos';
 import { connectKeysFor, type CatalogEntry } from '@/lib/integrations-catalog';
+import { SyncIcon } from '@/components/SyncBadge';
+import { SYNC_DETAIL, SYNC_LABEL } from '@/lib/connectors/sync';
 import { ConnectFlowG } from './ConnectFlowG';
 
 /**
@@ -26,6 +28,11 @@ export function ConnectionCardG({ entry, guidance }: { entry: CatalogEntry; guid
           <span className="kg-cap kg-trunc" title={entry.tagline}>
             {entry.tagline}
           </span>
+          {entry.sync && (
+            <GTag size="xs" tone="outline" title={SYNC_DETAIL[entry.sync]}>
+              <SyncIcon sync={entry.sync} /> {SYNC_LABEL[entry.sync]}
+            </GTag>
+          )}
         </div>
       </div>
       {caps ? (
