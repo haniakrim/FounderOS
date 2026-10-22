@@ -19,6 +19,7 @@ import { Badge, Dot, SectionHead } from '@/components/terminal';
 import { failoverModelOptions } from '@/lib/agent-review';
 import type { DeptFilter } from '@/lib/agent-dept';
 import type { Agent, AgentCron, AgentMessage, AgentRun, AgentTask, Department, Skill } from '@/lib/schemas';
+import { RunProvenance } from '@/components/RunProvenance';
 
 function stop(e: MouseEvent | KeyboardEvent) {
   e.stopPropagation();
@@ -115,6 +116,7 @@ function AgentRosterCard({
             </span>
           </div>
         )}
+        {lastRun && <RunProvenance why={lastRun.why} sources={lastRun.sources} />}
         <div onClick={stop} onKeyDown={stop}>
           <AgentChat agentId={agent.id} agentName={agent.name} initialMessages={messages} />
           <AgentWorkPanel agentId={agent.id} initialTasks={tasks} initialCrons={crons} failover={{ agentName: agent.name, model: agent.model, options: modelOptions }} />

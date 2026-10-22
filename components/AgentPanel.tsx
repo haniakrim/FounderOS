@@ -12,6 +12,7 @@
 import { useEffect } from 'react';
 import { X } from 'lucide-react';
 import type { Agent, AgentRun, Department, Skill } from '@/lib/schemas';
+import { RunProvenance } from '@/components/RunProvenance';
 import { AgentAvatar } from '@/components/AgentAvatar';
 import { Badge, Dot } from '@/components/terminal';
 import { buildLogicRules, buildStepTree, connectedChips, resolveWorksWith } from '@/app/agents/panel-data';
@@ -185,10 +186,13 @@ export function AgentPanel({
                 <div className="text-[12.5px] text-os-dim">No runs recorded yet.</div>
               )}
               {runs.map((run) => (
-                <div key={run.id} className="flex items-center gap-3 text-[12.5px]">
-                  <Dot state={run.ok ? 'ok' : 'fail'} />
-                  <span className="shrink-0 font-mono text-[11px] text-os-dim">{relativeTime(run.startedAt)}</span>
-                  <span className="min-w-0 flex-1 truncate text-os-muted">{run.summary}</span>
+                <div key={run.id}>
+                  <div className="flex items-center gap-3 text-[12.5px]">
+                    <Dot state={run.ok ? 'ok' : 'fail'} />
+                    <span className="shrink-0 font-mono text-[11px] text-os-dim">{relativeTime(run.startedAt)}</span>
+                    <span className="min-w-0 flex-1 truncate text-os-muted">{run.summary}</span>
+                  </div>
+                  <RunProvenance why={run.why} sources={run.sources} />
                 </div>
               ))}
             </div>

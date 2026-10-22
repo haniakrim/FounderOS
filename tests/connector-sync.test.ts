@@ -53,7 +53,7 @@ describe("connector sync direction", () => {
         ).test(text);
         expect(defined, `${id}: ${w} defined`).toBe(true);
         expect(w, `${id}: ${w} reads as a write`).toMatch(
-          /^(send|create|launch|capture|update|post|push|write)/i,
+          /^(send|create|launch|capture|update|post|push|write|schedule)/i,
         );
       }
       // a real outbound call, not just a name

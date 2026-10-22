@@ -52,6 +52,7 @@ export const CONNECTOR_SYNC: Record<string, ConnectorSync> = {
   email: { sync: "two-way", files: ["email"], writes: ["sendEmailReply"] },
   calendar: { sync: "read", files: ["gcal"] },
   slack: { sync: "two-way", files: ["slack"], writes: ["sendSlackMessage"] },
+  postiz: { sync: "two-way", files: ["postiz"], writes: ["schedulePostizPost"] },
   payments: { sync: "read", files: ["payments"] },
   notion: { sync: "read", files: ["notion"] },
   robinhood: { sync: "webhook-in", files: ["robinhood"] },

@@ -3,8 +3,16 @@ import type { GladosDb } from '@/lib/db';
 import type { LlmToolSpec } from '@/lib/connectors/llm';
 import type { AgentRun, Broadcast } from '@/lib/schemas';
 import { getWorkerPool, type WorkerPool } from '@/lib/worker-pool';
+import { normalizeProvenance, parseProvenance } from '@/lib/agents/provenance';
 
-export type AgentRunResult = { ok: boolean; summary: string; data?: unknown };
+export type AgentRunResult = {
+  ok: boolean;
+  summary: string;
+  data?: unknown;
+  /** Optional provenance: why this result, and what was read to get it. */
+  why?: string;
+  sources?: string[];
+};
 
 export type RuntimeAgent = {
   id: string;
@@ -57,6 +65,7 @@ export function createRuntime(db: GladosDb, agents: RuntimeAgent[], opts: { pool
       const agent = registry.get(id);
       if (!agent) throw new Error(`unknown agent: ${id}`);
       const startedAt = new Date().toISOString();
+      let given: AgentRunResult | undefined;
       const handle = pool.submit({
         kind: 'run',
         agentId: id,
@@ -64,16 +73,25 @@ export function createRuntime(db: GladosDb, agents: RuntimeAgent[], opts: { pool
         seat: seatOf(id),
         source: o.source ?? 'runtime',
         storedModel: storedModel(id),
-        exec: () => agent.run(),
+        exec: async () => {
+          given = await agent.run();
+          return given;
+        },
       });
       const done = handle.done.then((outcome) => {
+        // Structured fields win; otherwise a fenced provenance block in the summary is
+        // parsed (and stripped). Missing stays missing: the UI says "No sources given".
+        const parsed = parseProvenance(outcome.summary);
+        const structured = normalizeProvenance({ why: given?.why, sources: given?.sources });
         const run: AgentRun = {
           id: outcome.id,
           agentId: id,
           startedAt,
           finishedAt: new Date().toISOString(),
           ok: outcome.ok,
-          summary: outcome.summary,
+          summary: parsed.text,
+          why: structured.why ?? parsed.provenance.why,
+          sources: structured.sources.length ? structured.sources : parsed.provenance.sources,
         };
         db.agentRuns.insert(run);
         return run;
