@@ -21,22 +21,32 @@ import { SetupFilming } from '@/components/SetupFilming';
 import { dataDir, filmingMode } from '@/lib/paths';
 import { getModulesOff } from '@/lib/modules-server';
 import { YourData } from '@/components/setup/YourData';
+import { SoloPath } from '@/components/setup/SoloPath';
+import { SupportContact } from '@/components/SupportContact';
+import { resolveSupportEmail } from '@/lib/creds';
 import { ModulesClassic, ModulesG } from '@/components/setup/Modules';
 
-export const runtime = 'nodejs';
-export const dynamic = 'force-dynamic';
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 export default async function SetupPage() {
   const setup = await buildSystemSetup(getDb());
   const keys = new Map(listKeyStatuses().map((k) => [k.envVar, k]));
   const done = setup.totals.verified + setup.totals.marked;
   const pct = setup.totals.total > 0 ? done / setup.totals.total : 0;
-  const filmingPinned = Boolean(process.env.GLADOS_DATA_DIR) || process.env.DEMO_MODE === '0' || process.env.DEMO_MODE === '1';
+  const filmingPinned =
+    Boolean(process.env.GLADOS_DATA_DIR) ||
+    process.env.DEMO_MODE === "0" ||
+    process.env.DEMO_MODE === "1";
 
   // Two trees, one data fetch (glados-ui SPEC X5, S05 F05.90 to F05.95).
-  if (treeFor(getAppearance(), '/setup') === 'glados') {
-    const keyState = Object.fromEntries([...keys].map(([k, v]) => [k, { present: v.present, masked: v.masked }]));
-    const firstOpen = setup.phases.flatMap((p) => p.steps).find((s) => s.status === 'open')?.id ?? null;
+  if (treeFor(getAppearance(), "/setup") === "glados") {
+    const keyState = Object.fromEntries(
+      [...keys].map(([k, v]) => [k, { present: v.present, masked: v.masked }]),
+    );
+    const firstOpen =
+      setup.phases.flatMap((p) => p.steps).find((s) => s.status === "open")
+        ?.id ?? null;
     return (
       <GPage className="kg-page kg-narrow">
         <GSectionHeader
@@ -46,19 +56,39 @@ export default async function SetupPage() {
           action={
             <AboutButton>
               <p>
-                Everything auto-checked here reads the same live sources as the rest of the OS — keys, connector probes, agent
-                status, files on disk. Only the five human steps have boxes to tick. If a step looks done but is not verified,
-                the wiring is not actually proven yet.
+                Everything auto-checked here reads the same live sources as the
+                rest of the OS — keys, connector probes, agent status, files on
+                disk. Only the five human steps have boxes to tick. If a step
+                looks done but is not verified, the wiring is not actually
+                proven yet.
               </p>
+              <SupportContact email={resolveSupportEmail()} />
             </AboutButton>
           }
         />
         <section className="kg-section" aria-labelledby="setup-appearance">
-          <GSectionHeader size={22} id="setup-appearance" title="Appearance" caption="How every page looks. Changes apply immediately." />
-          <AppearancePicker initial={getStoredAppearance()} rollout={rolloutProgress()} />
+          <GSectionHeader
+            size={22}
+            id="setup-appearance"
+            title="Appearance"
+            caption="How every page looks. Changes apply immediately."
+          />
+          <AppearancePicker
+            initial={getStoredAppearance()}
+            rollout={rolloutProgress()}
+          />
         </section>
-        <section className="kg-section" id="modules" aria-labelledby="setup-modules">
-          <GSectionHeader size={22} id="setup-modules" title="Modules" caption="Which pages this OS shows. A module that is off leaves the sidebar, search and number keys; its data is kept." />
+        <section
+          className="kg-section"
+          id="modules"
+          aria-labelledby="setup-modules"
+        >
+          <GSectionHeader
+            size={22}
+            id="setup-modules"
+            title="Modules"
+            caption="Which pages this OS shows. A module that is off leaves the sidebar, search and number keys; its data is kept."
+          />
           <ModulesG initialOff={getModulesOff()} />
         </section>
         <YourData tree="glados" demo={filmingMode()} />
@@ -70,17 +100,31 @@ export default async function SetupPage() {
             title="Recording"
             caption="Point the OS at the sample dataset for filming. Only the directory the stores read changes; real data is never seeded over or copied."
           >
-            <FilmingG filming={filmingMode()} pinned={filmingPinned} dataDir={dataDir()} />
+            <FilmingG
+              filming={filmingMode()}
+              pinned={filmingPinned}
+              dataDir={dataDir()}
+            />
           </SettingCard>
-          <SettingCard title="Security" caption="Who can open this OS. Without a password it answers only on this machine.">
+          <SettingCard
+            title="Security"
+            caption="Who can open this OS. Without a password it answers only on this machine."
+          >
             <SecurityG configured={isConfigured()} />
           </SettingCard>
         </div>
-        <div className="kg-section kg-stack">
-          {setup.phases.map((phase) => (
-            <PhaseCard key={phase.n} phase={phase} keys={keyState} />
-          ))}
+        <div className="kg-section">
+          <SoloPath setup={setup}>
+            <div className="kg-stack">
+              {setup.phases.map((phase) => (
+                <PhaseCard key={phase.n} phase={phase} keys={keyState} />
+              ))}
+            </div>
+          </SoloPath>
         </div>
+        <section className="kg-section" id="support">
+          <SupportContact email={resolveSupportEmail()} />
+        </section>
       </GPage>
     );
   }
@@ -94,7 +138,9 @@ export default async function SetupPage() {
           <div className="flex items-center gap-3">
             <Badge tone="accent">{setup.totals.verified} verified</Badge>
             <Badge tone="default">{setup.totals.marked} marked done</Badge>
-            <Badge tone={setup.totals.open > 0 ? 'warn' : 'ok'}>{setup.totals.open} open</Badge>
+            <Badge tone={setup.totals.open > 0 ? "warn" : "ok"}>
+              {setup.totals.open} open
+            </Badge>
           </div>
         }
       />
@@ -103,15 +149,21 @@ export default async function SetupPage() {
           applied the moment they are picked and kept per browser (S00 FR-13). */}
       <section className="mb-10 max-w-[860px]">
         <Label rule>Appearance</Label>
-        <p className="mb-3 mt-2 text-[12.5px] text-os-dim">How every page looks. Changes apply immediately.</p>
-        <AppearancePicker initial={getStoredAppearance()} rollout={rolloutProgress()} />
+        <p className="mb-3 mt-2 text-[12.5px] text-os-dim">
+          How every page looks. Changes apply immediately.
+        </p>
+        <AppearancePicker
+          initial={getStoredAppearance()}
+          rollout={rolloutProgress()}
+        />
       </section>
 
       {/* Modules: which sidebar views this install shows (lib/modules.ts). */}
       <section id="modules" className="mb-10 max-w-[860px]">
         <Label rule>Modules</Label>
         <p className="mb-3 mt-2 text-[12.5px] text-os-dim">
-          Which pages this OS shows. A module that is off leaves the sidebar, search and number keys; its data is kept.
+          Which pages this OS shows. A module that is off leaves the sidebar,
+          search and number keys; its data is kept.
         </p>
         <ModulesClassic initialOff={getModulesOff()} />
       </section>
@@ -124,13 +176,29 @@ export default async function SetupPage() {
         <span className="text-[12.5px] tabular-nums text-os-muted">
           {done} of {setup.totals.total} steps done
         </span>
-        <span className="text-[12.5px] tabular-nums text-os-dim">{Math.round(pct * 100)}%</span>
+        <span className="text-[12.5px] tabular-nums text-os-dim">
+          {Math.round(pct * 100)}%
+        </span>
       </div>
-      <div className="mb-10 flex h-[10px] overflow-hidden rounded-full" style={{ background: 'color-mix(in oklab, var(--text) 8%, transparent)' }}>
-        <div className="h-full" style={{ width: `${(setup.totals.verified / setup.totals.total) * 100}%`, background: 'var(--accent)' }} />
+      <div
+        className="mb-10 flex h-[10px] overflow-hidden rounded-full"
+        style={{
+          background: "color-mix(in oklab, var(--text) 8%, transparent)",
+        }}
+      >
         <div
           className="h-full"
-          style={{ width: `${(setup.totals.marked / setup.totals.total) * 100}%`, background: 'color-mix(in oklab, var(--accent) 40%, transparent)' }}
+          style={{
+            width: `${(setup.totals.verified / setup.totals.total) * 100}%`,
+            background: "var(--accent)",
+          }}
+        />
+        <div
+          className="h-full"
+          style={{
+            width: `${(setup.totals.marked / setup.totals.total) * 100}%`,
+            background: "color-mix(in oklab, var(--accent) 40%, transparent)",
+          }}
         />
       </div>
 
@@ -138,12 +206,17 @@ export default async function SetupPage() {
       <section className="mb-10 max-w-[860px]">
         <Label rule>Recording</Label>
         <p className="mb-3 mt-2 text-[12.5px] text-os-dim">
-          Point the OS at the sample dataset for filming. This only changes which directory the stores read; your real
-          data is never seeded over or copied.
+          Point the OS at the sample dataset for filming. This only changes
+          which directory the stores read; your real data is never seeded over
+          or copied.
         </p>
         <SetupFilming
           filming={filmingMode()}
-          pinned={Boolean(process.env.GLADOS_DATA_DIR) || process.env.DEMO_MODE === '0' || process.env.DEMO_MODE === '1'}
+          pinned={
+            Boolean(process.env.GLADOS_DATA_DIR) ||
+            process.env.DEMO_MODE === "0" ||
+            process.env.DEMO_MODE === "1"
+          }
           dataDir={dataDir()}
         />
       </section>
@@ -152,85 +225,124 @@ export default async function SetupPage() {
       <section className="mb-10 max-w-[860px]">
         <Label rule>Security</Label>
         <p className="mb-3 mt-2 text-[12.5px] text-os-dim">
-          Who can open this OS. Without a password it answers only on this machine; with one, every device signs in.
+          Who can open this OS. Without a password it answers only on this
+          machine; with one, every device signs in.
         </p>
         <SetupSecurity configured={isConfigured()} />
       </section>
 
-      <div className="max-w-[860px] space-y-10">
-        {setup.phases.map((phase) => {
-          const phaseDone = phase.steps.filter((s) => s.status !== 'open').length;
-          return (
-            <section key={phase.n}>
-              <Label rule count={`${phaseDone}/${phase.steps.length}`}>
-                Phase {phase.n} · {phase.title}
-              </Label>
-              <p className="mb-4 mt-2 text-[12.5px] text-os-dim">{phase.blurb}</p>
-              <div className="space-y-3">
-                {phase.steps.map((step) => (
-                  <div
-                    key={step.id}
-                    className="rounded-lg-t border bg-os-surface px-5 py-4"
-                    style={{
-                      borderColor:
-                        step.status === 'verified'
-                          ? 'color-mix(in oklab, var(--accent) 30%, var(--border))'
-                          : 'var(--border)',
-                      opacity: step.status === 'verified' ? 0.85 : 1,
-                    }}
-                  >
-                    <div className="flex flex-wrap items-center gap-3">
-                      {step.status === 'verified' ? (
-                        <CheckCircle2 size={16} strokeWidth={1.8} className="shrink-0 text-os-accent" />
-                      ) : step.status === 'marked' ? (
-                        <CheckCircle2 size={16} strokeWidth={1.8} className="shrink-0 text-os-muted" />
-                      ) : (
-                        <CircleDashed size={16} strokeWidth={1.8} className="shrink-0 text-os-dim" />
-                      )}
-                      <span className="text-[13.5px] font-medium">{step.title}</span>
-                      {step.auto ? (
-                        <span className="text-[11.5px] text-os-dim">
-                          {step.status === 'verified' ? 'auto-verified' : 'auto-checks'}
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-[11.5px] text-os-dim">
-                          <UserRound size={11} strokeWidth={1.7} /> yours to confirm
-                        </span>
-                      )}
-                      <span className="ml-auto flex items-center gap-2.5">
-                        {!step.auto && <SetupManualCheck id={step.id} marked={step.status === 'marked'} />}
-                        {step.href && (
-                          <Link
-                            href={step.href}
-                            className="inline-flex items-center gap-1 text-[12.5px] text-os-dim transition-colors hover:text-os-text"
-                          >
-                            open <ExternalLink size={11} strokeWidth={1.8} />
-                          </Link>
+      <div className="max-w-[860px]">
+        <SoloPath setup={setup}>
+          <div className="space-y-10">
+            {setup.phases.map((phase) => {
+              const phaseDone = phase.steps.filter(
+                (s) => s.status !== "open",
+              ).length;
+              return (
+                <section key={phase.n}>
+                  <Label rule count={`${phaseDone}/${phase.steps.length}`}>
+                    Phase {phase.n} · {phase.title}
+                  </Label>
+                  <p className="mb-4 mt-2 text-[12.5px] text-os-dim">
+                    {phase.blurb}
+                  </p>
+                  <div className="space-y-3">
+                    {phase.steps.map((step) => (
+                      <div
+                        key={step.id}
+                        className="rounded-lg-t border bg-os-surface px-5 py-4"
+                        style={{
+                          borderColor:
+                            step.status === "verified"
+                              ? "color-mix(in oklab, var(--accent) 30%, var(--border))"
+                              : "var(--border)",
+                          opacity: step.status === "verified" ? 0.85 : 1,
+                        }}
+                      >
+                        <div className="flex flex-wrap items-center gap-3">
+                          {step.status === "verified" ? (
+                            <CheckCircle2
+                              size={16}
+                              strokeWidth={1.8}
+                              className="shrink-0 text-os-accent"
+                            />
+                          ) : step.status === "marked" ? (
+                            <CheckCircle2
+                              size={16}
+                              strokeWidth={1.8}
+                              className="shrink-0 text-os-muted"
+                            />
+                          ) : (
+                            <CircleDashed
+                              size={16}
+                              strokeWidth={1.8}
+                              className="shrink-0 text-os-dim"
+                            />
+                          )}
+                          <span className="text-[13.5px] font-medium">
+                            {step.title}
+                          </span>
+                          {step.auto ? (
+                            <span className="text-[11.5px] text-os-dim">
+                              {step.status === "verified"
+                                ? "auto-verified"
+                                : "auto-checks"}
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1 text-[11.5px] text-os-dim">
+                              <UserRound size={11} strokeWidth={1.7} /> yours to
+                              confirm
+                            </span>
+                          )}
+                          <span className="ml-auto flex items-center gap-2.5">
+                            {!step.auto && (
+                              <SetupManualCheck
+                                id={step.id}
+                                marked={step.status === "marked"}
+                              />
+                            )}
+                            {step.href && (
+                              <Link
+                                href={step.href}
+                                className="inline-flex items-center gap-1 text-[12.5px] text-os-dim transition-colors hover:text-os-text"
+                              >
+                                open{" "}
+                                <ExternalLink size={11} strokeWidth={1.8} />
+                              </Link>
+                            )}
+                          </span>
+                        </div>
+                        <p className="mt-1.5 pl-[28px] text-[12.5px] leading-relaxed text-os-muted [overflow-wrap:anywhere]">
+                          {step.detail}
+                        </p>
+                        {step.envVar && step.status === "open" && (
+                          <div className="mt-3 pl-[28px]">
+                            <SetupKeyInput
+                              envVar={step.envVar}
+                              present={keys.get(step.envVar)?.present ?? false}
+                              masked={keys.get(step.envVar)?.masked ?? ""}
+                            />
+                          </div>
                         )}
-                      </span>
-                    </div>
-                    <p className="mt-1.5 pl-[28px] text-[12.5px] leading-relaxed text-os-muted [overflow-wrap:anywhere]">{step.detail}</p>
-                    {step.envVar && step.status === 'open' && (
-                      <div className="mt-3 pl-[28px]">
-                        <SetupKeyInput
-                          envVar={step.envVar}
-                          present={keys.get(step.envVar)?.present ?? false}
-                          masked={keys.get(step.envVar)?.masked ?? ''}
-                        />
                       </div>
-                    )}
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
-          );
-        })}
+                </section>
+              );
+            })}
+          </div>
+        </SoloPath>
       </div>
 
+      <section id="support" className="mt-10">
+        <SupportContact email={resolveSupportEmail()} />
+      </section>
+
       <p className="mt-10 max-w-[860px] text-[12.5px] leading-relaxed text-os-dim">
-        Everything auto-checked here reads the same live sources as the rest of the OS — keys, connector probes, agent
-        status, files on disk. Only the five human steps have boxes to tick. If a step looks done but is not verified,
-        the wiring is not actually proven yet.
+        Everything auto-checked here reads the same live sources as the rest of
+        the OS — keys, connector probes, agent status, files on disk. Only the
+        five human steps have boxes to tick. If a step looks done but is not
+        verified, the wiring is not actually proven yet.
       </p>
     </div>
   );

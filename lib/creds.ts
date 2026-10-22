@@ -1,7 +1,11 @@
-import fs from 'node:fs';
-import os from 'node:os';
-import path from 'node:path';
-import { BRAIN_SWR_PREFIX, CONNECTORS_SWR_PREFIX, invalidateSwr } from '@/lib/swr';
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import {
+  BRAIN_SWR_PREFIX,
+  CONNECTORS_SWR_PREFIX,
+  invalidateSwr,
+} from "@/lib/swr";
 
 /**
  * Credential resolution for connectors. the operator's keys already live in
@@ -13,11 +17,11 @@ import { BRAIN_SWR_PREFIX, CONNECTORS_SWR_PREFIX, invalidateSwr } from '@/lib/sw
 
 export function parseEnvFile(content: string): Record<string, string> {
   const out: Record<string, string> = {};
-  for (const raw of content.split('\n')) {
+  for (const raw of content.split("\n")) {
     const line = raw.trim();
-    if (!line || line.startsWith('#')) continue;
-    const stripped = line.startsWith('export ') ? line.slice(7) : line;
-    const eq = stripped.indexOf('=');
+    if (!line || line.startsWith("#")) continue;
+    const stripped = line.startsWith("export ") ? line.slice(7) : line;
+    const eq = stripped.indexOf("=");
     if (eq <= 0) continue;
     const key = stripped.slice(0, eq).trim();
     if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(key)) continue;
@@ -33,26 +37,39 @@ export function parseEnvFile(content: string): Record<string, string> {
   return out;
 }
 
-export function extractMcpEnvKey(claudeJson: unknown, server: string, key: string): string | undefined {
-  const servers = (claudeJson as { mcpServers?: Record<string, { env?: Record<string, string> }> })
-    ?.mcpServers;
+export function extractMcpEnvKey(
+  claudeJson: unknown,
+  server: string,
+  key: string,
+): string | undefined {
+  const servers = (
+    claudeJson as {
+      mcpServers?: Record<string, { env?: Record<string, string> }>;
+    }
+  )?.mcpServers;
   return servers?.[server]?.env?.[key];
 }
 
 const HOME = os.homedir();
 
 export const CRED_FILES = {
-  socialMedia: path.join(HOME, '.config/social', '.env'),
-  agentsEnv: path.join(HOME, 'knowledge', '.env.agents'),
-  arcads: path.join(HOME, 'Projects', 'arcads-agent-skills', '.env'),
+  socialMedia: path.join(HOME, ".config/social", ".env"),
+  agentsEnv: path.join(HOME, "knowledge", ".env.agents"),
+  arcads: path.join(HOME, "Projects", "arcads-agent-skills", ".env"),
   /** the arcads-claude-code reference project keeps the same key; read when the skills file is absent */
-  arcadsReference: path.join(HOME, 'Desktop', 'PROJECTS', 'arcads-claude-code', '.env'),
-  claudeJson: path.join(HOME, '.config/mcp.json'),
+  arcadsReference: path.join(
+    HOME,
+    "Desktop",
+    "PROJECTS",
+    "arcads-claude-code",
+    ".env",
+  ),
+  claudeJson: path.join(HOME, ".config/mcp.json"),
 };
 
 function readEnvFileSafe(filePath: string): Record<string, string> {
   try {
-    return parseEnvFile(fs.readFileSync(filePath, 'utf8'));
+    return parseEnvFile(fs.readFileSync(filePath, "utf8"));
   } catch {
     return {};
   }
@@ -66,7 +83,7 @@ function readEnvFileSafe(filePath: string): Record<string, string> {
  * the path for tests. */
 
 export function envLocalPath(): string {
-  return process.env.GLADOS_ENV_LOCAL ?? path.join(process.cwd(), '.env.local');
+  return process.env.GLADOS_ENV_LOCAL ?? path.join(process.cwd(), ".env.local");
 }
 
 export function readEnvLocal(): Record<string, string> {
@@ -76,16 +93,20 @@ export function readEnvLocal(): Record<string, string> {
 /** Update or append KEY=value lines, preserving every unrelated line verbatim. */
 export function upsertEnvLocal(values: Record<string, string>): void {
   const file = envLocalPath();
-  let raw = '';
+  let raw = "";
   try {
-    raw = fs.readFileSync(file, 'utf8');
+    raw = fs.readFileSync(file, "utf8");
   } catch {
-    raw = '';
+    raw = "";
   }
-  const lines = raw.length > 0 ? raw.split('\n') : [];
+  const lines = raw.length > 0 ? raw.split("\n") : [];
   const pending = new Map(Object.entries(values));
   const next = lines.map((line) => {
-    const key = line.trim().replace(/^export /, '').split('=')[0]?.trim();
+    const key = line
+      .trim()
+      .replace(/^export /, "")
+      .split("=")[0]
+      ?.trim();
     if (key && pending.has(key)) {
       const v = pending.get(key)!;
       pending.delete(key);
@@ -93,9 +114,9 @@ export function upsertEnvLocal(values: Record<string, string>): void {
     }
     return line;
   });
-  while (next.length > 0 && next[next.length - 1] === '') next.pop();
+  while (next.length > 0 && next[next.length - 1] === "") next.pop();
   for (const [key, v] of pending) next.push(`${key}=${v}`);
-  fs.writeFileSync(file, next.join('\n') + '\n', { mode: 0o600 });
+  fs.writeFileSync(file, next.join("\n") + "\n", { mode: 0o600 });
   // A key changed: the next render checks connectors (and the brain) for real (lib/swr.ts).
   invalidateSwr(CONNECTORS_SWR_PREFIX);
   invalidateSwr(BRAIN_SWR_PREFIX);
@@ -104,17 +125,24 @@ export function upsertEnvLocal(values: Record<string, string>): void {
 /** Drop the named keys; every other line stays byte-identical. */
 export function removeEnvLocal(keys: string[]): void {
   const file = envLocalPath();
-  let raw = '';
+  let raw = "";
   try {
-    raw = fs.readFileSync(file, 'utf8');
+    raw = fs.readFileSync(file, "utf8");
   } catch {
     return;
   }
   const drop = new Set(keys);
-  const next = raw
-    .split('\n')
-    .filter((line) => !drop.has(line.trim().replace(/^export /, '').split('=')[0]?.trim() ?? ''));
-  fs.writeFileSync(file, next.join('\n'), { mode: 0o600 });
+  const next = raw.split("\n").filter(
+    (line) =>
+      !drop.has(
+        line
+          .trim()
+          .replace(/^export /, "")
+          .split("=")[0]
+          ?.trim() ?? "",
+      ),
+  );
+  fs.writeFileSync(file, next.join("\n"), { mode: 0o600 });
   invalidateSwr(CONNECTORS_SWR_PREFIX);
   invalidateSwr(BRAIN_SWR_PREFIX);
 }
@@ -132,7 +160,8 @@ export function runtimeEnv(): Record<string, string | undefined> {
  *  is how an operator disables a connector without deleting a shared file. */
 export function resolveCred(name: string, files: string[]): string | undefined {
   const local = readEnvLocal();
-  if (Object.prototype.hasOwnProperty.call(local, name)) return local[name].trim() ? local[name] : undefined;
+  if (Object.prototype.hasOwnProperty.call(local, name))
+    return local[name].trim() ? local[name] : undefined;
   const fromEnv = process.env[name];
   if (fromEnv !== undefined) return fromEnv.trim() ? fromEnv : undefined;
   for (const file of files) {
@@ -150,11 +179,14 @@ export function resolveCred(name: string, files: string[]): string | undefined {
  */
 function resolveMcpKey(name: string, server: string): string | undefined {
   const local = readEnvLocal();
-  if (Object.prototype.hasOwnProperty.call(local, name)) return local[name].trim() ? local[name] : undefined;
+  if (Object.prototype.hasOwnProperty.call(local, name))
+    return local[name].trim() ? local[name] : undefined;
   const fromEnv = process.env[name];
   if (fromEnv !== undefined) return fromEnv.trim() ? fromEnv : undefined;
   try {
-    const claudeJson = JSON.parse(fs.readFileSync(CRED_FILES.claudeJson, 'utf8'));
+    const claudeJson = JSON.parse(
+      fs.readFileSync(CRED_FILES.claudeJson, "utf8"),
+    );
     return extractMcpEnvKey(claudeJson, server, name) || undefined;
   } catch {
     return undefined;
@@ -163,13 +195,13 @@ function resolveMcpKey(name: string, server: string): string | undefined {
 
 /** Attio's key: .env.local / process.env, else the attio MCP registration (resolveMcpKey). */
 export function resolveAttioKey(): string | undefined {
-  return resolveMcpKey('ATTIO_API_KEY', 'attio');
+  return resolveMcpKey("ATTIO_API_KEY", "attio");
 }
 
 /** ManyChat's key lives in ~/.config/mcp.json (the manychat MCP registration),
  *  same reuse pattern as Attio. .env.local / process.env still win. */
 export function resolveManychatKey(): string | undefined {
-  return resolveMcpKey('MANYCHAT_API_KEY', 'manychat');
+  return resolveMcpKey("MANYCHAT_API_KEY", "manychat");
 }
 
 /** An absolute http(s) URL, or null. Anything else (empty, relative,
@@ -180,7 +212,9 @@ export function safeHttpUrl(raw: string | null | undefined): string | null {
   if (!value) return null;
   try {
     const url = new URL(value);
-    return url.protocol === 'https:' || url.protocol === 'http:' ? url.toString() : null;
+    return url.protocol === "https:" || url.protocol === "http:"
+      ? url.toString()
+      : null;
   } catch {
     return null;
   }
@@ -191,5 +225,18 @@ export function safeHttpUrl(raw: string | null | undefined): string | null {
  *  the link instead of rendering a dead one. Fresh .env.local wins, as for
  *  every other key. */
 export function resolveBdpilotBotUrl(): string | null {
-  return safeHttpUrl(readEnvLocal().BDPILOT_BOT_URL || process.env.BDPILOT_BOT_URL);
+  return safeHttpUrl(
+    readEnvLocal().BDPILOT_BOT_URL || process.env.BDPILOT_BOT_URL,
+  );
+}
+
+/** Human support address for "Write to the maker" (MATCHCO_SUPPORT_EMAIL).
+ *  Null when unset or not a plain address, so the UI shows Not configured. */
+export function resolveSupportEmail(): string | null {
+  const v = (
+    readEnvLocal().MATCHCO_SUPPORT_EMAIL ||
+    process.env.MATCHCO_SUPPORT_EMAIL ||
+    ""
+  ).trim();
+  return /^[^\s@<>,;]+@[^\s@<>,;]+\.[^\s@<>,;]+$/.test(v) ? v : null;
 }
