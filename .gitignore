@@ -52,3 +52,4 @@ brag-output*/
 /.claude/skills/**/references/evidence-*.md
 /.claude/skills/*/.ledger.jsonl
 /.claude/skills/*/.sidecar.json*
+.glados-password

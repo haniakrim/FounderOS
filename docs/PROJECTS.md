@@ -41,7 +41,7 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [x] 2026-10-22: Q4 closeout checks added and run: `pnpm docker:smoke` (Railway image, login), `scripts/verify-workers.mjs`, `scripts/verify-remote.mjs`, roadmap synced
 - [x] 2026-10-22: Postiz compose file added (`deploy/postiz`); config validated, stack not started
 - [x] 2026-10-22: Q4 code scope shipped; rm-auth, rm-postiz, rm-railway and rm-workers marked done, their operator steps split into four 2027-Q1 items (Q4 now 8/8)
-- [ ] ! 2027-Q1 `rm-auth-live`: Tailscale: `sudo brew services start tailscale`, `tailscale up`, then `node scripts/verify-remote.mjs` and the Remote access card commands
+- [x] 2026-10-22: 2027-Q1 `rm-auth-live` done: Tailscale signed in (userspace daemon, state in ~/.local/state/tailscale), `tailscale serve` shares port 4100 on the tailnet, gate checked over HTTPS (307 / 200 / 200)
 - [x] 2026-10-22: 2027-Q1 `rm-postiz-live` done: local Postiz up on 127.0.0.1:4007, owner user created (credentials in gitignored `deploy/postiz/.owner`), keys in `.env.local`, `verify-postiz.mjs` PASS
 - [ ] ! 2027-Q1 `rm-railway-live`: Railway: install CLI, log in, OK to deploy (first public deploy), then `verify-railway.mjs` with RAILWAY_PASSWORD
 - [ ] ! 2027-Q1 `rm-workers-live`: Gateway on the host for the worker pool: `/api/pool` reports AI_GATEWAY_API_KEY not set; set it at /integrations, then `node scripts/verify-workers.mjs`
