@@ -1,0 +1,8 @@
+id,feature,priority,original,status,notes
+F1,Honest billing: monthly default, renewal email, one-click cancel,must,no,todo,replica-launch
+F2,Full data export and delete-all,must,no,todo,replica-backend
+F3,Connector sync-direction badge,should,no,todo,replica-build
+F4,Agents show sources and why; calendar writes need approval,should,no,todo,replica-build
+F5,MCP server for Claude,should,no,todo,replica-backend
+F6,Solo-first setup path,should,no,todo,replica-build
+F7,Human support link,could,no,todo,replica-launch
