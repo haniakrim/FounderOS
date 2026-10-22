@@ -16,10 +16,12 @@
     "adscout": "tsx scripts/adscout.ts",
     "lab-sync": "tsx scripts/lab-sync.ts",
     "lab-agent": "tsx scripts/lab-agent.ts",
-    "lab-e2e": "tsx scripts/lab-e2e-dry.ts"
+    "lab-e2e": "tsx scripts/lab-e2e-dry.ts",
+    "mcp": "tsx scripts/mcp-server.ts"
   },
   "dependencies": {
     "@miosa/sdk": "^3.2.5",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@notionhq/client": "^5.22.0",
     "@slack/web-api": "^7.16.0",
     "@types/d3-force": "^3.0.10",
