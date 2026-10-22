@@ -1,4 +1,5 @@
 import type { ConnectorCapability, ConnectorStatus } from '@/lib/connectors/types';
+import { CONNECTOR_SYNC, type SyncDirection } from '@/lib/connectors/sync';
 import {
   INTEGRATION_CATEGORIES,
   type Integration,
@@ -117,6 +118,8 @@ export type CatalogEntry = Integration & {
   configHref?: string;
   /** Per-capability states, when one green dot would overstate what works. */
   capabilities?: ConnectorCapability[];
+  /** True sync direction of the linked connector (lib/connectors/sync.ts); absent with no connector. */
+  sync?: SyncDirection;
 };
 
 /** The env var names the connect flow may write for an entry. Explicit
@@ -145,6 +148,7 @@ export function connectionCatalog(
       keySaved: keys.length > 0 && keys.every((k) => Boolean(savedEnv[k])),
       configHref: i.connectorId ? byId.get(i.connectorId)?.configHref : undefined,
       capabilities: i.connectorId ? byId.get(i.connectorId)?.capabilities : undefined,
+      sync: i.connectorId ? CONNECTOR_SYNC[i.connectorId]?.sync : undefined,
     };
   });
 }

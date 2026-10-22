@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { BrandLogo } from '@/lib/brand-logos';
 import { connectKeysFor, type CatalogEntry } from '@/lib/integrations-catalog';
+import { SyncBadge } from '@/components/SyncBadge';
 import { ConnectFlow } from '@/components/ConnectFlow';
 
 /**
@@ -31,6 +32,7 @@ export function ConnectionCard({ entry, guidance }: { entry: CatalogEntry; guida
         <div className="min-w-0 flex-1 pt-0.5">
           <div className="truncate text-[14.5px] font-medium leading-tight text-os-text">{entry.name}</div>
           <div className="mt-1 truncate text-[12.5px] leading-tight text-os-dim">{entry.tagline}</div>
+          <SyncBadge sync={entry.sync} className="mt-1.5" />
         </div>
       </div>
 
