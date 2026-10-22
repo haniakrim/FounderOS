@@ -7411,9 +7411,9 @@
     "id": "rm-postiz-live",
     "title": "Postiz connected",
     "quarter": "2027-Q1",
-    "status": "next",
+    "status": "done",
     "departmentId": "dept-clients",
-    "description": "Create the Postiz user, set POSTIZ_URL and POSTIZ_API_KEY; done when scripts/verify-postiz.mjs passes.",
+    "description": "Local Postiz running on 127.0.0.1:4007 with an owner user; POSTIZ_URL and POSTIZ_API_KEY set; scripts/verify-postiz.mjs passes. Social channels still need each platform OAuth app.",
     "phaseId": "phase-1"
    },
    {

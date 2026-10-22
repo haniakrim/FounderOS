@@ -42,6 +42,6 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [x] 2026-10-22: Postiz compose file added (`deploy/postiz`); config validated, stack not started
 - [x] 2026-10-22: Q4 code scope shipped; rm-auth, rm-postiz, rm-railway and rm-workers marked done, their operator steps split into four 2027-Q1 items (Q4 now 8/8)
 - [ ] ! 2027-Q1 `rm-auth-live`: Tailscale: `sudo brew services start tailscale`, `tailscale up`, then `node scripts/verify-remote.mjs` and the Remote access card commands
-- [ ] ! 2027-Q1 `rm-postiz-live`: Postiz: `sh deploy/postiz/up.sh up`, create your user at http://127.0.0.1:4007, set POSTIZ_URL and POSTIZ_API_KEY, then `node scripts/verify-postiz.mjs`
+- [x] 2026-10-22: 2027-Q1 `rm-postiz-live` done: local Postiz up on 127.0.0.1:4007, owner user created (credentials in gitignored `deploy/postiz/.owner`), keys in `.env.local`, `verify-postiz.mjs` PASS
 - [ ] ! 2027-Q1 `rm-railway-live`: Railway: install CLI, log in, OK to deploy (first public deploy), then `verify-railway.mjs` with RAILWAY_PASSWORD
 - [ ] ! 2027-Q1 `rm-workers-live`: Gateway on the host for the worker pool: `/api/pool` reports AI_GATEWAY_API_KEY not set; set it at /integrations, then `node scripts/verify-workers.mjs`
