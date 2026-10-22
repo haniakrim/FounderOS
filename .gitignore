@@ -53,3 +53,4 @@ brag-output*/
 /.claude/skills/*/.ledger.jsonl
 /.claude/skills/*/.sidecar.json*
 .glados-password
+deploy/railway/.owner
