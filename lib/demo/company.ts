@@ -213,7 +213,7 @@ export function writeSiteFiles(site: Site): void {
       done.push(id);
       log.push(`${new Date(at).toISOString()}\t${d.status === 'Declined' ? 'skipped' : 'sent'} ${id}`);
     } else {
-      pending.push(`${id}\t"${d.brand}" <${mail(d.brand)}>\tRe: ${d.brand} x FounderOS partnership`);
+      pending.push(`${id}\t"${d.brand}" <${mail(d.brand)}>\tRe: ${d.brand} x Match & CO. partnership`);
     }
   });
   // Drift: claims from calls and threads that contradict the canon, with the evidence.

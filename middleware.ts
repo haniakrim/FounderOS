@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { SESSION_COOKIE, UNCONFIGURED_REMOTE_MESSAGE, decideGate, isOpenPath, parseTrustedHosts, requestOriginOf } from '@/lib/auth-gate';
+import { BRAND } from '@/lib/brand';
 
 /**
  * The gate. With a password set, nothing in GladOS is reachable without the
@@ -90,9 +91,9 @@ export async function middleware(req: NextRequest) {
       const message = UNCONFIGURED_REMOTE_MESSAGE.replace('<port>', (process.env.PORT || '').trim() || req.nextUrl.port || '4100');
       if (pathname.startsWith('/api/')) return NextResponse.json({ error: message }, { status: 503 });
       return new NextResponse(
-        `<!doctype html><meta charset="utf-8"><title>GladOS · no password set</title>` +
+        `<!doctype html><meta charset="utf-8"><title>${BRAND.name} · no password set</title>` +
           `<body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#0b0b0c;color:#d7d7d9;font:14px/1.6 system-ui,sans-serif">` +
-          `<main style="max-width:440px;padding:24px"><h1 style="font-size:15px;font-weight:600;margin:0 0 8px">GladOS is not reachable from here yet</h1>` +
+          `<main style="max-width:440px;padding:24px"><h1 style="font-size:15px;font-weight:600;margin:0 0 8px">${BRAND.name} is not reachable from here yet</h1>` +
           `<p style="margin:0;color:#9a9aa0">${message}</p></main>`,
         { status: 503, headers: { 'content-type': 'text/html; charset=utf-8' } },
       );

@@ -8,7 +8,7 @@ import { BRAND } from '@/lib/brand';
 export { LAB_RADAR_SOURCES as RADAR_SOURCES } from '@/lib/schemas';
 
 /** Sent on every request. Wikimedia answers 429 without a contact URL (05 3). */
-export const RADAR_UA = `${BRAND.name}-ContentLab/1.0 (+https://exosoft.io)`;
+export const RADAR_UA = `${BRAND.slug}-ContentLab/1.0 (+https://exosoft.io)`;
 
 /** 05 3.1: the family each ping source counts toward (wikipedia is a class meter, not a family). */
 export const SOURCE_FAMILY: Record<Exclude<LabRadarSource, 'wikipedia'>, LabRadarFamily> = {

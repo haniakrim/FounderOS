@@ -34,7 +34,7 @@ export const DEFAULT_TERMS = ['AI agent', 'LLM', 'Claude', 'ChatGPT', 'MCP'] as 
 export const GOOGLE_TRENDS_ACTOR = 'apify/google-trends-scraper';
 /** Headline to cluster: looser than topic matching (a headline carries more words than a topic). */
 export const FEED_MATCH_THRESHOLD = 0.35;
-const UA = `${BRAND.name}-ContentLab/1.0 (personal research tool)`;
+const UA = `${BRAND.slug}-ContentLab/1.0 (personal research tool)`;
 
 export type FeedItem = { feed: LabFeed; externalId: string; url: string; title: string; score: number | null; comments: number | null; source: string; at: string };
 

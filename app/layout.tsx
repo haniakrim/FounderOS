@@ -47,7 +47,7 @@ const fontJetBrainsMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: BRAND.title,
+  title: BRAND.name,
   description: 'Personal operating system and AI agent command center',
 };
 

@@ -1,4 +1,4 @@
-# FounderOS
+# Match & CO.
 
 **A personal operating system for a one-person company: a command center that
 runs your business as a set of AI-assisted departments.**
