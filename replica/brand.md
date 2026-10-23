@@ -20,7 +20,7 @@ Set by the operator on 2026-10-22. Name chosen directly, so the candidate round 
 ## What changed
 
 - `lib/brand.ts`: both builds (`glados`, `founderos`) show `Match & CO.`; ids, env vars, cookie keys and the `GladosDb` type are unchanged so installs keep working.
-- Mark: `public/brand/matchco-mark.svg`, also `app/icon.svg` (favicon).
+- Mark: `public/brand/matchco/matchco-symbol.svg`, also `app/icon.svg` (favicon).
 - Page title, login, sidebar, topbar, agent prompts, setup copy: all read `BRAND.name`.
 - HTTP user agents use `BRAND.slug` (`MatchCo`), since `&` and spaces are not valid in a UA token.
 - Middleware fallback page reads `BRAND.name`.

@@ -36,8 +36,8 @@ describe('AppearancePicker (AC00.5, AC00.21)', () => {
     const colour = group(html, 'appset-colour-label');
     const mode = group(html, 'Mode');
     expect(style.found && colour.found && mode.found).toBe(true);
-    expect(colour.radios).toEqual(['Ice', 'Lime', 'Ember', 'Mint']);
-    expect(colour.checked).toEqual(['Ember']);
+    expect(colour.radios).toEqual(['Lavender', 'Coral', 'Apricot', 'Gradient']);
+    expect(colour.checked).toEqual(['Apricot']);
     expect(mode.radios).toEqual(['Dark', 'Light', 'System']);
     expect(mode.checked).toEqual(['System']);
     expect(html.indexOf('aria-label="Style"')).toBeLessThan(html.indexOf('appset-colour-label'));

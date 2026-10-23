@@ -1,0 +1,13 @@
+/* MATCH & CO / BRAND TOKENS v1.0 · 17 Oct 2026 */
+/* Four approved core colors only. Additional values below are derived tonal/accessibility adaptations. */
+:root {
+  --match-lavender: #A78BFA;
+  --match-coral: #FF6B8B;
+  --match-apricot: #FFB17A;
+  --match-soft-white: #FAF7FF;
+  --match-gradient: linear-gradient(95deg, var(--match-lavender) 0%, var(--match-coral) 48%, var(--match-apricot) 88%, var(--match-soft-white) 100%);
+  --match-surface-subtle: color-mix(in srgb, var(--match-lavender) 10%, var(--match-soft-white));
+  --match-text-accessible: #7056B1; /* lavender tonal adaptation, not a fifth core color. Verify contrast in context. */
+  --match-outline-subtle: color-mix(in srgb, var(--match-lavender) 19%, var(--match-soft-white));
+}
+/* Brand signature: 'Bots That Work.' Core promise: 'Your AI Workforce. On Demand.' */

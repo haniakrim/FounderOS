@@ -6,7 +6,7 @@ import { APPEARANCE_INIT_SCRIPT } from '@/lib/appearance';
 
 describe('theme registry — Console default; Red, White, Frost and Grey Frost the sanctioned colorways', () => {
   test('console stays the default; the five colorways are registered in picker order', () => {
-    expect(DEFAULT_THEME).toBe('console');
+    expect(DEFAULT_THEME).toBe('light');
     expect(THEMES).toEqual(['console', 'red', 'light', 'frost', 'grey-frost']);
     expect(THEME_STORAGE_KEY).toBe('glados-theme');
   });
@@ -37,9 +37,9 @@ describe('theme registry — Console default; Red, White, Frost and Grey Frost t
     expect(resolveInitialTheme('console')).toBe('console');
     expect(resolveInitialTheme('red')).toBe('red');
     expect(resolveInitialTheme('grey-frost')).toBe('grey-frost');
-    expect(resolveInitialTheme('glados-glass')).toBe('console');
-    expect(resolveInitialTheme('mono')).toBe('console');
-    expect(resolveInitialTheme(null)).toBe('console');
+    expect(resolveInitialTheme('glados-glass')).toBe('light');
+    expect(resolveInitialTheme('mono')).toBe('light');
+    expect(resolveInitialTheme(null)).toBe('light');
   });
 
   test('nextTheme cycles the ring', () => {
@@ -50,9 +50,9 @@ describe('theme registry — Console default; Red, White, Frost and Grey Frost t
     expect(nextTheme('grey-frost')).toBe('console');
   });
 
-  test('the pre-paint init script (lib/appearance.ts) reads the theme key and falls back to console', () => {
+  test('the pre-paint init script (lib/appearance.ts) reads the theme key and falls back to the default', () => {
     expect(APPEARANCE_INIT_SCRIPT).toContain(JSON.stringify(THEME_STORAGE_KEY));
-    expect(APPEARANCE_INIT_SCRIPT).toContain(`DT="console"`);
+    expect(APPEARANCE_INIT_SCRIPT).toContain(`DT="light"`);
   });
 
   test('the pre-paint init script accepts every registered id, grey-frost included', () => {

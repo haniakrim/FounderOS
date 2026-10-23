@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 210" width="300" height="210" role="img" aria-label="Match &amp; Co symbol"><title>Match &amp; Co symbol</title><defs>
+<linearGradient id="sg" gradientUnits="userSpaceOnUse" x1="18.0" y1="0" x2="278.0" y2="0">
+<stop offset="0" stop-color="#A78BFA"/><stop offset="0.2" stop-color="#A78BFA"/><stop offset="0.5" stop-color="#FF6B8B"/>
+<stop offset="0.74" stop-color="#FFB17A"/><stop offset="1" stop-color="#FFB17A" stop-opacity="0.28"/></linearGradient>
+<radialGradient id="sh" cx="0.35" cy="0.3" r="0.7"><stop offset="0" stop-color="#fff" stop-opacity="0.55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+<linearGradient id="sb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A78BFA"/><stop offset="1" stop-color="#FF6B8B"/></linearGradient>
+</defs><path d="M48.0,160.0 L104.0,78.0 L150.0,128.0 L200.0,52.0 L258.0,160.0" fill="none" stroke="url(#sg)" stroke-width="46.0" stroke-linecap="round" stroke-linejoin="round"/><circle cx="48.0" cy="160.0" r="29.0" fill="#A78BFA" opacity="1"/><circle cx="48.0" cy="160.0" r="29.0" fill="url(#sh)"/><circle cx="104.0" cy="78.0" r="25.0" fill="url(#sb)" opacity="0.92"/><circle cx="104.0" cy="78.0" r="25.0" fill="url(#sh)"/><circle cx="150.0" cy="128.0" r="23.0" fill="#FF6B8B" opacity="0.9"/><circle cx="150.0" cy="128.0" r="23.0" fill="url(#sh)"/><circle cx="200.0" cy="52.0" r="28.0" fill="#FFB17A" opacity="0.95"/><circle cx="200.0" cy="52.0" r="28.0" fill="url(#sh)"/></svg>

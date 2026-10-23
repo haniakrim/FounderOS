@@ -78,15 +78,15 @@ describe('the Style option reads BRAND.name (AC00.6)', () => {
   });
 
   for (const ui of ['glados', 'classic'] as const) {
-    it(`client build (GLADOS_BRAND unset), Style = ${ui}: "Match & CO."`, async () => {
+    it(`client build (GLADOS_BRAND unset), Style = ${ui}: "Founder OS By Match & CO."`, async () => {
       const html = await renderPicker(undefined, ui);
-      expect(html).toMatch(/role="radio"[^>]*>Match &amp; CO\.</);
+      expect(html).toMatch(/role="radio"[^>]*>Founder OS By Match &amp; CO\.</);
       expect(html).not.toMatch(/GladOS|FounderOS/);
     });
 
-    it(`private build (GLADOS_BRAND=glados), Style = ${ui}: "Match & CO."`, async () => {
+    it(`private build (GLADOS_BRAND=glados), Style = ${ui}: "Founder OS By Match & CO."`, async () => {
       const html = await renderPicker('glados', ui);
-      expect(html).toMatch(/role="radio"[^>]*>Match &amp; CO\.</);
+      expect(html).toMatch(/role="radio"[^>]*>Founder OS By Match &amp; CO\.</);
       expect(html).not.toMatch(/GladOS|FounderOS/);
     });
   }
@@ -109,7 +109,7 @@ describe('/setup on the client build has no "GladOS" text node (AC00.6)', () => 
     const html = renderWithRouter((await Page()) as ReactElement);
     const text = html.replace(/<[^>]+>/g, '\n');
     expect(text).not.toMatch(/GladOS/);
-    expect(html).toContain('>Match &amp; CO.<');
+    expect(html).toContain('>Founder OS By Match &amp; CO.<');
     // S05 F05.90: Appearance is the first section heading on the page.
     const firstSection = html.indexOf('Appearance');
     for (const later of ['Bring-up', 'Recording', 'Security']) {

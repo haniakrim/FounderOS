@@ -84,10 +84,10 @@ export type AppliedAppearance = {
 
 /** Picker metadata (S00 §7). The swatch fill is each accent's hero-a token, owned by the token block. */
 export const ACCENTS: Record<Accent, { name: string; blurb: string }> = {
-  ice: { name: 'Ice', blurb: 'blue-white signal on the grey ground' },
-  lime: { name: 'Lime', blurb: 'lime badge and green heroes' },
-  ember: { name: 'Ember', blurb: 'red, orange and amber' },
-  mint: { name: 'Mint', blurb: 'mint and teal' },
+  ice: { name: 'Lavender', blurb: 'Match & CO. lavender, the core identity colour' },
+  lime: { name: 'Coral', blurb: 'Match & CO. coral, action and personality' },
+  ember: { name: 'Apricot', blurb: 'Match & CO. apricot, growth and warmth' },
+  mint: { name: 'Gradient', blurb: 'Match & CO. brand gradient, lavender to coral to apricot' },
 };
 
 export const APPEARANCE_COOKIE = 'glados-appearance';
@@ -102,9 +102,10 @@ export const COOKIE_MAX_AGE = 365 * 24 * 60 * 60;
  * no appearance cookie yet) keeps Classic (FR-6, see the init script). Accent
  * Ice is Q-SYS-1. A stored choice always wins.
  */
-export function defaultAppearanceFor(brand: Brand['id']): Appearance {
-  // T1 (FounderOS ui merge §8): the client build (FounderOS brand) opens on Bennett Legacy · Monolith · Dark.
-  return brand === 'founderos' ? { ui: 'legacy', accent: 'ice', mode: 'dark', skin: DEFAULT_LEGACY_SKIN } : { ui: 'glados', accent: 'ice', mode: 'dark' };
+export function defaultAppearanceFor(_brand: Brand['id']): Appearance {
+  // Match & CO. brand package v1 (17 Oct 2026): both builds open on the GladOS style, light, accent Lavender:
+  // the soft white, lavender, coral and apricot look the guidelines describe. A stored choice still wins.
+  return { ui: 'glados', accent: 'ice', mode: 'light' };
 }
 export const DEFAULT_APPEARANCE: Appearance = defaultAppearanceFor(BRAND.id);
 const DEFAULT_ACCENT: Accent = 'ice';
@@ -247,7 +248,7 @@ export function readAppliedAppearance(el: { getAttribute(name: string): string |
     ui: isUiStyle(ui) ? ui : DEFAULT_APPEARANCE.ui,
     accent: isAccent(accent) ? accent : DEFAULT_APPEARANCE.accent,
     modePref: isModePref(modePref) ? modePref : DEFAULT_APPEARANCE.mode,
-    mode: isMode(mode) ? mode : 'dark',
+    mode: isMode(mode) ? mode : 'light',
     theme: isTheme(theme) || isLegacyTheme(theme) ? theme : DEFAULT_THEME,
   };
 }

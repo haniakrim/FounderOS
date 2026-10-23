@@ -1,0 +1,516 @@
+/*
+ * Match & CO. brand package v1.0 (approved 17 Oct 2026), applied to the Soft White theme.
+ * Source: Match_and_Co_Brand_Package_v1 (guidelines p.03 colour, p.04 type). Rules honoured:
+ *  - four core colours only (lavender, coral, apricot, soft white); no black or navy text
+ *  - all text in the accessible tone #7056B1 (5.4:1 on soft white); white on #7056B1 for buttons (5.8:1)
+ *  - the gradient is an accent (marks, rules, orbs), never a surface fill, never reversed
+ *  - Poppins headlines, Inter body and data
+ * The block under "generated" re-keys every legacy White-theme token (greens, blues, neutrals) onto the
+ * brand hues so unconverted widgets follow; the "core" block after it is the hand-set source of truth.
+ * Status colours (ok, warn, err) and platform colours stay functional and keep their own hues.
+ */
+:root {
+  --match-lavender: #a78bfa;
+  --match-coral: #ff6b8b;
+  --match-apricot: #ffb17a;
+  --match-soft-white: #faf7ff;
+  --match-text: #7056b1;
+  --match-gradient: linear-gradient(95deg, var(--match-lavender) 0%, var(--match-coral) 48%, var(--match-apricot) 88%, var(--match-soft-white) 100%);
+  --match-surface-subtle: color-mix(in srgb, var(--match-lavender) 10%, var(--match-soft-white));
+  --match-outline-subtle: color-mix(in srgb, var(--match-lavender) 19%, var(--match-soft-white));
+}
+:root[data-theme='light'] {
+  --font-sans: var(--font-brand-sans), 'Inter', system-ui, sans-serif;
+  --font-display: var(--font-brand-display), 'Poppins', var(--font-brand-sans), system-ui, sans-serif;
+  color-scheme: light;
+  --bg: #f5f4f7;
+  --bg-2: #eeecf1;
+  --surface: #ffffff;
+  --surface-2: #f0eef3;
+  --surface-3: #e5e3ea;
+  --border: #dcd9e3;
+  --border-strong: #c6c2d0;
+  --hairline: #e8e6ee;
+  --text: #755bb3;
+  --text-2: #604d80;
+  --text-3: #8a72b4;
+  --accent: #3a1f7a;
+  --accent-2: #482698;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(58, 31, 122, 0.1);
+  --accent-line: rgba(58, 31, 122, 0.4);
+  --glow: none;
+  --grid: transparent;
+  --ramp-1: #825ed7;
+  --ramp-2: #ab93e4;
+  --ramp-3: #734bd1;
+  --ramp-4: #744cd2;
+  --elevated: #ffffff;
+  --elevated-border: #dcd9e3;
+  --shadow-pop: 0 12px 32px rgba(88, 75, 119, 0.16);
+  --brain-1: #734bd1;
+  --brain-2: #825ed7;
+  --brain-3: #744cd2;
+  --accent-rgb: 58 31 122;
+  --venture-a: #6133cc;
+  --venture-b: #3a1f7a;
+  --glass-line-rgb: 89 78 116;
+  --glass-a: rgba(255, 255, 255, 0.72);
+  --glass-b: rgba(247, 246, 250, 0.8);
+  --glass-c: rgba(240, 238, 243, 0.9);
+  --glass-v-line-rgb: 115 75 209;
+  --glass-v-top: rgba(115, 75, 209, 0.1);
+  --glass-v-a: rgba(244, 241, 252, 0.8);
+  --glass-v-b: rgba(239, 235, 248, 0.86);
+  --glass-v-c: rgba(234, 229, 244, 0.92);
+  --glass-label: #6f5798;
+  --glass-chip-bg: rgba(255, 255, 255, 0.85);
+  --tile-glow-a-rgb: 115 75 209;
+  --tile-glow-b-rgb: 115 75 209;
+  --tile-glow-c-rgb: 115 75 209;
+  --wf-tile-a: #ffffff;
+  --wf-tile-b: #f0eef3;
+  --wf-node-a: #ffffff;
+  --wf-node-b: #f5f4f7;
+  --wf-node-c: #ebe9f0;
+  --wf-canvas-core: #f5f4f7;
+  --wf-canvas-edge: #e6e4ec;
+  --wf-modal-a: #ffffff;
+  --wf-modal-b: #f2f1f6;
+  --wf-port: #ddd6ec;
+  --wf-on-a: #3a1f7a;
+  --wf-on-b: #4a279b;
+  --wf-on-ink: #ffffff;
+  --wf-bright: #4a279b;
+  --wf-rail-a: #e5dff3;
+  --wf-rail-b: #d3c9e9;
+  --wf-mark-deep: #3a1f7a;
+  --wf-primary-a: #502aa8;
+  --wf-primary-b: #4a279b;
+  --wf-primary-hover-a: #6033c9;
+  --wf-primary-hover-b: #43238d;
+  --wf-primary-ink: #ffffff;
+  --wf-primary-line-rgb: 80 42 168;
+  --wf-human-a: #825ed7;
+  --wf-human-b: #734bd1;
+  --wf-hue-violet: #623fb5;
+  --wf-hue-violet-rgb: 98 63 181;
+  --wf-hue-blue: #5c31c2;
+  --wf-hue-blue-rgb: 92 49 194;
+  --wf-hue-amber: #9a6a10;
+  --wf-hue-amber-rgb: 201 138 28;
+  --wf-grad-a: #482698;
+  --wf-grad-b: #3a1f7a;
+  --wf-flare-core: #4a279b;
+  --wf-minimap-human: rgba(98, 63, 181, 0.8);
+  --wf-glass: rgba(255, 255, 255, 0.9);
+  /* canvas: gradient tail, ink on the gradient, ink on the canvas, shadows */
+  --wf-grad-c: #4a279b;
+  --wf-grad-d: #4a279b;
+  --wf-on-grad: #ffffff;
+  --wf-on-grad-rgb: 255 255 255;
+  --wf-ink-rgb: 117 91 179;
+  --wf-shadow-rgb: 85 67 127;
+  --wf-shadow-k: 0.35;
+  --wf-thumb-bg: rgba(255, 255, 255, 0.97);
+  --wf-thumb-line: rgba(220, 217, 227, 1);
+  --wf-thumb-human-bg: rgba(244, 241, 252, 0.95);
+  --wf-thumb-human-line: rgba(98, 63, 181, 0.5);
+  --wf-run-a: #e7e2f3;
+  --wf-run-b: #dad3ec;
+  --wf-run-hover-a: #dad3ec;
+  --wf-run-hover-b: #cdc3e3;
+  --mist-rgb: 86 70 123;
+  --cold-hover-rgb: 112 71 209;
+  --h6-card-bg: linear-gradient(155deg, rgba(255, 255, 255, 0.95) 0%, rgba(247, 246, 250, 0.95) 55%, rgba(240, 238, 243, 0.98) 100%);
+  --h6-glow-bg: radial-gradient(ellipse 70% 46% at 42% 0%, rgba(58, 31, 122, 0.12), rgba(245, 244, 247, 0) 70%);
+  --h6-teal: #3c1f7e;
+  --h6-mint: #3a1f7a;
+  --h6-indigo: #734bd1;
+  --h6-ice: #5c3ca8;
+  --pc-shade: #e1d8f5;
+  --send-activity: #6d42d0;
+  --brain-core-light: #ffffff;
+  --brain-core-dark: #3a1f7a;
+  --skh-glow-bg: radial-gradient(ellipse 62% 58% at 50% 46%, rgba(58, 31, 122, 0.14), rgba(58, 31, 122, 0.05) 55%, rgba(117, 91, 179, 0) 78%);
+  --gbr-glow-bg: radial-gradient(ellipse 62% 54% at 50% 42%, rgba(58, 31, 122, 0.16), rgba(58, 31, 122, 0.06) 55%, rgba(117, 91, 179, 0) 78%);
+  --gbr-input-bg: linear-gradient(165deg, rgba(255, 255, 255, 0.9) 0%, rgba(242, 240, 246, 0.95) 100%);
+  --gbr-circle-bg: radial-gradient(circle at 42% 36%, rgba(240, 236, 248, 0.95), rgba(226, 222, 236, 0.98) 70%);
+  --gbr-mint-bright: #4a279b;
+  --gbr-mint-mid: #3a1f7a;
+  --gbr-nodate: #7e64aa;
+  --kg-bg-1: #e9e4f3;
+  --kg-bg-2: #f2f0f8;
+  --kg-bg-3: #f9f8fb;
+  --kc-accent: #3a1f7a;
+  --cat-1: #6538cd;
+  --cat-2: #3a1f7a;
+  --cat-3: #623fb5;
+  --seq-1: #4a279b;
+  --seq-2: #3a1f7a;
+  --seq-3: #623cb9;
+  --seq-4: #a58fd9;
+  --seq-5: #d7cdee;
+  --gbr-tint-a: 117 91 179;
+  --gbr-tint-b: 71 60 95;
+  --gbr-tint-c: 75 43 151;
+  --gbr-tint-d: 58 31 122;
+  --gbr-tint-e: 84 65 129;
+  --wft-node-bg: linear-gradient(165deg, rgba(255, 255, 255, 0.9) 0%, rgba(247, 246, 250, 0.92) 55%, rgba(240, 238, 243, 0.95) 100%);
+  --wft-node-bg-hover: linear-gradient(165deg, rgba(255, 255, 255, 0.98) 0%, rgba(247, 246, 250, 0.98) 55%, rgba(240, 238, 243, 1) 100%);
+  --kc-glow-bg: radial-gradient(ellipse 66% 60% at 50% 46%, rgba(58, 31, 122, 0.12), rgba(58, 31, 122, 0.04) 56%, rgba(117, 91, 179, 0) 80%);
+  --kc-tint-rgb: 91 83 111;
+  --drift-empty-border-rgb: 115 75 209;
+
+  /* core: hand-set brand tokens */
+  --bg: #faf7ff; /* = --match-soft-white; a literal so tests/theme-registry-sync.test.ts can read it */
+  --bg-2: var(--match-surface-subtle);
+  --surface: #ffffff;
+  --surface-2: var(--match-surface-subtle);
+  --surface-3: color-mix(in srgb, var(--match-lavender) 16%, var(--match-soft-white));
+  --border: var(--match-outline-subtle);
+  --border-strong: color-mix(in srgb, var(--match-lavender) 38%, var(--match-soft-white));
+  --hairline: color-mix(in srgb, var(--match-lavender) 12%, var(--match-soft-white));
+  --text: var(--match-text);
+  --text-2: color-mix(in srgb, var(--match-text) 88%, var(--match-soft-white));
+  --text-3: color-mix(in srgb, var(--match-text) 74%, var(--match-soft-white));
+  --accent: var(--match-text);
+  --accent-2: var(--match-lavender);
+  --accent-ink: #ffffff;
+  --accent-soft: color-mix(in srgb, var(--match-lavender) 16%, transparent);
+  --accent-line: color-mix(in srgb, var(--match-text) 40%, transparent);
+  --accent-rgb: 112 86 177;
+  --ramp-1: var(--match-lavender);
+  --ramp-2: var(--match-coral);
+  --ramp-3: var(--match-apricot);
+  --ramp-4: var(--match-text);
+  --brain-1: var(--match-lavender);
+  --brain-2: var(--match-coral);
+  --brain-3: var(--match-apricot);
+  --elevated: #ffffff;
+  --elevated-border: var(--match-outline-subtle);
+  --shadow-pop: 0 12px 32px color-mix(in srgb, var(--match-text) 16%, transparent);
+  --wf-primary-a: var(--match-text);
+  --wf-primary-b: var(--match-text);
+  --wf-primary-hover-a: #624aa0;
+  --wf-primary-hover-b: #624aa0;
+  --wf-primary-ink: #ffffff;
+  --wf-on-grad: #ffffff;
+  --cat-1: var(--match-lavender);
+  --cat-2: var(--match-coral);
+  --cat-3: var(--match-apricot);
+  --seq-1: var(--match-text);
+  --seq-2: var(--match-lavender);
+  --seq-3: color-mix(in srgb, var(--match-lavender) 65%, var(--match-soft-white));
+  --seq-4: color-mix(in srgb, var(--match-lavender) 38%, var(--match-soft-white));
+  --seq-5: color-mix(in srgb, var(--match-lavender) 18%, var(--match-soft-white));
+}
+
+/* Poppins leads every heading; Inter carries body, data and numerals (guidelines p.04). */
+:root[data-theme='light'] :is(h1, h2, h3, [data-part='title']) {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+:root[data-theme='light'] { accent-color: var(--match-text); }
+/* The gradient is an accent: a thin rule under the page title and the active nav edge, never a fill. */
+:root[data-theme='light'] [data-page-header] { position: relative; padding-bottom: 14px; }
+:root[data-theme='light'] [data-page-header]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 72px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--match-gradient);
+}
+
+/*
+ * GladOS style (data-ui='glados'), light mode: the --g-* kit tokens in the brand palette. Every accent
+ * choice lands on the same brand look because the palette is locked (guidelines p.03). Dark mode keeps its
+ * own tokens; the brand package defines no dark ground.
+ * Heroes keep the kit's contract (white label ink >= 4.5:1 where text sits): deep lavender body, the
+ * coral / apricot / lavender glow only in the bottom strip, so the gradient stays an accent.
+ */
+:root[data-ui='glados'][data-mode='light'],
+:root[data-ui='glados'][data-accent][data-mode='light'] {
+  --g-bg: var(--match-soft-white);
+  --g-bg-lift: rgba(255, 255, 255, 0.6);
+  --g-card: #ffffff;
+  --g-card-2: var(--match-surface-subtle);
+  --g-well: var(--match-surface-subtle);
+  --g-ink: var(--match-text);
+  --g-ink-inverse: #ffffff;
+  --g-muted: color-mix(in srgb, var(--match-text) 86%, var(--match-soft-white));
+  --g-dim: color-mix(in srgb, var(--match-text) 72%, var(--match-soft-white));
+  --g-line: color-mix(in srgb, var(--match-lavender) 20%, transparent);
+  --g-ring: color-mix(in srgb, var(--match-lavender) 55%, transparent);
+  --g-track: color-mix(in srgb, var(--match-lavender) 18%, var(--match-soft-white));
+  --g-track-soft: color-mix(in srgb, var(--match-lavender) 42%, var(--match-soft-white));
+  --g-scrim: color-mix(in srgb, var(--match-text) 22%, transparent);
+  --g-scrim-solid: color-mix(in srgb, var(--match-text) 42%, transparent);
+  --g-shadow: 0 24px 48px color-mix(in srgb, var(--match-text) 10%, transparent), 0 1px 2px color-mix(in srgb, var(--match-text) 6%, transparent);
+  --g-shadow-sm: 0 10px 24px color-mix(in srgb, var(--match-text) 9%, transparent), 0 1px 2px color-mix(in srgb, var(--match-text) 6%, transparent);
+  --g-err: #c13a5a;
+  --g-diff-del-fg: #a82f4b;
+  --g-cat-7: #a8661f;
+  --g-cat-9: #c13a5a;
+  --g-accent: var(--match-text);
+  --g-accent-rgb: 112, 86, 177;
+  --g-accent-2: var(--match-lavender);
+  --g-badge: var(--match-text);
+  --g-badge-ink: #ffffff;
+  --g-hero-a: radial-gradient(85% 36% at 78% 108%, #ffb17a 0%, rgba(255, 177, 122, 0) 100%), linear-gradient(180deg, #5a4496 0%, #6b4fa8 62%, #9a5fb0 100%);
+  --g-hero-b: radial-gradient(80% 36% at 18% 108%, #ff6b8b 0%, rgba(255, 107, 139, 0) 100%), linear-gradient(160deg, #5a4496 0%, #6f50ab 68%, #a85a9f 100%);
+  --g-hero-c: radial-gradient(90% 34% at 50% 110%, #a78bfa 0%, rgba(167, 139, 250, 0) 100%), linear-gradient(180deg, #5e4a9e 0%, #7056b1 68%, #8a5fbf 100%);
+  --g-series-1: var(--match-text);
+  --g-series-2: #d8446a;
+  --g-series-3: #b86a1d;
+  --g-series-4: #8b6fe0;
+  --g-series-5: #a05a8e;
+  --g-series-6: #8a84a3;
+}
+
+/* Poppins leads headings and display numerals in the kit too. */
+:root[data-ui='glados'][data-mode='light'] :is(h1, h2, h3) {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+/* ── Login wallpaper (components/login/LoginWallpaper.tsx) ───────────────────────────────────────────
+   Art from the brand package homepage hero (10_Website/index.html): two gradient ribbons, four orbs, the
+   Match Bot. Light mode only; the brand defines no dark ground. The sign-in card sits above it on white. */
+.mc-wallpaper { display: none; }
+:root[data-mode='light'] .mc-wallpaper {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--match-soft-white);
+}
+.mc-ribbons { position: absolute; inset: -6% -4%; width: 108%; height: 112%; }
+.mc-rib { transform-box: fill-box; transform-origin: center; will-change: transform; }
+.mc-rib-a { animation: mc-wave-a 16s ease-in-out infinite alternate; }
+.mc-rib-b { animation: mc-wave-b 21s ease-in-out infinite alternate; }
+.mc-orb { position: absolute; aspect-ratio: 1; border-radius: 50%; will-change: transform; }
+.mc-orb-a { width: 13vmax; left: 6%; top: 8%; background: radial-gradient(circle at 32% 30%, #fff 0%, var(--match-apricot) 55%, var(--match-coral) 100%); opacity: 0.9; animation: mc-float 9s ease-in-out infinite; }
+.mc-orb-b { width: 9vmax; right: 10%; top: 4%; background: radial-gradient(circle at 32% 30%, #fff 0%, var(--match-coral) 70%); opacity: 0.7; animation: mc-float 11s ease-in-out -3s infinite; }
+.mc-orb-c { width: 18vmax; right: -3%; bottom: 8%; background: radial-gradient(circle at 30% 30%, #fff 0%, var(--match-lavender) 60%, var(--match-coral) 120%); opacity: 0.55; animation: mc-float 13s ease-in-out -6s infinite; }
+.mc-orb-d { width: 7vmax; left: 18%; bottom: 8%; background: radial-gradient(circle at 30% 30%, #fff 0%, var(--match-lavender) 75%); opacity: 0.8; animation: mc-float 10s ease-in-out -2s infinite; }
+.mc-bot { position: absolute; left: 7%; top: 50%; width: clamp(110px, 15vmin, 190px); height: auto; filter: drop-shadow(0 18px 30px color-mix(in srgb, var(--match-lavender) 35%, transparent)); animation: mc-bob 5s ease-in-out infinite; }
+@keyframes mc-float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(14px, -22px, 0); } }
+@keyframes mc-bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-14px) rotate(2deg); } }
+@keyframes mc-wave-a { from { transform: translate3d(-3%, 0, 0) scaleY(1); } to { transform: translate3d(3%, -4%, 0) scaleY(1.12); } }
+@keyframes mc-wave-b { from { transform: translate3d(3%, 0, 0) scaleY(1.08); } to { transform: translate3d(-3%, 5%, 0) scaleY(0.94); } }
+@media (prefers-reduced-motion: reduce) {
+  .mc-orb, .mc-rib, .mc-bot { animation: none; }
+}
+/* The logo keeps its own gradient (never inverted or recoloured), and the sign-in card sits above the wallpaper. */
+.kg-login-mark { filter: none !important; }
+:root[data-ui='glados'][data-mode='light'] .kg-login-mark { filter: none; }
+.kg-login-card, .kg-login > *:not(.page-ground) { position: relative; z-index: 1; }
+:root[data-mode='light'] .kg-login .page-ground, :root[data-mode='light'] .kg-login .g-ground { display: none; }
+
+/* Sidebar mark: the package symbol keeps its own lavender, coral and apricot (never inverted); a soft lavender lift only. */
+:root[data-theme='light'] .os-mark,
+:root[data-theme='light'] .os-mark-link:hover .os-mark {
+  filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--match-lavender) 38%, transparent));
+}
+
+/*
+ * Appearance Colour swatches (Settings > Appearance): the four accent slots wear brand colours, never the
+ * old ice, lime, ember and mint. Same grammar as the hero tokens: deep body so white ink holds, brand glow
+ * in the bottom strip.
+ */
+:root[data-ui='glados'] {
+  --g-swatch-ice: radial-gradient(85% 36% at 78% 108%, #ffb17a 0%, rgba(255, 177, 122, 0) 100%), linear-gradient(180deg, #5a4496 0%, #6b4fa8 62%, #9a5fb0 100%);
+  --g-swatch-lime: radial-gradient(85% 36% at 22% 108%, #ffb17a 0%, rgba(255, 177, 122, 0) 100%), linear-gradient(180deg, #8a2f58 0%, #a63a68 62%, #c24a73 100%);
+  --g-swatch-ember: radial-gradient(85% 36% at 22% 108%, #ff6b8b 0%, rgba(255, 107, 139, 0) 100%), linear-gradient(180deg, #8a4a1f 0%, #a85a24 62%, #c06a2c 100%);
+  --g-swatch-mint: radial-gradient(85% 36% at 78% 108%, #ffb17a 0%, rgba(255, 177, 122, 0) 100%), linear-gradient(95deg, #6b4fa8 0%, #a14f8f 52%, #c25a7c 100%);
+}
+
+/*
+ * Accent choice (Settings > Appearance > Colour). Each slot recolours the interactive accent everywhere:
+ * buttons, toggles, links, active nav, series 1, badges, the ground tint and the hero art. Reading text
+ * stays the brand text tone #7056B1. Every accent is a darkened tonal step of a brand hue so white ink
+ * holds 4.9:1 or better (lavender #7056B1 5.8, coral #C2385E 5.2, apricot #A85A1A 5.1, gradient #A1458F 5.6).
+ */
+:root[data-ui='glados'][data-accent='ice'][data-mode='light'] {
+  --g-accent: #7056b1;
+  --g-accent-rgb: 112, 86, 177;
+  --g-accent-2: var(--match-lavender);
+  --g-badge: #7056b1;
+  --g-series-1: #7056b1;
+  --g-hero-a: var(--g-swatch-ice);
+  --g-hero-b: var(--g-swatch-ice);
+  --g-hero-c: var(--g-swatch-ice);
+  --g-bg: color-mix(in srgb, #7056b1 5%, var(--match-soft-white));
+  --g-ring: color-mix(in srgb, #7056b1 45%, transparent);
+}
+:root[data-theme='light'][data-accent='ice'] {
+  --accent: #7056b1;
+  --accent-2: var(--match-lavender);
+  --accent-rgb: 112 86 177;
+  --accent-soft: color-mix(in srgb, #7056b1 13%, transparent);
+  --accent-line: color-mix(in srgb, #7056b1 42%, transparent);
+  --wf-primary-a: #7056b1;
+  --wf-primary-b: #7056b1;
+  --wf-primary-hover-a: #6049a0;
+  --wf-primary-hover-b: #6049a0;
+}
+:root[data-ui='glados'][data-accent='lime'][data-mode='light'] {
+  --match-text: #c2385e;
+  --g-accent: #c2385e;
+  --g-accent-rgb: 194, 56, 94;
+  --g-accent-2: var(--match-coral);
+  --g-badge: #c2385e;
+  --g-series-1: #c2385e;
+  --g-hero-a: var(--g-swatch-lime);
+  --g-hero-b: var(--g-swatch-lime);
+  --g-hero-c: var(--g-swatch-lime);
+  --g-bg: color-mix(in srgb, #c2385e 5%, var(--match-soft-white));
+  --g-ring: color-mix(in srgb, #c2385e 45%, transparent);
+}
+:root[data-theme='light'][data-accent='lime'] {
+  --match-text: #c2385e;
+  --accent: #c2385e;
+  --accent-2: var(--match-coral);
+  --accent-rgb: 194 56 94;
+  --accent-soft: color-mix(in srgb, #c2385e 13%, transparent);
+  --accent-line: color-mix(in srgb, #c2385e 42%, transparent);
+  --wf-primary-a: #c2385e;
+  --wf-primary-b: #c2385e;
+  --wf-primary-hover-a: #a82f50;
+  --wf-primary-hover-b: #a82f50;
+}
+:root[data-ui='glados'][data-accent='ember'][data-mode='light'] {
+  --match-text: #a85a1a;
+  --g-accent: #a85a1a;
+  --g-accent-rgb: 168, 90, 26;
+  --g-accent-2: var(--match-apricot);
+  --g-badge: #a85a1a;
+  --g-series-1: #a85a1a;
+  --g-hero-a: var(--g-swatch-ember);
+  --g-hero-b: var(--g-swatch-ember);
+  --g-hero-c: var(--g-swatch-ember);
+  --g-bg: color-mix(in srgb, #a85a1a 5%, var(--match-soft-white));
+  --g-ring: color-mix(in srgb, #a85a1a 45%, transparent);
+}
+:root[data-theme='light'][data-accent='ember'] {
+  --match-text: #a85a1a;
+  --accent: #a85a1a;
+  --accent-2: var(--match-apricot);
+  --accent-rgb: 168 90 26;
+  --accent-soft: color-mix(in srgb, #a85a1a 13%, transparent);
+  --accent-line: color-mix(in srgb, #a85a1a 42%, transparent);
+  --wf-primary-a: #a85a1a;
+  --wf-primary-b: #a85a1a;
+  --wf-primary-hover-a: #8f4c15;
+  --wf-primary-hover-b: #8f4c15;
+}
+:root[data-ui='glados'][data-accent='mint'][data-mode='light'] {
+  --match-text: #a1458f;
+  --g-accent: #a1458f;
+  --g-accent-rgb: 161, 69, 143;
+  --g-accent-2: var(--match-coral);
+  --g-badge: #a1458f;
+  --g-series-1: #a1458f;
+  --g-hero-a: var(--g-swatch-mint);
+  --g-hero-b: var(--g-swatch-mint);
+  --g-hero-c: var(--g-swatch-mint);
+  --g-bg: color-mix(in srgb, #a1458f 5%, var(--match-soft-white));
+  --g-ring: color-mix(in srgb, #a1458f 45%, transparent);
+}
+:root[data-theme='light'][data-accent='mint'] {
+  --match-text: #a1458f;
+  --accent: #a1458f;
+  --accent-2: var(--match-coral);
+  --accent-rgb: 161 69 143;
+  --accent-soft: color-mix(in srgb, #a1458f 13%, transparent);
+  --accent-line: color-mix(in srgb, #a1458f 42%, transparent);
+  --wf-primary-a: #a1458f;
+  --wf-primary-b: #a1458f;
+  --wf-primary-hover-a: #8a3a7a;
+  --wf-primary-hover-b: #8a3a7a;
+}
+
+/*
+ * Dark mode (GladOS style). The brand package defines no dark ground, so this is a derived one: a deep
+ * lavender-tinted ground with soft-white-leaning ink, no black or navy. Accent slots use the bright brand
+ * hues (lavender, coral, apricot, gradient mid-tone); ink is a light tint of the chosen accent, so the font
+ * colour follows the accent here too. Classic core tokens are set as well, so pages still on the Classic
+ * tree match.
+ */
+:root[data-ui='glados'][data-mode='dark'] {
+  color-scheme: dark;
+  --g-bg: color-mix(in srgb, var(--match-d-accent) 6%, #17112a);
+  --g-bg-lift: rgba(250, 247, 255, 0.05);
+  --g-card: #211a38;
+  --g-card-2: #2a2146;
+  --g-well: #1c1530;
+  --g-ink: var(--match-d-ink);
+  --g-ink-inverse: #1f1538;
+  --g-muted: color-mix(in srgb, var(--match-d-ink) 80%, #17112a);
+  --g-dim: color-mix(in srgb, var(--match-d-ink) 58%, #17112a);
+  --g-line: color-mix(in srgb, var(--match-lavender) 16%, transparent);
+  --g-ring: color-mix(in srgb, var(--match-d-accent) 50%, transparent);
+  --g-track: #352b57;
+  --g-track-soft: #4b3f78;
+  --g-scrim: rgba(12, 8, 24, 0.55);
+  --g-scrim-solid: rgba(12, 8, 24, 0.72);
+  --g-shadow: 0 24px 48px rgba(8, 4, 20, 0.5), inset 0 1px 0 rgba(250, 247, 255, 0.04);
+  --g-shadow-sm: 0 10px 24px rgba(8, 4, 20, 0.4), inset 0 1px 0 rgba(250, 247, 255, 0.04);
+  --g-accent: var(--match-d-accent);
+  --g-accent-rgb: var(--match-d-rgb);
+  --g-accent-2: var(--match-d-accent-2);
+  --g-badge: var(--match-d-accent);
+  --g-badge-ink: #1f1538;
+  --g-series-1: var(--match-d-accent);
+  --g-series-2: #ff6b8b;
+  --g-series-3: #ffb17a;
+  --g-series-4: #c9b8ff;
+  --g-series-5: #d58ac0;
+  --g-series-6: #9a93b3;
+  --g-viz-stage: #1c1530;
+  /* Classic core tokens, same palette */
+  --bg: #17112a;
+  --bg-2: #1c1530;
+  --surface: #211a38;
+  --surface-2: #2a2146;
+  --surface-3: #352b57;
+  --border: color-mix(in srgb, var(--match-lavender) 22%, transparent);
+  --border-strong: color-mix(in srgb, var(--match-lavender) 38%, transparent);
+  --hairline: color-mix(in srgb, var(--match-lavender) 14%, transparent);
+  --text: var(--match-d-ink);
+  --text-2: color-mix(in srgb, var(--match-d-ink) 80%, #17112a);
+  --text-3: color-mix(in srgb, var(--match-d-ink) 58%, #17112a);
+  --accent: var(--match-d-accent);
+  --accent-2: var(--match-d-accent-2);
+  --accent-ink: #1f1538;
+  --accent-rgb: var(--match-d-rgb-sp);
+  --accent-soft: color-mix(in srgb, var(--match-d-accent) 16%, transparent);
+  --accent-line: color-mix(in srgb, var(--match-d-accent) 46%, transparent);
+  --elevated: #2a2146;
+  --elevated-border: color-mix(in srgb, var(--match-lavender) 24%, transparent);
+  --shadow-pop: 0 12px 32px rgba(8, 4, 20, 0.55);
+}
+:root[data-ui='glados'][data-mode='dark'],
+:root[data-ui='glados'][data-accent='ice'][data-mode='dark'] { --match-d-accent: #a78bfa; --match-d-accent-2: #7056b1; --match-d-ink: #efe8ff; --match-d-rgb: 167, 139, 250; --match-d-rgb-sp: 167 139 250; }
+:root[data-ui='glados'][data-accent='lime'][data-mode='dark'] { --match-d-accent: #ff6b8b; --match-d-accent-2: #c2385e; --match-d-ink: #ffe4ea; --match-d-rgb: 255, 107, 139; --match-d-rgb-sp: 255 107 139; }
+:root[data-ui='glados'][data-accent='ember'][data-mode='dark'] { --match-d-accent: #ffb17a; --match-d-accent-2: #a85a1a; --match-d-ink: #ffebdb; --match-d-rgb: 255, 177, 122; --match-d-rgb-sp: 255 177 122; }
+:root[data-ui='glados'][data-accent='mint'][data-mode='dark'] { --match-d-accent: #e27fb8; --match-d-accent-2: #a1458f; --match-d-ink: #fbe6f3; --match-d-rgb: 226, 127, 184; --match-d-rgb-sp: 226 127 184; }
+:root[data-ui='glados'][data-accent='ice'][data-mode='dark'] { --g-hero-a: var(--g-swatch-ice); --g-hero-b: var(--g-swatch-ice); --g-hero-c: var(--g-swatch-ice); }
+:root[data-ui='glados'][data-accent='lime'][data-mode='dark'] { --g-hero-a: var(--g-swatch-lime); --g-hero-b: var(--g-swatch-lime); --g-hero-c: var(--g-swatch-lime); }
+:root[data-ui='glados'][data-accent='ember'][data-mode='dark'] { --g-hero-a: var(--g-swatch-ember); --g-hero-b: var(--g-swatch-ember); --g-hero-c: var(--g-swatch-ember); }
+:root[data-ui='glados'][data-accent='mint'][data-mode='dark'] { --g-hero-a: var(--g-swatch-mint); --g-hero-b: var(--g-swatch-mint); --g-hero-c: var(--g-swatch-mint); }
+/* Dark: brand fonts, and the login wallpaper shows in dark too, on the deep ground. */
+:root[data-ui='glados'][data-mode='dark'] :is(h1, h2, h3, [data-part='title']) { font-family: var(--font-display); font-weight: 600; }
+:root[data-ui='glados'][data-mode='dark'] { --font-sans: var(--font-brand-sans), 'Inter', system-ui, sans-serif; --font-display: var(--font-brand-display), 'Poppins', var(--font-brand-sans), system-ui, sans-serif; }
+:root[data-ui='glados'][data-mode='dark'] .mc-wallpaper { display: block; position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: #17112a; }
+:root[data-ui='glados'][data-mode='dark'] .mc-orb { opacity: 0.4; }
+:root[data-ui='glados'][data-mode='dark'] .mc-ribbons { opacity: 0.7; }
+:root[data-ui='glados'][data-mode='dark'] .kg-login .page-ground, :root[data-ui='glados'][data-mode='dark'] .kg-login .g-ground { display: none; }
+:root[data-ui='glados'][data-mode='dark'] .os-mark, :root[data-ui='glados'][data-mode='dark'] .os-mark-link:hover .os-mark { filter: drop-shadow(0 4px 12px color-mix(in srgb, var(--match-lavender) 45%, transparent)); }

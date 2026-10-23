@@ -12,7 +12,8 @@ import { LIFE_AREAS } from '@/lib/life-map';
  * Console values (mint charts, teal life areas): the "green leak".
  */
 
-const css = readFileSync(join(process.cwd(), 'app/globals.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+// globals.css, then matchco.css (the Match & CO. brand re-key of the White theme), as the layout imports them.
+const css = ['app/globals.css', 'app/matchco.css'].map((f) => readFileSync(join(process.cwd(), f), 'utf8')).join('\n').replace(/\/\*[\s\S]*?\*\//g, '');
 
 /** Top-level rules as { selectors, body }; nested at-rule bodies are skipped. */
 function topLevelRules(src: string): { selectors: string[]; body: string }[] {
@@ -124,9 +125,9 @@ describe('pre-paint init script (runs the generated string, Classic style)', () 
   });
 
   test("stale, missing or blocked storage is a fresh install: this build's default (FR-7, T1) and its theme", () => {
-    // glados-private: glados · ice · dark derives Grey Frost; the client build (tests run as it) opens Bennett Legacy · Monolith
-    expect(resolveAppearance(defaultAppearanceFor('glados')).theme).toBe('grey-frost');
-    expect(resolveAppearance(defaultAppearanceFor('founderos')).theme).toBe('monolith');
+    // Match & CO. brand package v1: both builds open on Classic in the Soft White theme (lib/appearance.ts)
+    expect(resolveAppearance(defaultAppearanceFor('glados')).theme).toBe('light');
+    expect(resolveAppearance(defaultAppearanceFor('founderos')).theme).toBe('light');
     const fresh = resolveAppearance(DEFAULT_APPEARANCE).theme;
     expect(run('grey')).toBe(fresh);
     expect(run(null)).toBe(fresh);

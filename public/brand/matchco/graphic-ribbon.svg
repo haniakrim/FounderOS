@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-label="Match &amp; Co ribbon"><title>Match &amp; Co ribbon</title><defs>
+<linearGradient id="r1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#A78BFA" stop-opacity="0.75"/><stop offset="0.5" stop-color="#FF6B8B" stop-opacity="0.55"/><stop offset="1" stop-color="#FFB17A" stop-opacity="0.7"/></linearGradient>
+<linearGradient id="r2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFB17A" stop-opacity="0.5"/><stop offset="0.55" stop-color="#FF6B8B" stop-opacity="0.4"/><stop offset="1" stop-color="#A78BFA" stop-opacity="0.55"/></linearGradient>
+<linearGradient id="r3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#A78BFA" stop-opacity="0.35"/><stop offset="1" stop-color="#FFB17A" stop-opacity="0.45"/></linearGradient>
+</defs>
+<path d="M0,250 C200,150 380,330 600,240 C820,150 1000,90 1200,170 L1200,400 L0,400 Z" fill="url(#r3)"/>
+<path d="M0,300 C220,210 420,360 640,280 C860,200 1020,190 1200,240 L1200,400 L0,400 Z" fill="url(#r2)"/>
+<path d="M0,340 C240,280 460,390 700,330 C900,280 1060,300 1200,320 L1200,400 L0,400 Z" fill="url(#r1)"/></svg>

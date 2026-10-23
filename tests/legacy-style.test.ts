@@ -234,7 +234,7 @@ describe('the slab frame (app/layout.tsx, components/legacy/LegacySlab.tsx)', ()
 
   test('the eyebrow comes from the nav group and the brand, never a hard-coded product name', () => {
     expect(legacyEyebrow('/funnel')).toMatch(/^\/\/ REVENUE · /);
-    expect(legacyEyebrow('/funnel')).not.toMatch(/FOUNDER OS/);
+    expect(legacyEyebrow('/funnel')).not.toMatch(/GladOS/);
     expect(render('legacy', '/funnel')).toContain('--l-eyebrow');
   });
 
@@ -259,7 +259,7 @@ describe('kit render (/dev/l-kit specimen)', () => {
     expect(html).toMatch(/data-l="SetupLink"[^>]*href="\/integrations[^"]*"/);
     expect(html).toContain('Not configured');
     expect(html).toContain('data-sample-badge');
-    expect(html).not.toMatch(/GladOS|FOUNDER OS/);
+    expect(html).not.toMatch(/GladOS/);
   });
 
   test('no GladOS kit class anywhere in the Legacy specimen', () => {

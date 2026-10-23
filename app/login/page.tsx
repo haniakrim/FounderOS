@@ -7,6 +7,7 @@ import { getAppearance } from '@/lib/appearance-server';
 import { treeFor } from '@/lib/appearance';
 import { LoginFormG, NoPasswordG } from '@/components/login/LoginG';
 import { LoginFormL, NoPasswordL } from '@/components/login/LoginL';
+import { LoginWallpaper } from '@/components/login/LoginWallpaper';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,6 +23,15 @@ export const dynamic = 'force-dynamic';
  * a redirect out of this page would bounce against that and loop.
  */
 export default function LoginPage() {
+  return (
+    <>
+      <LoginWallpaper />
+      <LoginScreen />
+    </>
+  );
+}
+
+function LoginScreen() {
   // Two trees (glados-ui SPEC X5, S05 F05.101); both render without the shell (H37).
   const tree = treeFor(getAppearance(), '/login');
   if (tree === 'glados') {

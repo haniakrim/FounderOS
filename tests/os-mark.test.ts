@@ -39,9 +39,9 @@ describe('branding', () => {
 describe('brand per deployment', () => {
   test('unset shows the client product; glados shows the operator\'s own', async () => {
     const { brandFor } = await import('@/lib/brand');
-    expect(brandFor(undefined).name).toBe('Match & CO.');
-    expect(brandFor('').mark).toBe('/brand/matchco-mark.svg');
-    expect(brandFor(' GladOS ').name).toBe('Match & CO.');
-    expect(brandFor('glados').mark).toBe('/brand/matchco-mark.svg');
+    expect(brandFor(undefined).name).toBe('Founder OS By Match & CO.');
+    expect(brandFor('').mark).toBe('/brand/matchco/matchco-symbol.svg');
+    expect(brandFor(' GladOS ').name).toBe('Founder OS By Match & CO.');
+    expect(brandFor('glados').mark).toBe('/brand/matchco/matchco-symbol.svg');
   });
 });

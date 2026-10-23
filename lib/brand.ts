@@ -9,8 +9,8 @@
 export type Brand = { id: 'glados' | 'founderos'; name: string; title: string; mark: string; slug: string };
 
 const BRANDS: Record<Brand['id'], Brand> = {
-  glados: { id: 'glados', name: 'Match & CO.', title: 'MATCH & CO.', mark: '/brand/matchco-mark.svg', slug: 'MatchCo' },
-  founderos: { id: 'founderos', name: 'Match & CO.', title: 'MATCH & CO.', mark: '/brand/matchco-mark.svg', slug: 'MatchCo' },
+  glados: { id: 'glados', name: 'Founder OS By Match & CO.', title: 'FOUNDER OS BY MATCH & CO.', mark: '/brand/matchco/matchco-symbol.svg', slug: 'MatchCo' },
+  founderos: { id: 'founderos', name: 'Founder OS By Match & CO.', title: 'FOUNDER OS BY MATCH & CO.', mark: '/brand/matchco/matchco-symbol.svg', slug: 'MatchCo' },
 };
 
 export function brandFor(raw: string | undefined): Brand {

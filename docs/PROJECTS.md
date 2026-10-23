@@ -52,4 +52,5 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [x] 2026-10-22: F1-F7 shipped: billing policy doc, data export/delete, connector sync badges, agent why + sources, MCP server, solo setup path, support link
 - [ ] ! Run the Match & CO. trademark, domain and handle checks (`replica/brand.md`), ideally with a lawyer
 - [ ] ! Set `MATCHCO_SUPPORT_EMAIL` in `.env.local`
-- [ ] ! Decide whether Match & CO. gets its own palette (themes unchanged so far)
+- [x] 2026-10-24: Match & CO. brand package v1 applied: Soft White theme and GladOS light/dark tokens in `app/matchco.css` (accent slots = Lavender, Coral, Apricot, Gradient), Poppins + Inter, package logo/icons in `public/brand/matchco/`, animated login wallpaper, name "Founder OS By Match & CO."
+- [ ] ! Classic and Bennett Legacy styles are not re-skinned to the brand; trademark check for the new name still open

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import './matchco.css';
 import { Sidebar } from '@/components/Sidebar';
 import { resolveSupportEmail } from '@/lib/creds';
 import { BRAND } from '@/lib/brand';
@@ -47,6 +48,25 @@ const fontJetBrainsMono = localFont({
   preload: false,
 });
 
+// Match & CO. brand type (guidelines p.04): Poppins for headlines, Inter for body and data. Both are
+// SIL Open Font License 1.1, bundled from app/fonts so no font request leaves the machine.
+const fontInter = localFont({
+  src: './fonts/Inter-latin.woff2',
+  weight: '100 900',
+  variable: '--font-brand-sans',
+  display: 'swap',
+});
+const fontPoppins = localFont({
+  src: [
+    { path: './fonts/Poppins-400.woff2', weight: '400' },
+    { path: './fonts/Poppins-500.woff2', weight: '500' },
+    { path: './fonts/Poppins-600.woff2', weight: '600' },
+    { path: './fonts/Poppins-700.woff2', weight: '700' },
+  ],
+  variable: '--font-brand-display',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: BRAND.name,
   description: 'Personal operating system and AI agent command center',
@@ -82,7 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     // Style, accent and mode come from the glados-appearance cookie, so the
     // server already renders the right attributes (SPEC S00 FR-2, lib/appearance.ts).
-    <html lang="en" className={`${fontGeist.variable} ${fontGeistMono.variable} ${fontJetBrainsMono.variable}`} {...htmlAttributes(appearance)} suppressHydrationWarning>
+    <html lang="en" className={`${fontInter.variable} ${fontPoppins.variable} ${fontGeist.variable} ${fontGeistMono.variable} ${fontJetBrainsMono.variable}`} {...htmlAttributes(appearance)} suppressHydrationWarning>
       <head>
         {/* Before first paint: resolve System mode, ?mode=, the Classic theme from
             storage and the one-time migration, so there is no flash (lib/appearance.ts). */}
