@@ -54,3 +54,5 @@ Live board of what is being built in FounderOS. Absolute dates only. The
 - [ ] ! Set `MATCHCO_SUPPORT_EMAIL` in `.env.local`
 - [x] 2026-10-24: Match & CO. brand package v1 applied: Soft White theme and GladOS light/dark tokens in `app/matchco.css` (accent slots = Lavender, Coral, Apricot, Gradient), Poppins + Inter, package logo/icons in `public/brand/matchco/`, animated login wallpaper, name "Founder OS By Match & CO."
 - [ ] ! Classic and Bennett Legacy styles are not re-skinned to the brand; trademark check for the new name still open
+- [x] 2026-10-24: WhatsApp ingestion decided: Cloud API (`docs/projects/deal-automation/TASKS.md`); agent photos (23) and fork check-off done
+- [ ] ! Deal automation builds (scanner, alerts, briefing, jobs) wait on `INBOX_1_PASS` and the BotFather token
