@@ -16,6 +16,7 @@ import { Instagram, Linkedin, Mail, Music2, Twitter, Youtube, type LucideIcon } 
 import {
   GButton, GCard, GDelta, GDonut, GEmpty, GHeroCard, GList, GPage, GRow, GSampleBadge, GSectionHeader, GSegmented, GShareBar, GStat, GTag, GTickStrip,
   type DonutSlice,
+  GDotNumber,
 } from '@/components/g';
 import type { SocialStatusPill } from '@/lib/social-status';
 import type { DmThread } from '@/lib/social';
@@ -135,7 +136,7 @@ export function SocialG(props: SocialGProps) {
                   <span className="soc-g-icon"><Icon size={14} strokeWidth={1.75} aria-hidden /></span>
                   <span className="soc-g-acct-name">{a.label}</span>
                 </span>
-                <span className="soc-g-num">{a.followers == null ? '—' : formatFull(a.followers)}</span>
+                <span className="soc-g-num"><GDotNumber value={a.followers == null ? null : formatFull(a.followers)} size={5} label={a.followers == null ? `${a.label}: no count yet` : `${formatFull(a.followers)} ${a.platform === 'email' ? 'subscribers' : 'followers'}`} /></span>
                 <span className="soc-g-acct-delta">
                   {a.cur != null && a.prev != null ? <GDelta cur={a.cur} prev={a.prev} window="7 days" /> : <span className="soc-g-cap">no 7d history</span>}
                 </span>

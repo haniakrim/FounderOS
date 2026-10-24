@@ -1,4 +1,5 @@
 import type { DeliverableItem } from '@/founderos/lib/board-deliverables';
+import { currencySymbol } from '@/lib/currency';
 
 /**
  * The queue of agent work that is waiting on the operator.
@@ -163,7 +164,7 @@ export function classifyDeliverable(item: DeliverableItem, now = Date.now()): Cl
     label,
     action: ACTION_TEXT[ask],
     person,
-    glyph: money && needsYou ? '$' : GLYPH[ask],
+    glyph: money && needsYou ? currencySymbol() : GLYPH[ask],
     glyphTone: overdue
       ? 'err'
       : money && needsYou

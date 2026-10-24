@@ -5,6 +5,7 @@ import { ArrowUpRight, MessageSquare, TrendingDown, TrendingUp, X } from 'lucide
 import type { SocialGrowth } from '@/founderos/lib/schemas';
 import type { DmThread } from '@/lib/social';
 import { InstagramDmInbox } from '@/founderos/components/InstagramDmInbox';
+import { GDotNumber } from '@/components/g';
 
 type Range = 7 | 30 | 60 | 'all';
 const RANGES: Range[] = [7, 30, 60, 'all'];
@@ -385,7 +386,7 @@ export function SocialStatStrip({
         <div className="flex flex-col gap-1 rounded-lg-t border border-os-border bg-os-surface px-3 py-2">
           <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-os-dim">Total reach</span>
           <div className="flex items-baseline justify-between gap-2">
-            <span className="font-mono text-[20px] font-semibold leading-none tracking-[-0.02em]">{fmtNum(audienceTotal)}</span>
+            <GDotNumber value={fmtNum(audienceTotal)} size={4} />
             <span className="min-w-0 truncate font-mono text-[9.5px] text-os-dim">{platformsCount} platforms + email</span>
           </div>
         </div>

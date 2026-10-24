@@ -39,6 +39,7 @@ import { channelsNetChange, netChange, seriesWindow } from '@/lib/social-range';
 import { formatFull } from '@/lib/format-number';
 import { SERIES_INDEX } from '@/lib/series';
 import { money } from '@/lib/currency';
+import { GDotNumber } from '@/components/g';
 
 export const dynamic = 'force-dynamic';
 
@@ -111,8 +112,8 @@ function MetricCard({ tile, spark }: { tile: MetricTile; spark?: number[] }) {
           {!flat && tile.deltaPct ? '%' : ''}
         </span>
       </div>
-      <div className="flex items-baseline gap-3 text-[30px] font-normal leading-none tracking-[-0.01em] tabular-nums">
-        {main}
+      <div className="flex items-baseline gap-3 leading-none">
+        <GDotNumber value={main} size={4} />
         {small && <small className="text-[12.5px] font-normal tracking-normal text-os-dim">{small}</small>}
       </div>
       <div className="flex items-end justify-between gap-3">
@@ -461,9 +462,7 @@ export default async function AnalyticsPage() {
                   <GrowthBadge label="7d" value={p.growth.d7} />
                 </div>
                 <div className="mt-5 flex items-end justify-between gap-4">
-                  <div className="text-[26px] font-normal tracking-[-0.01em] tabular-nums">
-                    {formatFollowers(p.followers)}
-                  </div>
+                  <GDotNumber value={formatFollowers(p.followers)} size={4} />
                   {spark.length > 1 && <Spark data={spark} w={96} h={26} />}
                 </div>
                 <div className="mt-4 h-1 overflow-hidden rounded-sm-t bg-os-surface2">

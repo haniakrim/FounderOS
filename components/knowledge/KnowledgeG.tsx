@@ -143,7 +143,7 @@ export function KnowledgeG({ index, analysis }: { index: KnowledgeIndex; analysi
             requestAnimationFrame(() => scrollTo('finding-orphans'));
           }}
         />
-        <GStat value={s.medianDays === null ? null : `${s.medianDays}d`} label="Median age" source="Median days since last edit, files only" />
+        <GStat value={s.medianDays === null ? null : String(s.medianDays)} label="Median age (days)" source="Median days since last edit, files only" />
       </div>
 
       <div className="kg-know-nav">

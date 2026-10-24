@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { AsyncButton } from '@/founderos/components/AsyncButton';
 import { BoardTaskCard } from '@/founderos/components/BoardTaskCard';
-import { CountUp } from '@/founderos/components/CountUp';
+import { DotCount } from '@/founderos/components/CountUp';
 import { Label } from '@/founderos/components/terminal';
 import { publishBoard } from '@/founderos/components/board-live-store';
 import { boardDecisionFor, boardStats, groupIssues, modelSummary, orderRuns, orderSeats, runDuration, runningSince, RUN_OK, type BoardLivePayload } from '@/founderos/lib/board-live';
@@ -326,7 +326,7 @@ export function BoardLive({ initial, boardUrl }: { initial: BoardLivePayload; bo
               ).map(([label, value]) => (
                 <div key={label} data-lens="r" className="pressable is-row flex min-w-0 flex-col gap-1 rounded-ctl border border-os-border bg-os-bg px-2.5 py-2">
                   <StatLabel>{label}</StatLabel>
-                  <div className="font-mono text-[22px] font-semibold leading-none tracking-[-0.02em]"><CountUp value={value} /></div>
+                  <div className="font-mono text-[22px] font-semibold leading-none tracking-[-0.02em]"><DotCount value={value} size={4} /></div>
                 </div>
               ));
             })()}

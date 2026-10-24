@@ -26,6 +26,7 @@ import { angleBetween } from '@/components/adpilot/projection';
 import { pushEscape } from '@/lib/escape-stack';
 import {
   GButton, GCard, GDelta, GDotMatrix, GDriverBars, GEmpty, GList, GRingGauge, GRow, GSearch, GSectionHeader, GSegmented, GShareBar, GTag,
+  GDotNumber,
 } from '@/components/g';
 import { money as fmtMoney } from '@/lib/currency';
 
@@ -296,7 +297,7 @@ function Spend({ campaigns, active, metrics, daily, selected, windowLabel, onTog
   return (
     <GCard p={24} className="ap-g-card ap-g-spend" aria-labelledby="ap-g-spend">
       <GSectionHeader id="ap-g-spend" size={22} title="Ad spend" caption={windowLabel ?? undefined} />
-      <span className="ap-g-big" title="Spend over the selection's window">{money(metrics.spend)}</span>
+      <span className="ap-g-big" title="Spend over the selection's window"><GDotNumber value={money(metrics.spend)} size={5} label={`Ad spend ${money(metrics.spend)}`} /></span>
       {(s || l) && (
         <span className="ap-g-deltas">
           {s && <span className="ap-g-delta"><GDelta cur={s.cur} prev={s.prev} money window="last 7 days against the 7 before" /> <span className="soc-g-cap">spend · 7d</span></span>}

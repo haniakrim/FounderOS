@@ -4,6 +4,7 @@ import { useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { stageBarGeometry, stackSegments } from '@/lib/chart-geometry';
 import { formatCompact, formatFull, formatUsdCompact } from '@/lib/format-number';
 import { GChartTooltip } from './GChartTooltip';
+import { GDotNumber } from './Numbers';
 import { useWidth, VizStateBody, type VizStateProps } from './viz-shared';
 import { money as fmtMoney } from '@/lib/currency';
 
@@ -130,7 +131,7 @@ export function BarStages({
             <span data-tone="ok">{compact(c.won ?? 0)} won</span> · <span data-tone="err">{compact(c.lost ?? 0)} lost</span>
           </span>
         ) : (
-          <span className="g-stage-value" data-mask={hideValues || undefined} title={full(v)}>{compact(v)}</span>
+          <span className="g-stage-value" data-mask={hideValues || undefined} title={full(v)}><GDotNumber value={compact(v)} size={4} label={hideValues ? 'Hidden amount' : full(v)} /></span>
         )}
         {sub && <span className="g-stage-sub">{sub}</span>}
         {conversionRow && (

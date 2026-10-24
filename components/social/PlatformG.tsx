@@ -10,7 +10,7 @@
 
 import { useMemo, useState } from 'react';
 import { ChevronLeft, ExternalLink } from 'lucide-react';
-import { GAreaChart, GButton, GCard, GEmpty, GHeroCard, GList, GPage, GRow, GSectionHeader, GSegmented, GTag, GTickStrip } from '@/components/g';
+import { GAreaChart, GButton, GCard, GDotNumber, GEmpty, GHeroCard, GList, GPage, GRow, GSectionHeader, GSegmented, GTag, GTickStrip } from '@/components/g';
 import type { Newsletter } from '@/lib/newsletters';
 import { formatFull } from '@/lib/format-number';
 import { fmtDay, fmtPct, MAX_MARKS } from '@/lib/social-view';
@@ -132,7 +132,7 @@ function Strip({ points, what }: { points: { date: string; followers: number }[]
 function Readout({ value, label, title, tone }: { value: string; label: string; title: string; tone?: 'ok' | 'err' }) {
   return (
     <div className="soc-g-readout" title={title}>
-      <span className="soc-g-num" data-tone={tone}>{value}</span>
+      <span className="soc-g-num" data-tone={tone}><GDotNumber value={value} size={4} label={`${label}: ${value}`} /></span>
       <span className="soc-g-cap">{label}</span>
     </div>
   );

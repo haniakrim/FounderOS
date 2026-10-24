@@ -24,6 +24,15 @@ function toText(value: string | number | null | undefined): string {
   return value;
 }
 
+/**
+ * A currency-coded amount ("SAR 631K", "-SAR 1,500"): the code is drawn as a small label beside the dot
+ * figures, so money reads in dots like every other number instead of falling back to text.
+ */
+export function splitCurrency(raw: string): { code: string; figures: string } | null {
+  const m = raw.trim().match(/^(-?)([A-Z]{3})\s(.+)$/);
+  return m ? { code: m[2], figures: `${m[1]}${m[3]}` } : null;
+}
+
 /** The SVG for a glyph string already validated by dotText. */
 function DotSvg({ text, size, fluid = false }: { text: string; size: number; fluid?: boolean }) {
   const g = dotGap(size);
@@ -76,7 +85,8 @@ export type GDotNumberProps = {
  */
 export function GDotNumber({ value, size = 5, max = DOT_MAX, tone = 'ink', label, title, className }: GDotNumberProps) {
   const raw = toText(value);
-  const text = dotText(raw);
+  const cur = splitCurrency(raw);
+  const text = dotText(cur ? cur.figures : raw);
   const aria = label ?? (value == null || raw === '—' ? 'Not applicable' : raw);
   const ref = useRef<HTMLSpanElement>(null);
   const [fit, setFit] = useState<{ size: number | null } | null>(null);
@@ -107,8 +117,8 @@ export function GDotNumber({ value, size = 5, max = DOT_MAX, tone = 'ink', label
   if (!auto) {
     return (
       <span {...common} className={cx('g-dotnum', className)} data-size={String(size)}>
+        {cur && <span className="g-dotnum-cur" aria-hidden>{cur.code}</span>}
         <DotSvg text={text} size={size} />
-        <span className="g-dotnum-plain" aria-hidden>{raw}</span>
       </span>
     );
   }
@@ -116,7 +126,7 @@ export function GDotNumber({ value, size = 5, max = DOT_MAX, tone = 'ink', label
   // then snap to the largest whole dot size that fits, or text below size 3.
   return (
     <span {...common} ref={ref} className={cx('g-dotnum', 'g-dotnum-fit', className)} data-size="auto">
-      <span className="g-dotnum-plain" aria-hidden>{raw}</span>
+      {cur && <span className="g-dotnum-cur" aria-hidden>{cur.code}</span>}
       {fit === null ? (
         <DotSvg text={text} size={max} fluid />
       ) : fit.size === null ? (
@@ -140,9 +150,20 @@ export type GBigNumberProps = {
 
 /** Plain 34/300 tabular numeral for values too wide for dots (C6). */
 export function GBigNumber({ value, unit, title, className }: GBigNumberProps) {
+  const text = toText(value);
+  const cur = splitCurrency(text);
+  // The same dot numerals as everywhere else when the value has glyphs and is short enough to read as dots.
+  if (value != null && dotText(cur ? cur.figures : text) && (cur ? cur.figures : text).length <= 8) {
+    return (
+      <span data-g="GBigNumber" className={cx('g-bignum', className)} title={title}>
+        <GDotNumber value={text} size={4} />
+        {unit != null && <span className="g-bignum-unit">{unit}</span>}
+      </span>
+    );
+  }
   return (
     <span data-g="GBigNumber" className={cx('g-bignum', className)} title={title}>
-      <span className="g-bignum-value">{toText(value)}</span>
+      <span className="g-bignum-value">{text}</span>
       {unit != null && <span className="g-bignum-unit">{unit}</span>}
     </span>
   );
@@ -209,7 +230,8 @@ export type GStatProps = {
  */
 export function GStat({ value, label, source, href, onClick, badge = false, state = 'ready', missing, extra, className }: GStatProps) {
   const text = toText(state === 'unconfigured' ? null : value);
-  const dots = prefersDots(text);
+  const statCur = splitCurrency(text);
+  const dots = prefersDots(statCur ? statCur.figures : text);
   const isZero = value === 0 || value === '0';
   const title = state === 'unconfigured' ? `${source} · not configured${missing ? `: ${missing}` : ''}` : state === 'error' ? `${source} · could not load` : source;
   const body = (

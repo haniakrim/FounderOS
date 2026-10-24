@@ -3,6 +3,7 @@ import type { Proposal, ProposalBrand } from '@/founderos/lib/schemas';
 import { homedir } from 'node:os';
 import path from 'node:path';
 import { briefFrom, titleFromFilename } from '@/founderos/lib/deliverable-brief';
+import { money } from '@/lib/currency';
 
 /**
  * Agent deliverables (the operator, 2026-08-11: "I don't know how to get the
@@ -226,7 +227,7 @@ export function groupDeliverables(files: Deliverable[], proposals: Proposal[]): 
         name: p.client,
         kind: 'link' as const,
         url: p.url,
-        meta: [p.status, p.amountUsd !== null ? `$${p.amountUsd.toLocaleString('en-US')}` : null]
+        meta: [p.status, p.amountUsd !== null ? money(p.amountUsd) : null]
           .filter(Boolean)
           .join(' · '),
         modifiedAt: p.createdAt,

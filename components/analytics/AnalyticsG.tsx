@@ -13,6 +13,7 @@ import { Instagram, Linkedin, Music2, Twitter, Youtube, type LucideIcon } from '
 import {
   GAreaChart, GBar, GButton, GCard, GDelta, GDonut, GList, GPage, GRow, GSectionHeader, GSparkline, GTag,
   type DonutSlice,
+  GDotNumber,
 } from '@/components/g';
 import { formatFull } from '@/lib/format-number';
 import { fmtDay } from '@/lib/social-view';
@@ -74,7 +75,7 @@ export function AnalyticsG(p: AnalyticsGProps) {
             <GCard key={t.id} p={20} href={t.href} className="an-g-tile" title={`${t.label}: ${t.source}`}>
               <span className="an-g-tile-label">{t.label}</span>
               <span className="an-g-tile-value">
-                <span className="soc-g-num">{t.value}</span>
+                <span className="soc-g-num"><GDotNumber value={t.value} size={5} label={`${t.label}: ${t.value}`} /></span>
                 {t.unit && <span className="soc-g-cap">{t.unit}</span>}
               </span>
               <span className="an-g-tile-foot">
@@ -175,7 +176,7 @@ export function AnalyticsG(p: AnalyticsGProps) {
                     <span className="soc-g-icon"><Icon size={14} strokeWidth={1.75} aria-hidden /></span>
                     <span className="soc-g-acct-name">{pl.label}</span>
                   </span>
-                  <span className="an-g-tile-value"><span className="soc-g-num">{pl.followers == null ? '—' : formatFull(pl.followers)}</span></span>
+                  <span className="an-g-tile-value"><span className="soc-g-num"><GDotNumber value={pl.followers == null ? null : formatFull(pl.followers)} size={5} label={pl.followers == null ? `${pl.label}: no count yet` : `${formatFull(pl.followers)} followers`} /></span></span>
                   <span className="an-g-tile-foot">
                     {pl.cur != null && pl.prev != null ? <GDelta cur={pl.cur} prev={pl.prev} window="7 days" /> : <span className="soc-g-cap">no 7d history</span>}
                     {pl.spark.length > 1 && <GSparkline values={pl.spark} label={`${pl.label} followers, last ${pl.spark.length} snapshots`} color={channelVizColor(pl.platform)} width={96} height={26} />}

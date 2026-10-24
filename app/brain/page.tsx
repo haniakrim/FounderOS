@@ -28,6 +28,7 @@ import { GPage, GSectionHeader } from '@/components/g';
 import { GStyleProvider } from '@/components/system-g/style-context';
 import { BrainSection, DoctorHero, FolderBars, PillarHealth, RadialStage, StorageLayers } from '@/components/brain/BrainG';
 import { BrainAbout } from '@/components/brain/BrainAbout';
+import { GDotNumber } from '@/components/g';
 
 export const dynamic = 'force-dynamic';
 
@@ -386,7 +387,7 @@ export default async function BrainPage() {
 
           <Stage step="2" title="engine CLI" caption="chunk · embed · route — the engine between disk and database">
             <div className="flex items-baseline gap-3">
-              <span className="text-[30px] font-normal tabular-nums">{doctor.healthScore ?? '—'}</span>
+              <GDotNumber value={doctor.healthScore == null ? null : String(doctor.healthScore)} size={5} />
               <span className="text-xs text-os-dim">/ 100 health{doctor.connected ? '' : ' · CLI unreachable'}</span>
             </div>
             <ul className="mt-4 space-y-2.5">
@@ -420,11 +421,11 @@ export default async function BrainPage() {
             {stats ? (
               <div className="grid grid-cols-2 gap-3" title="From engine stats, read when this page loaded">
                 <div className="rounded-md-t border border-os-border bg-os-surface2 px-3 py-3.5">
-                  <div className="text-[22px] font-normal tabular-nums">{formatCompact(stats.pages)}</div>
+                  <GDotNumber value={formatCompact(stats.pages)} size={4} />
                   <div className="text-[11.5px] text-os-dim">Pages · engine stats</div>
                 </div>
                 <div className="rounded-md-t border border-os-border bg-os-surface2 px-3 py-3.5">
-                  <div className="text-[22px] font-normal tabular-nums">{formatCompact(stats.chunks)}</div>
+                  <GDotNumber value={formatCompact(stats.chunks)} size={4} />
                   <div className="text-[11.5px] text-os-dim">Chunks · engine stats</div>
                 </div>
               </div>

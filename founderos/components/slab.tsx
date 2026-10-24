@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
 import { Lightbulb } from 'lucide-react';
 import { Rise } from '@/founderos/components/motion';
-import { CountUp, type CountKind } from '@/founderos/components/CountUp';
+import { DotCount, type CountKind } from '@/founderos/components/CountUp';
 import { VolumeMeter } from '@/founderos/components/VolumeMeter';
+import { GDotNumber } from '@/components/g';
 
 /**
  * The Brand Deals slab as a kit (2026-09-24, Alex: "rebuild the entire OS
@@ -114,7 +115,7 @@ export function BigStat({
     <div>
       <div className="flex flex-wrap items-center gap-2.5">
         <span className={`${size === 50 ? 'text-[50px] tracking-[-0.035em]' : 'text-[30px] tracking-[-0.03em]'} font-semibold leading-none tabular-nums`}>
-          {display ?? <CountUp value={value ?? 0} kind={kind} />}
+          {display != null ? <GDotNumber value={display} size={size === 50 ? 5 : 4} /> : <DotCount value={value ?? 0} kind={kind} size={size === 50 ? 5 : 4} />}
           {unit && <span className="ml-1.5 text-[15px] font-normal tracking-normal text-os-dim">{unit}</span>}
         </span>
         {chips.map((c) => (
@@ -199,7 +200,7 @@ export function InsightCard({
         <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-[12px] backdrop-blur">
           {icon ?? <Lightbulb size={13} strokeWidth={1.7} />} {badge}
         </span>
-        <div className="mt-4 text-[64px] font-semibold leading-none tracking-[-0.03em] tabular-nums">{display ?? <CountUp value={value ?? 0} kind={kind} />}</div>
+        <div className="mt-4 text-[64px] font-semibold leading-none tracking-[-0.03em] tabular-nums">{display != null ? <GDotNumber value={display} size={5} tone="on-hero" /> : <DotCount value={value ?? 0} kind={kind} size={5} tone="on-hero" />}</div>
         <div className="mt-2 text-[16px] font-semibold leading-snug">{headline}</div>
         {body && <div className="mt-1.5 text-[12.5px] leading-relaxed text-white/75">{body}</div>}
         <div className="mt-auto flex gap-1.5 pt-4">

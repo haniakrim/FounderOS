@@ -12,6 +12,7 @@ import { MoreHorizontal, Plus, UserPlus } from 'lucide-react';
 import {
   GAreaChart, GBarChart, GButton, GCard, GDialog, GDotCloud, GDrawer, GEmpty, GErrorLine, GField, GHeroCard, GInput, GKeyValue, GList,
   GMenu, GPage, GRow, GSampleBadge, GSectionHeader, GSelect, GSheet, GTable, GTag, GTextarea, GToggle, type GColumn, type GTagTone,
+  GDotNumber,
 } from '@/components/g';
 import { launchBlockedReason, writeBlockedReason, type ClientRosterRow, type ClientWorkRow, type ClientsView } from '@/lib/clients-view';
 import type { ClientWorkStatus } from '@/lib/schemas';
@@ -277,7 +278,7 @@ function rosterMeta(r: ClientRosterRow): string {
 function Figure({ value, label, tone }: { value: number; label: string; tone?: 'err' }) {
   return (
     <div className="cl-g-figure">
-      <span className="cl-g-figure-num" data-tone={tone}>{value}</span>
+      <span className="cl-g-figure-num" data-tone={tone}><GDotNumber value={String(value)} size={4} label={`${value} ${label.toLowerCase()}`} tone={value === 0 ? 'muted' : 'ink'} /></span>
       <span className="cl-g-cap">{label}</span>
     </div>
   );

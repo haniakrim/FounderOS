@@ -9216,8 +9216,9 @@ button.g-card, button.g-card-raised { display: flex; flex-direction: column; ali
 .g-dotnum svg { max-width: 100%; }
 .g-dotnum[data-tone='on-hero'] { color: var(--g-on-hero); }
 .g-dotnum[data-tone='muted'] { color: var(--g-muted); }
-/* Plain-text twin of the dot numeral; shown only by a skin that replaces the dot font (app/matchco.css). */
-.g-dotnum-plain { display: none; }
+/* The currency code beside dot figures ("SAR" + 631K), drawn as a small label so money reads in dots. */
+.g-dotnum-cur { align-self: flex-end; margin-right: 0.5rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; line-height: 1; padding-bottom: 2px; }
+.g-dotnum-fit .g-dotnum-cur { font-size: 0.9375rem; }
 .g-dotnum-fit { display: flex; justify-content: center; width: 100%; min-width: 0; container-type: inline-size; }
 .g-dotnum-fit .g-dotnum-fallback { font-size: min(32px, calc(100cqi / (var(--gk-chars, 6) * 0.62))); white-space: nowrap; }
 .g-dotnum-text, .g-dotnum-fallback { font-size: 2rem; font-weight: var(--g-fw-light); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; line-height: 1.1; }

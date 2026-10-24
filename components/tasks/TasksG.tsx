@@ -180,6 +180,8 @@ export function TasksG({
   };
 
   const live = tasks.filter((t) => !hidden.has(t.id));
+  const runtimeMs = stats.runtimeMs && stats.runsInWindow > 0 ? stats.runtimeMs.value : null;
+  const runtimeDots = runtimeMs == null ? null : runtimeMs >= 3_600_000 ? { value: (runtimeMs / 3_600_000).toFixed(1), unit: 'hours' } : { value: String(Math.round(runtimeMs / 60_000)), unit: 'minutes' };
   const runtimeText = stats.runtimeMs && stats.runsInWindow > 0 ? formatRuntime(stats.runtimeMs.value) : null;
   const wl = rangeLabel.toLowerCase();
 
@@ -228,9 +230,9 @@ export function TasksG({
           />
           <GStat value={stats.inProgress} label="In progress" source="Tasks being worked on right now" />
           <GStat
-            value={runtimeText}
-            label="Agent runtime"
-            source={`Time agents spent running in the ${wl}`}
+            value={runtimeDots?.value ?? null}
+            label={runtimeDots ? `Agent runtime (${runtimeDots.unit})` : 'Agent runtime'}
+            source={`Time agents spent running in the ${wl}${runtimeText ? `: ${runtimeText}` : ''}`}
             extra={
               runtimeText ? (
                 stats.runtimeMs?.delta != null ? <GDelta cur={stats.runtimeMs.value} prev={stats.runtimeMs.prev} window={`vs the previous ${rangeDays} days`} /> : null

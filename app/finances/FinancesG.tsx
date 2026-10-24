@@ -13,7 +13,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowDownLeft, ArrowUpRight, Eye, EyeOff, Landmark, Scale, Send, Upload } from 'lucide-react';
 import {
-  GAsk, GBarChart, GButton, GCard, GDonut, GEmpty, GErrorLine, GEyebrow, GInput, GList, GPage, GProgress, GRow, GSectionHeader, GSegmented, GSelect, GTag,
+  GAsk, GBarChart, GButton, GCard, GDonut, GDotNumber, GEmpty, GErrorLine, GEyebrow, GInput, GList, GPage, GProgress, GRow, GSectionHeader, GSegmented, GSelect, GTag,
   GBar, type SeriesBar, type StageColumn,
 } from '@/components/g';
 import { matchesQuery } from './search';
@@ -38,6 +38,15 @@ function ago(unix: number): string {
 /** Blurs an amount while hide-values is on (the kit's [data-mask] recipe). */
 function Money({ children, hide }: { children: React.ReactNode; hide: boolean }) {
   return <span data-mask={hide || undefined} className="fin-g-money">{children}</span>;
+}
+
+/** A headline amount as dot numerals; hide-values blurs it and keeps the value out of the accessible name. */
+function Fig({ text, hide, size = 'auto', max = 5, title }: { text: string | null; hide: boolean; size?: 3 | 4 | 5 | 'auto'; max?: 3 | 4 | 5; title?: string }) {
+  return (
+    <span data-mask={hide || undefined} className="fin-g-money" style={{ display: 'block', maxWidth: '100%' }}>
+      <GDotNumber value={text} size={size} max={max} label={hide ? 'Hidden amount' : undefined} title={title} />
+    </span>
+  );
 }
 
 export function FinancesG(props: FinancesClientProps) {
@@ -125,11 +134,11 @@ export function FinancesG(props: FinancesClientProps) {
 
       {/* Tiles (FR-N4) */}
       <div className="fin-g-tiles">
-        <Tile label={`Income · ${headlinePeriod}`} icon={<ArrowDownLeft size={14} strokeWidth={1.6} aria-hidden />} value={<Money hide={hide}>{usd(incomeMtd)}</Money>} sub={`${liveCount}/${accounts.length} live`} />
+        <Tile label={`Income · ${headlinePeriod}`} icon={<ArrowDownLeft size={14} strokeWidth={1.6} aria-hidden />} value={<Fig text={usd(incomeMtd)} hide={hide} />} sub={`${liveCount}/${accounts.length} live`} />
         <Tile
           label="Expenses · /mo"
           icon={<ArrowUpRight size={14} strokeWidth={1.6} aria-hidden />}
-          value={expensesSource === 'none' ? '—' : <Money hide={hide}>{usd(expenses)}</Money>}
+          value={expensesSource === 'none' ? '—' : <Fig text={usd(expenses)} hide={hide} />}
           sub={
             expensesSource === 'none' ? (
               <span data-expenses-empty=""><GButton size="sm" href="#statement-upload" title="Upload a card or bank statement below to see monthly spend">No statements yet</GButton></span>
@@ -141,13 +150,13 @@ export function FinancesG(props: FinancesClientProps) {
         <Tile
           label={`Net · ${headlinePeriod}`}
           icon={<Scale size={14} strokeWidth={1.6} aria-hidden />}
-          value={<span data-tone={netMonthly < 0 ? 'err' : undefined}><Money hide={hide}>{netMonthly >= 0 ? '' : '−'}{usd(Math.abs(netMonthly))}</Money></span>}
+          value={<span data-tone={netMonthly < 0 ? 'err' : undefined}><Fig text={`${netMonthly >= 0 ? '' : '-'}${usd(Math.abs(netMonthly))}`} hide={hide} /></span>}
           sub={expensesSource === 'none' ? 'no expenses uploaded' : 'in − out'}
         />
         <Tile
           label="Stripe balance"
           icon={<Landmark size={14} strokeWidth={1.6} aria-hidden />}
-          value={stripeLive ? <Money hide={hide}>{usd(available, true)}</Money> : '—'}
+          value={stripeLive ? <Fig text={usd(available)} hide={hide} title={`Exact balance ${usd(available, true)}`} /> : '—'}
           sub={stripeLive ? <Money hide={hide}>{usd(pending, true)} pending</Money> : <GButton size="sm" href={processorSetupHref('stripe')} title="STRIPE_SECRET_KEY">Connect Stripe</GButton>}
         />
       </div>
@@ -216,7 +225,7 @@ export function FinancesG(props: FinancesClientProps) {
                 )}
               </div>
               <div className="fin-g-proc-value">
-                <span className="fin-g-num-md">{a.income != null ? <Money hide={hide}>{usd(a.income)}</Money> : '—'}</span>
+                <span className="fin-g-num-md">{a.income != null ? <Fig text={usd(a.income)} hide={hide} size={4} max={4} /> : '—'}</span>
                 <span className="fin-g-cap">{processorPeriodLabel(a, headlinePeriod)}</span>
               </div>
               <GBar label={`${a.label}: ${a.income != null ? usd(a.income) : 'no data'}, share of the largest processor`} value={a.income} max={maxAccount} tone="accent" />
@@ -333,7 +342,7 @@ function BusinessCard({ series, hide }: { series: BusinessSeries; hide: boolean 
         </div>
       </div>
       <div className="fin-g-biz-total">
-        <span className="fin-g-num-md" data-tone={metric === 'net' && total < 0 ? 'err' : undefined}><Money hide={hide}>{metric === 'net' ? signed(total) : cUsd(total)}</Money></span>
+        <span className="fin-g-num-md" data-tone={metric === 'net' && total < 0 ? 'err' : undefined}><Fig text={metric === 'net' ? `${total < 0 ? '-' : ''}${cUsd(Math.abs(total))}` : cUsd(total)} hide={hide} size={4} max={4} /></span>
         <span className="fin-g-cap" data-tone={metric === 'in' ? (net >= 0 ? 'ok' : 'err') : undefined}>
           <Money hide={hide}>{metric === 'in' ? `${signed(net)} net` : metric === 'out' ? `of ${cUsd(totalIn)} in` : `${cUsd(totalIn)} in − ${cUsd(totalOut)} out`}</Money>
         </span>

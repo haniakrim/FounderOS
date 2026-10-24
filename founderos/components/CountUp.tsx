@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { money } from '@/lib/currency';
+import { GDotNumber, type DotSize } from '@/components/g';
 
 /** One frame of a count: ease-out cubic from `from` to `to` at progress t
  *  (0..1). Intermediate frames are whole numbers; the last lands exactly. */
@@ -46,8 +48,8 @@ export type CountKind = 'int' | 'usd' | 'usdCents' | 'followers' | 'tokens' | 'p
 
 const FORMAT: Record<CountKind, (n: number) => string> = {
   int: (n) => Math.round(n).toLocaleString('en-US'),
-  usd: (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }),
-  usdCents: (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }),
+  usd: (n) => money(n),
+  usdCents: (n) => money(n, { cents: true }),
   followers: (n) => Math.round(n).toLocaleString('en-US'),
   // 68.2M / 1.5k, the way /usage prints token burn (lib/usage.ts fmtTokens)
   tokens: (n) => (n >= 1e9 ? `${(n / 1e9).toFixed(1)}B` : n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${(n / 1e3).toFixed(1)}k` : String(Math.round(n))),
@@ -60,4 +62,11 @@ export function formatCount(kind: CountKind, n: number): string {
 
 export function CountUp({ value, kind = 'int' }: { value: number; kind?: CountKind }) {
   return <>{FORMAT[kind](useCountUp(value))}</>;
+}
+
+/** The final value of a count, drawn as dot-matrix numerals (no count-in: the
+ *  dots read from the exact formatted target). null stays an em dash. */
+export function DotCount({ value, kind = 'int', size = 5, tone = 'ink', label, title }: { value: number | null; kind?: CountKind; size?: DotSize | 'auto'; tone?: 'ink' | 'on-hero' | 'muted'; label?: string; title?: string }) {
+  const text = value == null ? null : FORMAT[kind](value);
+  return <GDotNumber value={text} size={size} max={5} tone={tone} label={label} title={title} />;
 }

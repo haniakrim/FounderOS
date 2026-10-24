@@ -37,7 +37,7 @@ import { PostizPanel } from '@/founderos/components/PostizPanel';
 import { loadPostizOverview } from '@/lib/connectors/postiz';
 import { writesEnabled } from '@/lib/gates';
 import { PostComposer } from '@/founderos/components/PostComposer';
-import { CountUp } from '@/founderos/components/CountUp';
+import { DotCount } from '@/founderos/components/CountUp';
 import { Rise } from '@/founderos/components/motion';
 
 export const dynamic = 'force-dynamic';
@@ -221,7 +221,7 @@ export default async function SocialPage() {
                 </span>
               </div>
               <div className="mt-3 font-mono text-[26px] font-semibold leading-none tracking-[-0.02em]">
-                {p.followers == null ? formatFollowers(null) : <CountUp value={p.followers} kind="followers" />}
+                <DotCount value={p.followers} kind="followers" size={4} label={p.followers == null ? undefined : formatFollowers(p.followers)} />
               </div>
               <div className="mt-1.5 truncate font-mono text-[9.5px] text-os-dim">{p.handle}</div>
               <div className="mt-3 h-1 overflow-hidden rounded-sm-t bg-os-surface2">
@@ -252,7 +252,7 @@ export default async function SocialPage() {
             </span>
           </div>
           <div className="mt-3 font-mono text-[26px] font-semibold leading-none tracking-[-0.02em]">
-            {email.subscribers == null ? formatFollowers(null) : <CountUp value={email.subscribers} kind="followers" />}
+            <DotCount value={email.subscribers} kind="followers" size={4} />
           </div>
           <div className="mt-1.5 truncate font-mono text-[9.5px] text-os-dim">Beehiiv · newsletter</div>
           <div className="mt-3 h-1 overflow-hidden rounded-sm-t bg-os-surface2">
