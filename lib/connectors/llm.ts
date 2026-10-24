@@ -69,6 +69,44 @@ export const stubLlmProvider: LlmProvider = {
   },
 };
 
+type ModelFactory = (id: string) => Promise<unknown>;
+
+/** One AI SDK generateText exchange (tools, multi-step) against whichever model factory a provider supplies. */
+async function generate(req: LlmChatRequest, defaultModel: string, modelFor: ModelFactory): Promise<LlmChatResult> {
+  const { generateText, tool, stepCountIs } = await import('ai');
+  const tools = Object.fromEntries(
+    (req.tools ?? []).map((t) => [
+      t.name,
+      tool({ description: t.description, inputSchema: t.parameters, execute: t.execute }),
+    ]),
+  );
+  const messages = req.messages
+    .filter((m) => m.role !== 'tool')
+    .map((m) => ({ role: m.role as 'system' | 'user' | 'assistant', content: m.content }));
+
+  const result = await generateText({
+    model: (await modelFor(req.model ?? defaultModel)) as Parameters<typeof generateText>[0]['model'],
+    system: req.system,
+    messages,
+    tools: req.tools?.length ? tools : undefined,
+    stopWhen: stepCountIs(6),
+  });
+
+  const toolCalls: LlmToolCall[] = [];
+  for (const step of result.steps ?? []) {
+    const calls = step.toolCalls ?? [];
+    const results = step.toolResults ?? [];
+    for (const c of calls) {
+      // Match the result to its call by id — a failed/missing tool result
+      // can leave `toolResults` shorter than `toolCalls`, so positional
+      // alignment would attach the wrong output to every later call.
+      const hit = results.find((r) => r.toolCallId === c.toolCallId);
+      toolCalls.push({ name: c.toolName, args: c.input, result: hit?.output });
+    }
+  }
+  return { text: result.text, toolCalls };
+}
+
 export function createGatewayProvider(model: string = DEFAULT_MODEL): LlmProvider {
   return {
     name: 'gateway',
@@ -81,38 +119,64 @@ export function createGatewayProvider(model: string = DEFAULT_MODEL): LlmProvide
         throw new Error('AI_GATEWAY_API_KEY is not set — add it to .env.local to enable agent chat.');
       }
       if (!process.env.AI_GATEWAY_API_KEY) process.env.AI_GATEWAY_API_KEY = key;
-      const { generateText, tool, stepCountIs, gateway } = await import('ai');
-      const tools = Object.fromEntries(
-        (req.tools ?? []).map((t) => [
-          t.name,
-          tool({ description: t.description, inputSchema: t.parameters, execute: t.execute }),
-        ]),
-      );
-      const messages = req.messages
-        .filter((m) => m.role !== 'tool')
-        .map((m) => ({ role: m.role as 'system' | 'user' | 'assistant', content: m.content }));
+      return generate(req, model, async (id) => (await import('ai')).gateway(id));
+    },
+  };
+}
 
-      const result = await generateText({
-        model: gateway(req.model ?? model),
-        system: req.system,
-        messages,
-        tools: req.tools?.length ? tools : undefined,
-        stopWhen: stepCountIs(6),
+/* ── Direct Anthropic and Hermes (LLM_PROVIDER=anthropic | hermes) ─────────────────────────────────── */
+
+const ANTHROPIC_KEY = 'ANTHROPIC_API_KEY';
+const ANTHROPIC_DEFAULT = 'claude-sonnet-5-5';
+const anthropicKey = (): string | undefined => resolveCred(ANTHROPIC_KEY, []);
+/** The Gateway's "anthropic/claude-x" ids name the same model as the API's "claude-x". */
+const anthropicId = (id: string): string => (id.startsWith('anthropic/') ? id.slice('anthropic/'.length) : id);
+
+/** Claude through the Anthropic API directly: the same tools and multi-step loop as the Gateway, no Gateway key. */
+export function createAnthropicProvider(): LlmProvider {
+  return {
+    name: 'anthropic',
+    async chat(req) {
+      const apiKey = anthropicKey();
+      if (!apiKey) throw new Error('ANTHROPIC_API_KEY is not set — add it to .env.local to enable agent chat.');
+      const model = anthropicId(req.model ?? process.env.ANTHROPIC_MODEL ?? ANTHROPIC_DEFAULT);
+      return generate({ ...req, model }, model, async (id) => (await import('@ai-sdk/anthropic')).createAnthropic({ apiKey })(anthropicId(id)));
+    },
+  };
+}
+
+const hermesUrl = (): string => (process.env.HERMES_API_URL ?? 'http://hermes:8642').replace(/\/+$/, '');
+const hermesHeaders = (): Record<string, string> => {
+  const key = process.env.HERMES_API_KEY?.trim();
+  return { 'content-type': 'application/json', ...(key ? { authorization: `Bearer ${key}` } : {}) };
+};
+
+/**
+ * Hermes (LLM_PROVIDER=hermes): a plain conversation goes to the Hermes Agent's OpenAI-compatible API, so
+ * Hermes answers with its own memory and skills. A request that carries this app's tools stays on Claude
+ * directly, because Hermes cannot call a tool that lives inside this process.
+ */
+export function createHermesProvider(): LlmProvider {
+  const claude = createAnthropicProvider();
+  return {
+    name: 'hermes',
+    async chat(req) {
+      if (req.tools?.length) return claude.chat(req);
+      const messages = [
+        ...(req.system ? [{ role: 'system', content: req.system }] : []),
+        ...req.messages.filter((m) => m.role !== 'tool').map((m) => ({ role: m.role, content: m.content })),
+      ];
+      const res = await fetch(`${hermesUrl()}/v1/chat/completions`, {
+        method: 'POST',
+        headers: hermesHeaders(),
+        body: JSON.stringify({ model: process.env.HERMES_MODEL ?? 'hermes-agent', messages }),
+        signal: AbortSignal.timeout(120_000),
       });
-
-      const toolCalls: LlmToolCall[] = [];
-      for (const step of result.steps ?? []) {
-        const calls = step.toolCalls ?? [];
-        const results = step.toolResults ?? [];
-        for (const c of calls) {
-          // Match the result to its call by id — a failed/missing tool result
-          // can leave `toolResults` shorter than `toolCalls`, so positional
-          // alignment would attach the wrong output to every later call.
-          const hit = results.find((r) => r.toolCallId === c.toolCallId);
-          toolCalls.push({ name: c.toolName, args: c.input, result: hit?.output });
-        }
-      }
-      return { text: result.text, toolCalls };
+      if (!res.ok) throw new Error(`Hermes answered ${res.status}: ${(await res.text()).slice(0, 160)}`);
+      const body = (await res.json()) as { choices?: { message?: { content?: string } }[] };
+      const text = body.choices?.[0]?.message?.content?.trim();
+      if (!text) throw new Error('Hermes returned an empty reply');
+      return { text, toolCalls: [] };
     },
   };
 }
@@ -120,6 +184,8 @@ export function createGatewayProvider(model: string = DEFAULT_MODEL): LlmProvide
 export function getLlmProvider(): LlmProvider {
   const name = process.env.LLM_PROVIDER ?? 'gateway';
   if (name === 'stub') return stubLlmProvider;
+  if (name === 'anthropic') return createAnthropicProvider();
+  if (name === 'hermes') return createHermesProvider();
   return createGatewayProvider();
 }
 
@@ -131,6 +197,23 @@ export async function llmStatus(): Promise<ConnectorStatus> {
   const base = { id: 'llm', name: 'LLM (Gateway)', kind: 'orchestration' } as const;
   if (process.env.LLM_PROVIDER === 'stub') {
     return { ...base, state: 'connected', detail: 'stub provider active (tests)' };
+  }
+  if (process.env.LLM_PROVIDER === 'anthropic') {
+    return anthropicKey()
+      ? { ...base, name: 'LLM (Anthropic)', state: 'connected', detail: `Anthropic API · default model ${process.env.ANTHROPIC_MODEL ?? ANTHROPIC_DEFAULT}` }
+      : { ...base, name: 'LLM (Anthropic)', state: 'not_configured', detail: 'Set ANTHROPIC_API_KEY in .env.local to enable agent chat.' };
+  }
+  if (process.env.LLM_PROVIDER === 'hermes') {
+    const hb = { ...base, name: 'LLM (Hermes)' } as const;
+    if (!anthropicKey()) return { ...hb, state: 'not_configured', detail: 'Set ANTHROPIC_API_KEY in .env.local: Hermes chats use it for tool calls.' };
+    try {
+      const res = await fetch(`${hermesUrl()}/health`, { headers: hermesHeaders(), signal: AbortSignal.timeout(4000) });
+      return res.ok
+        ? { ...hb, state: 'connected', detail: `Hermes Agent at ${hermesUrl()} · tool calls on Claude ${process.env.ANTHROPIC_MODEL ?? ANTHROPIC_DEFAULT}` }
+        : { ...hb, state: 'error', detail: `Hermes answered ${res.status} at ${hermesUrl()}` };
+    } catch {
+      return { ...hb, state: 'error', detail: `Hermes is not reachable at ${hermesUrl()}` };
+    }
   }
   const key = resolveGatewayKey();
   if (!key) {

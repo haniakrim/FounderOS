@@ -116,7 +116,7 @@ export function modelChain(seat: PoolSeat, storedModel?: string | null, env: Rec
 /** The model to hand llmChat: undefined when the chain is on the gateway default, so the provider's own default applies. */
 export const modelArg = (ctx: { model: string }): { model?: string } => (ctx.model === LLM_DEFAULT_MODEL ? {} : { model: ctx.model });
 
-const KEY_MISSING = /AI_GATEWAY_API_KEY is not set|creds missing|not configured/i;
+const KEY_MISSING = /AI_GATEWAY_API_KEY is not set|ANTHROPIC_API_KEY is not set|creds missing|not configured/i;
 
 function classify(err: unknown): Error {
   const e = err instanceof Error ? err : new Error(String(err));
