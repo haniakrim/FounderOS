@@ -19,6 +19,7 @@ import type { LlmToolSpec } from '@/lib/connectors/llm';
 import { bdpilotStatePath, gbrainBin, gbrainConfigured } from '@/lib/stores';
 import type { AgentRunResult, RuntimeAgent } from '@/lib/agents/runtime';
 import { contentLabAgent } from '@/lib/agents/content-lab';
+import { withDemoRuns } from '@/lib/agents/demo-runs';
 
 /**
  * The agent roster. Every run() reports live, honest status: an agent whose
@@ -124,7 +125,7 @@ async function bdpilotStateRun(kind: 'approval' | 'inbound'): Promise<AgentRunRe
   }
 }
 
-export const realAgents: RuntimeAgent[] = [
+const BASE_AGENTS: RuntimeAgent[] = [
   // ── TECH ─────────────────────────────────────────────────────────────
   {
     id: 'conductor',
@@ -464,3 +465,5 @@ export const realAgents: RuntimeAgent[] = [
   // Content Lab (docs/projects/content-lab SPEC §8): organic content intelligence, modelled on Ad Scout
   contentLabAgent(),
 ];
+
+export const realAgents: RuntimeAgent[] = BASE_AGENTS.map(withDemoRuns);
