@@ -108,6 +108,7 @@ export function GDotNumber({ value, size = 5, max = DOT_MAX, tone = 'ink', label
     return (
       <span {...common} className={cx('g-dotnum', className)} data-size={String(size)}>
         <DotSvg text={text} size={size} />
+        <span className="g-dotnum-plain" aria-hidden>{raw}</span>
       </span>
     );
   }
@@ -115,6 +116,7 @@ export function GDotNumber({ value, size = 5, max = DOT_MAX, tone = 'ink', label
   // then snap to the largest whole dot size that fits, or text below size 3.
   return (
     <span {...common} ref={ref} className={cx('g-dotnum', 'g-dotnum-fit', className)} data-size="auto">
+      <span className="g-dotnum-plain" aria-hidden>{raw}</span>
       {fit === null ? (
         <DotSvg text={text} size={max} fluid />
       ) : fit.size === null ? (

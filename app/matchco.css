@@ -514,3 +514,39 @@
 :root[data-ui='glados'][data-mode='dark'] .mc-ribbons { opacity: 0.7; }
 :root[data-ui='glados'][data-mode='dark'] .kg-login .page-ground, :root[data-ui='glados'][data-mode='dark'] .kg-login .g-ground { display: none; }
 :root[data-ui='glados'][data-mode='dark'] .os-mark, :root[data-ui='glados'][data-mode='dark'] .os-mark-link:hover .os-mark { filter: drop-shadow(0 4px 12px color-mix(in srgb, var(--match-lavender) 45%, transparent)); }
+
+/*
+ * Numerals: the brand sets figures in Poppins (display) and Inter (data), tabular, never a dot-matrix face
+ * (guidelines p.04). The kit's dot numerals keep their svg for other skins; here the plain twin shows.
+ */
+:root[data-theme='light'] .g-dotnum > svg,
+:root[data-theme='light'] .g-dotnum-fit > svg,
+:root[data-theme='light'] .g-dotnum-fallback,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum > svg,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum-fit > svg,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum-fallback { display: none; }
+:root[data-theme='light'] .g-dotnum-plain,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum-plain {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  white-space: nowrap;
+  font-size: 2.25rem;
+}
+:root[data-theme='light'] .g-dotnum[data-size='3'] .g-dotnum-plain,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum[data-size='3'] .g-dotnum-plain { font-size: 1.5rem; }
+:root[data-theme='light'] .g-dotnum[data-size='4'] .g-dotnum-plain,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum[data-size='4'] .g-dotnum-plain { font-size: 1.875rem; }
+:root[data-theme='light'] .g-dotnum-fit .g-dotnum-plain,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum-fit .g-dotnum-plain { font-size: clamp(2rem, 14cqi, 3.5rem); }
+:root[data-theme='light'] .g-bignum,
+:root[data-ui='glados'][data-mode='dark'] .g-bignum { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; }
+:root[data-theme='light'] .g-bignum-value,
+:root[data-ui='glados'][data-mode='dark'] .g-bignum-value { font-family: var(--font-display); font-weight: 600; }
+:root[data-theme='light'] .g-dotnum-text,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum-text { font-family: var(--font-display); font-weight: 600; letter-spacing: -0.02em; }
+:root[data-theme='light'] .g-dotnum-fit .g-dotnum-text,
+:root[data-ui='glados'][data-mode='dark'] .g-dotnum-fit .g-dotnum-text { font-size: clamp(2rem, 14cqi, 3.5rem); }
