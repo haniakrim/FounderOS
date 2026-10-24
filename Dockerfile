@@ -20,7 +20,8 @@ ENV NODE_ENV=production \
     GLADOS_DATA_DIR=/data \
     GLADOS_DB=/data/glados.db
 COPY --from=build --chown=node:node /app /app
-RUN mkdir -p /data && chown node:node /data
+# /app itself must be writable: the demo store (filming mode) builds demo-data/ and swaps it in.
+RUN mkdir -p /data && chown node:node /data /app
 # The app's gate reads the password from the env file (lib/auth.ts -> readEnvLocal,
 # never process.env), so the entrypoint copies the service variables into
 # GLADOS_ENV_LOCAL on the volume, only when the key is absent there, so a
