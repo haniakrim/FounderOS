@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Sample desktop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--lav:#a78bfa;--coral:#ff6b8b;--apr:#ffb17a;--white:#faf7ff;--text:#7056b1}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;font:13px/1.5 Inter,system-ui,sans-serif;color:var(--text);overflow:hidden}
+body{background:radial-gradient(60% 70% at 15% 10%,#d9ccff 0%,transparent 70%),radial-gradient(60% 70% at 90% 95%,#ffd9c2 0%,transparent 70%),linear-gradient(135deg,#efe7ff,#fff1ea)}
+.bar{position:absolute;top:0;left:0;right:0;height:28px;background:rgba(255,255,255,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-weight:600;font-size:12px}
+.dock{position:absolute;left:10px;top:44px;bottom:14px;width:52px;background:rgba(255,255,255,.65);border-radius:16px;display:flex;flex-direction:column;gap:10px;align-items:center;padding:12px 0}
+.dock i{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--lav),var(--coral));display:block;opacity:.9}
+.dock i:nth-child(2){background:linear-gradient(135deg,var(--coral),var(--apr))}.dock i:nth-child(3){background:linear-gradient(135deg,var(--apr),var(--lav))}.dock i:nth-child(4){background:var(--text)}
+.win{position:absolute;background:#fff;border-radius:12px;box-shadow:0 20px 50px rgba(112,86,177,.22);overflow:hidden}
+.win h6{height:30px;display:flex;align-items:center;gap:6px;padding:0 12px;background:#f3eeff;font-size:12px;font-weight:600}
+.win h6 b{width:10px;height:10px;border-radius:50%;background:var(--coral)}.win h6 b+b{background:var(--apr)}.win h6 b+b+b{background:var(--lav)}
+.term{left:84px;top:56px;width:46%;height:62%}.term pre{margin:0;padding:12px;font:12px/1.55 ui-monospace,Menlo,monospace;color:#5a4496;white-space:pre-wrap;height:calc(100% - 30px);overflow:hidden}
+.sheet{right:34px;top:96px;width:40%;height:56%}.sheet table{width:100%;border-collapse:collapse}.sheet td,.sheet th{padding:7px 12px;border-bottom:1px solid #eee6ff;text-align:left;font-size:12px}.sheet th{background:#faf7ff}.sheet td:last-child,.sheet th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.tag{position:absolute;right:16px;bottom:12px;background:rgba(255,255,255,.8);padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600}
+</style></head><body>
+<div class="bar"><span>Activities</span><span id="clk"></span><span id="host"></span></div>
+<div class="dock"><i></i><i></i><i></i><i></i></div>
+<div class="win term"><h6><b></b><b></b><b></b> agent-runtime — bash</h6><pre id="log"></pre></div>
+<div class="win sheet"><h6><b></b><b></b><b></b> Q4 pipeline · SAR</h6>
+<table><tr><th>Client</th><th>Stage</th><th>Value</th></tr>
+<tr><td>Najd Labs</td><td>Proposal</td><td>SAR 48,000</td></tr>
+<tr><td>Shifa Al Waha Health</td><td>Contract</td><td>SAR 120,000</td></tr>
+<tr><td>Hejaz Freight</td><td>Discovery</td><td>SAR 36,500</td></tr>
+<tr><td>Bunna Coffee Roasters</td><td>Won</td><td>SAR 22,500</td></tr>
+<tr><td>Lamsa Dental</td><td>Proposal</td><td>SAR 18,000</td></tr></table></div>
+<span class="tag">Sample desktop · not a live machine</span>
+<script>
+var q=new URLSearchParams(location.search);document.getElementById('host').textContent=(q.get('c')||'workstation').slice(0,12);
+function t(){document.getElementById('clk').textContent=new Date().toLocaleString('en-GB',{timeZone:'Asia/Riyadh',weekday:'short',hour:'2-digit',minute:'2-digit'})}t();setInterval(t,20000);
+var lines=['$ run plan --week 43','loading calendar (Sun-Thu) ... ok','reading CRM pipeline ... 14 deals','drafting follow-ups for Najd Labs, Hejaz Freight','VAT 15% applied to 3 quotes','ZATCA e-invoice queued: INV-2043','needs approval: 2 drafts','$ sync ledger','bank feed: 38 lines matched, 2 flagged','$ report weekly','report saved to /brain/reports/week-43.md','idle'];
+var el=document.getElementById('log'),i=0;function step(){el.textContent+=(i?'\n':'')+lines[i%lines.length];i++;if(i>11){el.textContent='';i=0}}
+for(var k=0;k<7;k++)step();setInterval(step,1800);
+</script></body></html>

@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import type { WizardUsage } from './store';
+import { runtimeEnv } from '@/lib/creds';
 
 /**
  * The Wizard's engine — one exchange against the local `claude` binary.
@@ -28,12 +29,47 @@ export type WizardExchange =
   | { ok: true; text: string; sessionId: string | null; model: string | null; usage: WizardUsage | null }
   | { ok: false; unavailable: boolean; error: string };
 
+/** A direct Anthropic API key (ANTHROPIC_API_KEY): used instead of the local binary, which a server host does not have. */
+function anthropicKey(): string | undefined {
+  return runtimeEnv().ANTHROPIC_API_KEY?.trim() || undefined;
+}
+
+const API_MODEL = 'claude-sonnet-5-5';
+
+/** One exchange through the Messages API. No session resume: each message carries its own context. */
+async function apiExchange(prompt: string, systemAppend: string, key: string, timeoutMs: number): Promise<WizardExchange> {
+  const model = runtimeEnv().ANTHROPIC_MODEL?.trim() || API_MODEL;
+  const started = Date.now();
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model, max_tokens: 1024, system: systemAppend, messages: [{ role: 'user', content: prompt }] }),
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    if (!res.ok) {
+      const detail = (await res.text()).slice(0, 200);
+      return { ok: false, unavailable: false, error: res.status === 401 ? 'The Anthropic API key was rejected' : `Anthropic API answered ${res.status}: ${detail}` };
+    }
+    const body = (await res.json()) as { content?: { type: string; text?: string }[]; model?: string; usage?: { input_tokens?: number; output_tokens?: number } };
+    const text = (body.content ?? []).filter((c) => c.type === 'text').map((c) => c.text ?? '').join('').trim();
+    if (!text) return { ok: false, unavailable: false, error: 'empty reply from the Anthropic API' };
+    const usage: WizardUsage = { inputTokens: body.usage?.input_tokens ?? 0, outputTokens: body.usage?.output_tokens ?? 0, costUsd: 0, durationMs: Date.now() - started, turns: 1 };
+    return { ok: true, text, sessionId: null, model: body.model ?? model, usage };
+  } catch (e) {
+    const timedOut = e instanceof Error && (e.name === 'TimeoutError' || e.name === 'AbortError');
+    return { ok: false, unavailable: timedOut, error: timedOut ? 'The Anthropic API timed out' : e instanceof Error ? e.message.slice(0, 200) : 'Anthropic API call failed' };
+  }
+}
+
 export async function wizardExchange(
   prompt: string,
   systemAppend: string,
   sessionId?: string | null,
   timeoutMs = 120_000,
 ): Promise<WizardExchange> {
+  const key = anthropicKey();
+  if (key) return apiExchange(prompt, systemAppend, key, timeoutMs);
   const { execFile } = await import('node:child_process');
   const args = ['-p', prompt, '--output-format', 'json', '--append-system-prompt', systemAppend];
   if (sessionId) args.push('--resume', sessionId);
@@ -75,6 +111,7 @@ export async function wizardExchange(
 /** `claude --version`, 2 s timeout — for the Sessions tab engine card. */
 let engineCache: { at: number; value: { present: boolean; version: string | null } } | null = null;
 export async function engineStatus(): Promise<{ present: boolean; version: string | null }> {
+  if (anthropicKey()) return { present: true, version: 'Anthropic API' };
   if (engineCache && Date.now() - engineCache.at < 60_000) return engineCache.value;
   const { execFile } = await import('node:child_process');
   const value = await new Promise<{ present: boolean; version: string | null }>((resolve) => {

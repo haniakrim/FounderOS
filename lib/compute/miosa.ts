@@ -116,7 +116,8 @@ export type Embed = { ok: true; url: string; expiresAt: number; ttl: number } | 
 
 /** A short-lived, passwordless desktop link for one computer (about an hour). */
 export async function desktopEmbed(id: string): Promise<Embed> {
-  if (filmingMode()) return { ok: false, error: 'Live desktops are not part of the demo. Connect a compute key in Settings to open one.' };
+  // The sample company shows a static sample desktop (public/demo-media/desktop.html), never a live machine.
+  if (filmingMode()) return { ok: true, url: `/demo-media/desktop.html?c=${encodeURIComponent(id)}`, expiresAt: Date.now() + 3_300_000, ttl: 3600 };
   const key = miosaKey();
   if (!key) return { ok: false, error: 'MIOSA is not configured.' };
   if (!/^[0-9a-f-]{8,64}$/i.test(id)) return { ok: false, error: 'Not a computer id.' };

@@ -9217,8 +9217,11 @@ button.g-card, button.g-card-raised { display: flex; flex-direction: column; ali
 .g-dotnum[data-tone='on-hero'] { color: var(--g-on-hero); }
 .g-dotnum[data-tone='muted'] { color: var(--g-muted); }
 /* The currency code beside dot figures ("SAR" + 631K), drawn as a small label so money reads in dots. */
-.g-dotnum-cur { align-self: flex-end; margin-right: 0.5rem; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; line-height: 1; padding-bottom: 2px; }
-.g-dotnum-fit .g-dotnum-cur { font-size: 0.9375rem; }
+.g-dotnum-cur { align-self: flex-end; margin-right: 0.4rem; line-height: 0; }
+/* the code is a smaller dot label than the figures, scaled by its viewBox so it always fits beside them */
+.g-dotnum-cur svg { width: auto; height: 17px; max-width: none; }
+.g-dotnum-fit .g-dotnum-cur svg { height: 22px; }
+.g-dotnum-cur:not([data-dots]) { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; line-height: 1; padding-bottom: 2px; }
 .g-dotnum-fit { display: flex; justify-content: center; width: 100%; min-width: 0; container-type: inline-size; }
 .g-dotnum-fit .g-dotnum-fallback { font-size: min(32px, calc(100cqi / (var(--gk-chars, 6) * 0.62))); white-space: nowrap; }
 .g-dotnum-text, .g-dotnum-fallback { font-size: 2rem; font-weight: var(--g-fw-light); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; line-height: 1.1; }

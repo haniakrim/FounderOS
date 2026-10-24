@@ -28,13 +28,32 @@ function toText(value: string | number | null | undefined): string {
  * A currency-coded amount ("SAR 631K", "-SAR 1,500"): the code is drawn as a small label beside the dot
  * figures, so money reads in dots like every other number instead of falling back to text.
  */
+/** Letter glyphs for currency codes, drawn in the same 5×7 dots as the figures. */
+const CODE_GLYPHS: Record<string, readonly string[]> = {
+  S: ['01111', '10000', '10000', '01110', '00001', '00001', '11110'],
+  A: ['01110', '10001', '10001', '11111', '10001', '10001', '10001'],
+  R: ['11110', '10001', '10001', '11110', '10100', '10010', '10001'],
+  U: ['10001', '10001', '10001', '10001', '10001', '10001', '01110'],
+  D: ['11110', '10001', '10001', '10001', '10001', '10001', '11110'],
+};
+
+/** The currency code beside the figures: dots when every letter has a glyph (SAR, USD), text otherwise. */
+function CurrencyCode({ code, size }: { code: string; size: number }) {
+  const dotted = Array.from(code).every((c) => CODE_GLYPHS[c]);
+  return (
+    <span className="g-dotnum-cur" aria-hidden data-dots={dotted || undefined}>
+      {dotted ? <DotSvg text={code} size={size} glyphs={CODE_GLYPHS} /> : code}
+    </span>
+  );
+}
+
 export function splitCurrency(raw: string): { code: string; figures: string } | null {
   const m = raw.trim().match(/^(-?)([A-Z]{3})\s(.+)$/);
   return m ? { code: m[2], figures: `${m[1]}${m[3]}` } : null;
 }
 
 /** The SVG for a glyph string already validated by dotText. */
-function DotSvg({ text, size, fluid = false }: { text: string; size: number; fluid?: boolean }) {
+function DotSvg({ text, size, fluid = false, glyphs = DOT_GLYPHS }: { text: string; size: number; fluid?: boolean; glyphs?: Record<string, readonly string[]> }) {
   const g = dotGap(size);
   const w = dotWidth(text.length, size);
   const h = dotHeight(size);
@@ -43,7 +62,7 @@ function DotSvg({ text, size, fluid = false }: { text: string; size: number; flu
   const r = size / 2;
   const dots: ReactNode[] = [];
   Array.from(text).forEach((c, i) => {
-    const rows = DOT_GLYPHS[c];
+    const rows = glyphs[c];
     rows.forEach((row, y) => {
       for (let x = 0; x < 5; x++) {
         if (row[x] === '1') dots.push(<circle key={`${i}-${y}-${x}`} cx={i * glyphW + x * step + r} cy={y * step + r} r={r} />);
@@ -117,7 +136,7 @@ export function GDotNumber({ value, size = 5, max = DOT_MAX, tone = 'ink', label
   if (!auto) {
     return (
       <span {...common} className={cx('g-dotnum', className)} data-size={String(size)}>
-        {cur && <span className="g-dotnum-cur" aria-hidden>{cur.code}</span>}
+        {cur && <CurrencyCode code={cur.code} size={size >= 6 ? 3 : 2} />}
         <DotSvg text={text} size={size} />
       </span>
     );
@@ -126,7 +145,7 @@ export function GDotNumber({ value, size = 5, max = DOT_MAX, tone = 'ink', label
   // then snap to the largest whole dot size that fits, or text below size 3.
   return (
     <span {...common} ref={ref} className={cx('g-dotnum', 'g-dotnum-fit', className)} data-size="auto">
-      {cur && <span className="g-dotnum-cur" aria-hidden>{cur.code}</span>}
+      {cur && <CurrencyCode code={cur.code} size={3} />}
       {fit === null ? (
         <DotSvg text={text} size={max} fluid />
       ) : fit.size === null ? (
