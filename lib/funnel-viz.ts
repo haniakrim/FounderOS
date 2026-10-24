@@ -3,6 +3,7 @@
  * client-safe — everything here must stay deterministic across SSR and
  * client so first paint never mismatches (no Math.random, no Date).
  */
+import { money } from '@/lib/currency';
 
 /** Deterministic per-node noise — stable across SSR + client. Quantized to
  * 4 decimals because Math.sin differs in the last ULPs between V8 builds
@@ -14,7 +15,7 @@ export const rnd = (i: number, salt: number): number => {
 
 export const easeInOut = (u: number): number => (u < 0.5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2);
 
-export const usd = (n: number): string => `$${Math.round(n).toLocaleString('en-US')}`;
+export const usd = (n: number): string => money(Math.round(n));
 
 /**
  * Frame-rate independent smoothing factor: the fraction of remaining distance

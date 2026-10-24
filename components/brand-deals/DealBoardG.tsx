@@ -17,8 +17,9 @@ import { formatUsdCompact } from '@/lib/format-number';
 import { CHAIN_DEPTH_BUCKETS, chainDepthBucket, sendRangeFor, sendSpanMs, SEND_RANGES, stageBars, type ChainDepthBucket, type DealFilter, type SendRange } from '@/lib/brand-deals-view';
 import type { BrandDealsSnapshot, Deal, DealOutcome } from '@/lib/brand-deals';
 import { parseDealQuery, useDealBoard } from './use-deal-board';
+import { currencyCode, currencySymbol, money } from '@/lib/currency';
 
-const usd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const usd = (n: number) => money(Math.round(n));
 const frac = (a: number, b: number) => (b > 0 ? Math.max(0, Math.min(1, a / b)) : 0);
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
@@ -442,7 +443,7 @@ function DealDrawerG({ b, deal }: { b: ReturnType<typeof useDealBoard>; deal: De
           ))}
         </div>
         <div className="bd-g-quote">
-          <GInput value={quote} onChange={(e) => setQuote(e.target.value.replace(/[^0-9]/g, ''))} inputMode="numeric" placeholder="USD" aria-label="Quote in USD" className="bd-g-quote-input" />
+          <GInput value={quote} onChange={(e) => setQuote(e.target.value.replace(/[^0-9]/g, ''))} inputMode="numeric" placeholder={currencySymbol()} aria-label={`Quote in ${currencyCode()}`} className="bd-g-quote-input" />
           <GButton busy={busy === 'quote'} disabled={busy != null && busy !== 'quote'} onClick={() => b.act('quote', '/api/brand-deals/override', { dealId: deal.id, amountUsd: quote ? Number(quote) : null })}>Set quote</GButton>
           <span className="bd-g-cap">{deal.quotedUsd != null ? (deal.quoteSource === 'manual' ? 'Set manually' : 'Parsed from the thread') : 'No quote detected'}</span>
         </div>

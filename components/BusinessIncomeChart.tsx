@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import type { BusinessSeries, IncomeRange, MonthPoint } from '@/lib/bank-statements';
+import { money } from '@/lib/currency';
 
 const RANGES: { label: string; value: IncomeRange }[] = [
   { label: '30 days', value: 1 },
@@ -22,8 +23,7 @@ const METRICS: { label: string; value: Metric }[] = [
 const metricCents = (m: MonthPoint, metric: Metric): number =>
   metric === 'in' ? m.creditsCents : metric === 'out' ? m.debitsCents : m.netCents;
 
-const usd = (cents: number) =>
-  (cents / 100).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const usd = (cents: number) => money(cents / 100);
 const signedUsd = (cents: number) => `${cents < 0 ? '−' : '+'}${usd(Math.abs(cents))}`;
 const fmtMonth = (m: string) => new Date(`${m}-01T00:00:00Z`).toLocaleDateString('en-US', { month: 'short', timeZone: 'UTC' });
 

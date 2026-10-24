@@ -7,7 +7,7 @@
  *   formatCompact(29_412)    "29.4K"     under 100 of a unit: one decimal
  *   formatCompact(631_000)   "631K"      100 or more of a unit: none
  *   formatCompact(1_240_000) "1.2M"      then M and B the same way
- *   formatUsdCompact(-1500)  "-$1,500"
+ *   formatUsdCompact(-1500)  "-$1,500" ("-SAR 1,500" when GLADOS_CURRENCY=SAR)
  *
  * A trailing ".0" is dropped ("10K", not "10.0K"), and a value that rounds up
  * to the next unit is promoted ("999,960" reads "1M", not "1000K"). Compact
@@ -15,6 +15,8 @@
  * put formatFull in the title and aria-label. Non-finite input renders as an
  * em dash, never as "NaN".
  */
+
+import { currencyPrefix } from '@/lib/currency-code';
 
 const ABSENT = '—';
 
@@ -57,7 +59,8 @@ export function formatCompact(n: number): string {
   return signed(n, compactAbs(Math.abs(n)));
 }
 
+/** Compact money in the active display currency (lib/currency.ts); "$" unless GLADOS_CURRENCY=SAR. */
 export function formatUsdCompact(n: number): string {
   if (!Number.isFinite(n)) return ABSENT;
-  return signed(n, compactAbs(Math.abs(n)), '$');
+  return signed(n, compactAbs(Math.abs(n)), currencyPrefix());
 }

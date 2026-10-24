@@ -212,6 +212,12 @@ export async function buildSystemSetup(db: GladosDb): Promise<SystemSetup> {
     },
   ];
 
+  // The sample company (Filming mode) is a fully wired operation: every probe reads as passed and every
+  // hands-on step as done, so a customer demo shows no open setup work. Real installs never reach this.
+  if (filmingMode()) {
+    for (const step of phases.flatMap((p) => p.steps)) step.status = step.auto ? 'verified' : 'marked';
+  }
+
   const all = phases.flatMap((p) => p.steps);
   const totals = {
     verified: all.filter((s) => s.status === 'verified').length,

@@ -17,9 +17,10 @@ import { SetupLink } from '@/components/SetupLink';
 import { formatUsdCompact } from '@/lib/format-number';
 import { chainDepthColumns, pollStatus, stageBars, type DealFilter } from '@/lib/brand-deals-view';
 import type { BrandDealsSnapshot, Deal, DealEvent, DealOutcome } from '@/lib/brand-deals';
+import { currencySymbol, money } from '@/lib/currency';
 
 function fmtUsd(n: number): string {
-  return `$${Math.round(n).toLocaleString('en-US')}`;
+  return money(Math.round(n));
 }
 
 function dealCount(n: number): string {
@@ -961,7 +962,7 @@ export function DealBoard({ initial, botUrl = null }: { initial: BrandDealsSnaps
                   value={quoteInput}
                   onChange={(e) => setQuoteInput(e.target.value.replace(/[^0-9]/g, ''))}
                   inputMode="numeric"
-                  placeholder="USD"
+                  placeholder={currencySymbol()}
                   className="w-[110px] rounded-md-t border border-os-border bg-os-bg px-2.5 py-1.5 font-mono text-[12.5px] tabular-nums outline-none focus:border-os-border-strong"
                 />
                 <button

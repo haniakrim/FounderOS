@@ -26,8 +26,9 @@ import {
   DAY, LANE_LABEL, PAGE_ROWS, PERIODS, WEEKDAYS, WEEKDAY_INITIALS, defaultStage as leakStage, fmtDate, fmtDay, laneOf, periodStats, stageIndex, stageLabel,
   touchSeries as buildTouchSeries, worstStep as findWorstStep,
 } from './model';
+import { money } from '@/lib/currency';
 
-const usd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const usd = (n: number) => money(Math.round(n));
 const num = (n: number) => n.toLocaleString('en-US');
 const LANE_COLOR = { organic: 'series-1', ads: 'series-2', crm: 'series-3' } as const;
 

@@ -10,6 +10,9 @@ RUN pnpm install --frozen-lockfile
 COPY . .
 # Prerender opens the app database. Point it at a throwaway folder so parallel
 # build workers never race to create the demo store in the real data folder.
+# The display currency is inlined at build time (next.config.mjs), so it is a build argument.
+ARG GLADOS_CURRENCY=USD
+ENV GLADOS_CURRENCY=$GLADOS_CURRENCY
 RUN mkdir -p /tmp/build-data && GLADOS_DATA_DIR=/tmp/build-data GLADOS_DB=/tmp/build-data/glados.db pnpm build
 
 FROM node:22-bookworm-slim AS runtime

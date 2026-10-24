@@ -16,6 +16,7 @@
  * render the result; the arrow and colour are presentation.
  */
 import { formatCompact, formatFull, formatUsdCompact } from '@/lib/format-number';
+import { money as fmtMoney } from '@/lib/currency';
 
 /** Above this many percent a percentage stops being informative. */
 export const MAX_PCT = 999;
@@ -78,7 +79,7 @@ function formatAbs(abs: number, money: boolean): string {
 }
 
 function fullValue(n: number, money: boolean): string {
-  return money ? `$${formatFull(Math.round(n))}` : formatFull(n);
+  return money ? fmtMoney(Math.round(n)) : formatFull(n);
 }
 
 /**

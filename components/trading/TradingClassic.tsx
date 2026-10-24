@@ -18,6 +18,7 @@ import {
 } from '@/lib/trading-model';
 import type { TradeActivity, TradingPosition } from '@/lib/schemas';
 import { useTrading, type TradingUi } from './use-trading';
+import { currencySymbol } from '@/lib/currency';
 import type { TradingTreeProps } from './TradingG';
 
 const statusTone: Record<TradeActivity['status'], BadgeTone> = { filled: 'ok', pending: 'default', cancelled: 'default', rejected: 'err' };
@@ -625,7 +626,7 @@ function Limits({ m, ui }: { m: TradingModel; ui: TradingUi }) {
                   </span>
                 </span>
                 <span className="trd-c-input-wrap" data-invalid={err ? '' : undefined}>
-                  {f.unit === '$' && <span className="text-os-dim">$</span>}
+                  {f.unit === '$' && <span className="text-os-dim">{currencySymbol()}</span>}
                   <input
                     id={`trd-c-${f.key}`}
                     inputMode="decimal"

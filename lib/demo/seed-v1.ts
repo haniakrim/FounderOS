@@ -176,7 +176,7 @@ const agents: Agent[] = [
     status: 'active',
     tier: 'worker',
     description:
-      'Negotiates as Vera, Alex\u2019s brand deal manager: qualifies inbound, anchors and counters, chases unpaid invoices, and bumps stalled threads. A tested contact governor decides whether a thread may be touched at all (five bumps maximum, one revival per brand per six months). Drafts only, never sends.',
+      'Negotiates as Vera, Abdulaziz\u2019s brand deal manager: qualifies inbound, anchors and counters, chases unpaid invoices, and bumps stalled threads. A tested contact governor decides whether a thread may be touched at all (five bumps maximum, one revival per brand per six months). Drafts only, never sends.',
     model: 'rules + gateway',
     tools: ['ledger', 'imap'],
     parentId: 'sales-agent',
@@ -203,7 +203,7 @@ const agents: Agent[] = [
     role: 'Six-Platform Publishing',
     status: 'active',
     tier: 'worker',
-    description: 'Publishes and monitors six platforms under @founderos.ai via Postly. Live once the Postly key is set.',
+    description: 'Publishes and monitors six platforms under @matchco.sa via Postly. Live once the Postly key is set.',
     model: 'postly api',
     tools: ['postly'],
     parentId: 'social-agent',
@@ -508,11 +508,11 @@ const agents: Agent[] = [
 // into (rename when a real person lands). Tools use the agents' slug
 // namespace so the graph chain still ends in tools for humans too.
 const people: Person[] = [
-  { id: 'person-marco', departmentId: 'dept-sales', name: 'Marco', role: 'Head of Sales', tools: ['recall', 'ledger'] },
+  { id: 'person-marco', departmentId: 'dept-sales', name: 'Mansour', role: 'Head of Sales', tools: ['recall', 'ledger'] },
   { id: 'person-nadia', departmentId: 'dept-marketing-growth', name: 'Nadia', role: 'Head of Growth & Marketing', tools: ['postly', 'dmflow'] },
-  { id: 'person-mia', departmentId: 'dept-comms', name: 'Mia Torres', role: 'Executive Assistant', tools: ['imap', 'slack'] },
-  { id: 'person-dana', departmentId: 'dept-finance', name: 'Dana Whitfield', role: 'Bookkeeper', tools: ['stripe', 'paykit'] },
-  { id: 'person-sasha', departmentId: 'dept-clients', name: 'Sasha Bell', role: 'Account Manager', tools: ['ledger', 'recall'] },
+  { id: 'person-mia', departmentId: 'dept-comms', name: 'Mashael Al Otaibi', role: 'Executive Assistant', tools: ['imap', 'slack'] },
+  { id: 'person-dana', departmentId: 'dept-finance', name: 'Dalal Al Jabri', role: 'Bookkeeper', tools: ['stripe', 'paykit'] },
+  { id: 'person-sasha', departmentId: 'dept-clients', name: 'Sultan Al Bishi', role: 'Account Manager', tools: ['ledger', 'recall'] },
 ];
 
 
@@ -659,7 +659,7 @@ const sopTasks: SopTask[] = [
       'Connect the four configured IMAP inboxes on the sync cadence',
       'Pull unread counts and every thread newer than the last sweep',
       'Classify each thread: urgent, reply-needed, waiting-on-us, FYI',
-      'Draft suggested replies for reply-needed threads in Alex voice',
+      'Draft suggested replies for reply-needed threads in Abdulaziz’s voice',
       'Hand urgent threads to the escalation queue with a one-line summary',
       'Surface anything from a client domain to the Clients pillar too',
     ],
@@ -718,7 +718,7 @@ const sopTasks: SopTask[] = [
   {
     id: 'sop-postly-publisher', departmentId: 'dept-marketing-growth', assigneeKind: 'agent', assigneeId: 'postly-publisher',
     title: 'Publish to six platforms',
-    summary: 'One queue out to every @founderos.ai surface.',
+    summary: 'One queue out to every @matchco.sa surface.',
     steps: [
       'Take the next queued post from the pipeline',
       'Adapt the caption per platform (IG, TikTok, X, YouTube, LinkedIn, Facebook)',
@@ -798,7 +798,7 @@ const sopTasks: SopTask[] = [
       'Rank deals by value and days-in-stage; anything past 7 days is stalled',
       'Attach a concrete next action and owner to every stalled deal',
       'Prepare payment links across PayKit, Stripe and FlexPay before calls',
-      'Brief Marco with the top five deals and their objections before each call',
+      'Brief Mansour with the top five deals and their objections before each call',
       'Log stage changes back to Ledger the same day they happen',
     ],
   },
@@ -820,7 +820,7 @@ const sopTasks: SopTask[] = [
     summary: 'Local-business inbound worked end to end.',
     steps: [
       'Qualify inbound Vantage leads against the ICP',
-      'Book qualified leads onto Marco’s calendar with context attached',
+      'Book qualified leads onto Mansour’s calendar with context attached',
       'Sync stage changes back to Ledger',
       'Reconcile payments across PayKit and Stripe',
       'Report lane revenue to the pipeline brief',
@@ -870,9 +870,9 @@ const sopTasks: SopTask[] = [
     steps: [
       'Read the OS brand deal store and rank what needs answering today',
       'Check the contact governor before touching any thread, and respect a refusal',
-      'Draft the reply, counter or bump as Vera, speaking about Alex in third person',
+      'Draft the reply, counter or bump as Vera, speaking about Abdulaziz in third person',
       'Escalate anything below floor, equity shaped, or asking for a call',
-      'Leave every draft for Alex to send, and never claim one went out',
+      'Leave every draft for Abdulaziz to send, and never claim one went out',
     ],
   },
   {
@@ -986,7 +986,7 @@ const sopTasks: SopTask[] = [
       'Track deliverables against the sold scope and flag slippage early',
       'Log Recall call notes back to the client record the same day',
       'Score account health monthly: green, watch, or at risk with a reason',
-      'Raise renewals and upsell openings 30 days out to Sasha and Sales',
+      'Raise renewals and upsell openings 30 days out to Sultan and Sales',
     ],
   },
   {
@@ -995,8 +995,8 @@ const sopTasks: SopTask[] = [
     summary: 'The human hands on the threads that need judgment.',
     steps: [
       'Review the escalation queue the workers built overnight',
-      'Draft replies in Alex’s voice for VIP threads',
-      'Send what is cleared, file the rest for Alex’s approval',
+      'Draft replies in Abdulaziz’s voice for VIP threads',
+      'Send what is cleared, file the rest for Abdulaziz’s approval',
       'Chase any thread waiting on us for more than 24 hours',
       'Close the loop in /comms so nothing dangles',
     ],
@@ -1010,7 +1010,7 @@ const sopTasks: SopTask[] = [
       'Categorize transactions using the statement’s own categories',
       'Reconcile against the income the agents recorded and chase every gap',
       'Confirm refunds and disputes are reflected in the venture totals',
-      'Deliver the month-end P&L to Alex with three lines of commentary',
+      'Deliver the month-end P&L to Abdulaziz with three lines of commentary',
     ],
   },
   {
@@ -1092,7 +1092,7 @@ const roadmap: (RoadmapItem & { phaseId?: string })[] = [
   { id: 'rm-embeddings', title: 'Own the embedding stack', quarter: '2026-Q3', status: 'done', departmentId: 'dept-tech', description: 'Brain moved onto local embeddings before the hosted vendor went away.', phaseId: 'phase-1' },
   { id: 'rm-call-archive', title: 'Archive every sales call', quarter: '2026-Q3', status: 'done', departmentId: 'dept-sales', description: 'CRM and notetaker transcripts exported into brain-store as one page each.', phaseId: 'phase-2' },
   { id: 'rm-recorders', title: 'Voice recorders into the brain', quarter: '2026-Q3', status: 'done', departmentId: 'dept-sales', description: 'Pocket recorder and Recall on /comms; transcripts file themselves into Optimal Engine.', phaseId: 'phase-2' },
-  { id: 'rm-trading', title: 'Trading board', quarter: '2026-Q3', status: 'done', departmentId: 'dept-finance', description: 'Robinhood and Phantom sleeves, agent reasoning, orders and trade log.', phaseId: 'phase-2' },
+  { id: 'rm-trading', title: 'Trading board', quarter: '2026-Q3', status: 'done', departmentId: 'dept-finance', description: 'Brokerage and wallet sleeves, agent reasoning, orders and trade log.', phaseId: 'phase-2' },
   { id: 'rm-usage', title: 'Token burn board', quarter: '2026-Q3', status: 'done', departmentId: 'dept-tech', description: 'Live seat-by-seat spend after the August burn; other boxes push in.', phaseId: 'phase-2' },
   { id: 'rm-workers', title: 'Worker pool on the host', quarter: '2026-Q4', status: 'done', departmentId: 'dept-tech', description: 'Pool shipped (lib/worker-pool.ts): bounded seats, retry, cancel, recovery, usage card and a read-only check (scripts/verify-workers.mjs). The gateway key on the host moved to 2027-Q1.', phaseId: 'phase-3' },
   { id: 'rm-auth-live', title: 'Remote access live on the tailnet', quarter: '2027-Q1', status: 'done', departmentId: 'dept-tech', description: 'Password set; Tailscale signed in (userspace daemon); app shared on the tailnet at https://hanis-macbook-air-2.tail8390df.ts.net with tailscale serve. Checked 2026-10-22 over the tailnet: anonymous 307 to /login, password 200, session opens /roadmap.', phaseId: 'phase-4' },
@@ -1125,13 +1125,13 @@ const phases: Phase[] = [
   { id: 'phase-4', number: 4, title: 'Dedicated Host', items: ['Migrate compute', 'Remote access + auth', '24/7 uptime'] },
 ];
 
-// The @founderos.ai footprint, handles straight from the Postly config.
+// The @matchco.sa footprint, handles straight from the Postly config.
 const socialAccounts: SocialAccount[] = [
-  { platform: 'instagram', handle: '@founderos.ai', url: 'https://instagram.com/founderos.ai', order: 1 },
-  { platform: 'tiktok', handle: '@founderos.ai', url: 'https://tiktok.com/@founderos.ai', order: 2 },
+  { platform: 'instagram', handle: '@matchco.sa', url: 'https://instagram.com/matchco.sa', order: 1 },
+  { platform: 'tiktok', handle: '@matchco.sa', url: 'https://tiktok.com/@matchco.sa', order: 2 },
   { platform: 'twitter', handle: '@Founderosai', url: 'https://x.com/Founderosai', order: 3 },
-  { platform: 'youtube', handle: '@founderosai', url: 'https://youtube.com/@founderosai', order: 4 },
-  { platform: 'linkedin', handle: 'Alex Rivera', url: null, order: 5 },
+  { platform: 'youtube', handle: '@matchcosa', url: 'https://youtube.com/@matchcosa', order: 4 },
+  { platform: 'linkedin', handle: 'Abdulaziz Al Ruwaili', url: null, order: 5 },
 ];
 
 // Demo follower counts. LinkedIn has no baseline in this demo, so it gets
@@ -1226,19 +1226,19 @@ const socialDms: SocialDm[] = DM_TARGETS.map((t) => ({
 // (source 'seed-dummy'; real messages arrive as source 'dmflow'). Four
 // threads, inbound + outbound, believable Vantage / FounderOS lead-gen tone.
 const socialDmMessages: SocialDmMessage[] = [
-  // Alex — agency owner off a reel
-  ['ig-alex', 'Alex Rivera', 'alex.rivera', 'in', 'saw your reel on the 3-agent setup 🔥 do you actually work with agencies?', null, dDm('2026-07-18T14:02:00.000Z')],
-  ['ig-alex', 'Alex Rivera', 'alex.rivera', 'out', 'appreciate it! yeah — agencies are exactly who Vantage is built for. what are you running right now?', null, dDm('2026-07-18T14:09:00.000Z')],
-  ['ig-alex', 'Alex Rivera', 'alex.rivera', 'in', 'SMMA, ~12 clients, drowning in fulfillment tbh 😅', null, dDm('2026-07-18T14:15:00.000Z')],
-  // Jordan — keyword flow "SCALE"
-  ['ig-jordan', 'Jordan Blake', 'jordanbuilds', 'in', 'SCALE', 'SCALE', dDm('2026-07-18T12:41:00.000Z')],
-  ['ig-jordan', 'Jordan Blake', 'jordanbuilds', 'out', 'boom 💥 here’s the free breakdown → founderos.ai/scale. want me to show how it maps to your funnel?', 'SCALE', dDm('2026-07-18T12:41:20.000Z')],
-  ['ig-jordan', 'Jordan Blake', 'jordanbuilds', 'in', 'yes pls', null, dDm('2026-07-18T13:05:00.000Z')],
-  // Priya — story reply
-  ['ig-priya', 'Priya N', 'priya.builds', 'in', 'replied to your story — I want OUT of retainer hell 😩', null, dDm('2026-07-17T21:12:00.000Z')],
-  ['ig-priya', 'Priya N', 'priya.builds', 'out', 'lol felt. that’s the whole thesis. what’s your current model — retainers or projects?', null, dDm('2026-07-17T21:30:00.000Z')],
-  // Sam — pricing question (unreplied → shows as needing attention)
-  ['ig-sam', 'Sam Ortiz', 'sam.ortiz.co', 'in', 'what does pricing look like for the done-for-you build?', null, dDm('2026-07-18T15:48:00.000Z')],
+  // Abdulaziz — agency owner off a reel
+  ['ig-alex', 'Abdulaziz Al Ruwaili', 'abdulaziz.alruwaili', 'in', 'saw your reel on the 3-agent setup 🔥 do you actually work with agencies?', null, dDm('2026-07-18T14:02:00.000Z')],
+  ['ig-alex', 'Abdulaziz Al Ruwaili', 'abdulaziz.alruwaili', 'out', 'appreciate it! yeah — agencies are exactly who Vantage is built for. what are you running right now?', null, dDm('2026-07-18T14:09:00.000Z')],
+  ['ig-alex', 'Abdulaziz Al Ruwaili', 'abdulaziz.alruwaili', 'in', 'SMMA, ~12 clients, drowning in fulfillment tbh 😅', null, dDm('2026-07-18T14:15:00.000Z')],
+  // Jawaher — keyword flow "SCALE"
+  ['ig-jordan', 'Jawaher Al Balawi', 'jawaher.builds', 'in', 'SCALE', 'SCALE', dDm('2026-07-18T12:41:00.000Z')],
+  ['ig-jordan', 'Jawaher Al Balawi', 'jawaher.builds', 'out', 'boom 💥 here’s the free breakdown → matchco.sa/scale. want me to show how it maps to your funnel?', 'SCALE', dDm('2026-07-18T12:41:20.000Z')],
+  ['ig-jordan', 'Jawaher Al Balawi', 'jawaher.builds', 'in', 'yes pls', null, dDm('2026-07-18T13:05:00.000Z')],
+  // Hessa — story reply
+  ['ig-priya', 'Hessa Al Shammari', 'hessa.builds', 'in', 'replied to your story — I want OUT of retainer hell 😩', null, dDm('2026-07-17T21:12:00.000Z')],
+  ['ig-priya', 'Hessa Al Shammari', 'hessa.builds', 'out', 'lol felt. that’s the whole thesis. what’s your current model — retainers or projects?', null, dDm('2026-07-17T21:30:00.000Z')],
+  // Salman — pricing question (unreplied → shows as needing attention)
+  ['ig-sam', 'Salman Al Yami', 'salman.alyami.co', 'in', 'what does pricing look like for the done-for-you build?', null, dDm('2026-07-18T15:48:00.000Z')],
 ].map(([subscriberId, name, handle, direction, text, tag, ts], i) => ({
   id: `dm-${subscriberId}-${i}`,
   platform: 'instagram' as const,
@@ -1305,7 +1305,7 @@ type SeededJourney = {
 const FUNNEL_JOURNEYS: SeededJourney[] = [
   // — Launchpad Cohort (mentorship) —
   {
-    id: 'fc-jake-moreau', name: 'Jake Moreau', venture: 'launchpad-cohort',
+    id: 'fc-jake-moreau', name: 'Jassim Al Naimi', venture: 'launchpad-cohort',
     relationship: 'hot', likelihood: 100,
     product: 'Launchpad Cohort — mentorship (PIF)', amountUsd: 6800,
     touches: [
@@ -1317,7 +1317,7 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
     ],
   },
   {
-    id: 'fc-priya-shah', name: 'Priya Shah', venture: 'launchpad-cohort',
+    id: 'fc-priya-shah', name: 'Shahad Al Qasim', venture: 'launchpad-cohort',
     relationship: 'warm', likelihood: 95,
     product: 'Launchpad Cohort — mentorship (3-pay)', amountUsd: 2600,
     touches: [
@@ -1328,7 +1328,7 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
     ],
   },
   {
-    id: 'fc-danny-okafor', name: 'Danny Okafor', venture: 'launchpad-cohort',
+    id: 'fc-danny-okafor', name: 'Dhafer Al Enezi', venture: 'launchpad-cohort',
     relationship: 'hot', likelihood: 100,
     product: 'Launchpad Cohort — mentorship (PIF)', amountUsd: 6800,
     touches: [
@@ -1340,7 +1340,7 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
     ],
   },
   {
-    id: 'fc-sofia-reyes', name: 'Sofia Reyes', venture: 'launchpad-cohort',
+    id: 'fc-sofia-reyes', name: 'Sarah Al Rayes', venture: 'launchpad-cohort',
     relationship: 'warm', likelihood: 95,
     product: 'Launchpad Cohort — mentorship (3-pay)', amountUsd: 2600,
     touches: [
@@ -1353,7 +1353,7 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
   },
   {
     // Ads ghost — three engaged touches, quiet for 3 weeks: the red node.
-    id: 'fc-liam-carter', name: 'Liam Carter', venture: 'launchpad-cohort',
+    id: 'fc-liam-carter', name: 'Laith Al Sudairi', venture: 'launchpad-cohort',
     relationship: 'cold', likelihood: 15,
     touches: [
       ['first_touch', 'ads', 'Meta ad: "stop selling hours" (cold traffic)', 'meta-ads', 27],
@@ -1364,7 +1364,7 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
   },
   {
     // Warm but drifting — 10 quiet days in nurture: also red until re-touched.
-    id: 'fc-marcus-webb', name: 'Marcus Webb', venture: 'launchpad-cohort',
+    id: 'fc-marcus-webb', name: 'Majed Al Wabel', venture: 'launchpad-cohort',
     relationship: 'warm', likelihood: 42,
     touches: [
       ['first_touch', 'organic', 'IG carousel: "agency niches that print in 2026"', 'trakyo', 24],
@@ -1374,9 +1374,9 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
     ],
   },
   {
-    id: 'fc-tayla-nguyen', name: 'Tayla Nguyen', venture: 'launchpad-cohort',
+    id: 'fc-tayla-nguyen', name: 'Tala Al Saif', venture: 'launchpad-cohort',
     relationship: 'hot', likelihood: 84,
-    email: 'tayla.nguyen@example.com', phone: '+15550100841',
+    email: 'tala.alsaif@najdlabs.example', phone: '+966550100841',
     touches: [
       ['first_touch', 'organic', 'TikTok: "AI receptionist demo" went semi-viral', 'trakyo', 4],
       ['engaged', 'organic', 'Profile visit → followed + commented', 'trakyo', 4],
@@ -1386,7 +1386,7 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
   },
   {
     // Mid-decay: 70 quiet days — visibly fading toward red, 20 days from the archive.
-    id: 'fc-remy-cole', name: 'Remy Cole', venture: 'launchpad-cohort',
+    id: 'fc-remy-cole', name: 'Rakan Al Kulaib', venture: 'launchpad-cohort',
     relationship: 'cold', likelihood: 25,
     touches: [
       ['first_touch', 'organic', 'IG reel: "fire your lead-gen agency"', 'trakyo', 84],
@@ -1397,10 +1397,10 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
   },
   {
     // Went quiet in March — decayed past 90 days into the archive tab.
-    id: 'fc-jordan-blake', name: 'Jordan Blake', venture: 'launchpad-cohort',
+    id: 'fc-jordan-blake', name: 'Jawaher Al Balawi', venture: 'launchpad-cohort',
     relationship: 'cold', likelihood: 20,
     touches: [
-      ['first_touch', 'ads', 'Meta ad: "quit your 9-5 with one client" (old campaign)', 'meta-ads', 118],
+      ['first_touch', 'ads', 'Meta ad: "quit your 9-to-5 with one client" (old campaign)', 'meta-ads', 118],
       ['engaged', 'ads', 'Clicked through, watched VSL 30%', 'meta-ads', 118],
       ['engaged', 'dm', 'One-word DM reply, then silence', 'manual', 112],
       ['engaged', 'email', 'Re-engagement email bounced-opened, no click', 'manual', 104],
@@ -1408,7 +1408,7 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
   },
   // — Vantage (AI agency clients) —
   {
-    id: 'fc-ava-stone', name: 'Ava Stone — Northwind Legal', venture: 'vantage',
+    id: 'fc-ava-stone', name: 'Aisha Al Sudairy — Al Mansour Legal', venture: 'vantage',
     relationship: 'hot', likelihood: 100,
     product: 'Vantage — AI intake build (sprint)', amountUsd: 12000,
     touches: [
@@ -1416,11 +1416,11 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
       ['engaged', 'email', 'Replied to newsletter — "this is our exact bottleneck"', 'manual', 55],
       ['opted_in', 'call', 'Discovery call booked via site (Trakyo attributed)', 'trakyo', 50],
       ['nurtured', 'email', 'Proposal + Loom walkthrough sent, viewed 3×', 'manual', 47],
-      ['converted', 'checkout', 'Signed — 50% deposit via Stripe invoice', 'manual', 43],
+      ['converted', 'checkout', 'Signed — 50% deposit via bank transfer (SARIE)', 'manual', 43],
     ],
   },
   {
-    id: 'fc-omar-haddad', name: 'Omar Haddad — Pulse Fitness Group', venture: 'vantage',
+    id: 'fc-omar-haddad', name: 'Othman Al Haddad — Quwwa Fitness', venture: 'vantage',
     relationship: 'warm', likelihood: 95,
     product: 'Vantage — AI ops retainer (monthly)', amountUsd: 4500,
     touches: [
@@ -1428,35 +1428,35 @@ const FUNNEL_JOURNEYS: SeededJourney[] = [
       ['engaged', 'ads', 'Case-study page dwell 4m — retarget pool', 'meta-ads', 47],
       ['nurtured', 'email', 'ROI one-pager emailed after form fill', 'manual', 44],
       ['opted_in', 'call', 'Demo call — 3 locations scoped', 'manual', 41],
-      ['converted', 'checkout', 'Retainer live — Stripe subscription', 'manual', 37],
+      ['converted', 'checkout', 'Retainer live — Mada recurring payment', 'manual', 37],
     ],
   },
   {
-    id: 'fc-elena-brooks', name: 'Elena Brooks — Harbor Dental', venture: 'vantage',
+    id: 'fc-elena-brooks', name: 'Elaf Al Mubarak — Tabassum Dental', venture: 'vantage',
     relationship: 'hot', likelihood: 100,
     product: 'Vantage — AI intake build (sprint)', amountUsd: 9500,
     touches: [
       ['first_touch', 'organic', 'IG reel: missed-call → booked-patient demo', 'trakyo', 31],
       ['engaged', 'dm', 'DM: "does this work for dental?"', 'manual', 30],
       ['opted_in', 'call', 'Discovery call via link-in-bio (Trakyo attributed)', 'trakyo', 27],
-      ['converted', 'checkout', 'Signed — deposit via Stripe invoice', 'manual', 23],
+      ['converted', 'checkout', 'Signed — deposit via bank transfer (SARIE)', 'manual', 23],
     ],
   },
   {
-    id: 'fc-noah-fields', name: 'Noah Fields — Fields Roofing', venture: 'vantage',
+    id: 'fc-noah-fields', name: 'Naif Al Ajmi — Saqf Roofing', venture: 'vantage',
     relationship: 'warm', likelihood: 66,
     touches: [
       ['first_touch', 'ads', 'Meta ad: "book 20 estimates/mo on autopilot"', 'meta-ads', 8],
       ['engaged', 'ads', 'Lead form opened, 60% VSL', 'meta-ads', 8],
       ['nurtured', 'email', 'Follow-up sequence day 2 — case study clicked', 'manual', 5],
-      ['opted_in', 'call', 'Discovery call booked for Friday', 'manual', 2],
+      ['opted_in', 'call', 'Discovery call booked for Thursday', 'manual', 2],
     ],
   },
   {
-    id: 'fc-grace-lin', name: 'Grace Lin — Lin & Co Accounting', venture: 'vantage',
+    id: 'fc-grace-lin', name: 'Ghalia Al Khalidi — Mizan Accounting', venture: 'vantage',
     relationship: 'warm', likelihood: 74,
-    email: 'grace@linandco.example.com', phone: '+15550100742',
-    person: 'Grace Lin', company: 'Lin & Co Accounting', role: 'Managing Partner',
+    email: 'ghalia@mizan.example', phone: '+966550100742',
+    person: 'Ghalia Al Khalidi', company: 'Mizan Accounting', role: 'Managing Partner',
     linkedin: 'https://linkedin.com/in/gracelin-example',
     touches: [
       ['first_touch', 'organic', 'X thread: client-onboarding agent breakdown', 'trakyo', 6],
@@ -1542,7 +1542,7 @@ const workflows: Workflow[] = [
         detail: '',
         branch: null,
         ownerKind: 'human',
-        owner: 'Alex · Founder',
+        owner: 'Abdulaziz · Founder',
         hoursPerWeek: 4,
         tools: ['calendar', 'ledger'],
         edgeLabel: 'demo',
@@ -1555,7 +1555,7 @@ const workflows: Workflow[] = [
         detail: '',
         branch: null,
         ownerKind: 'human',
-        owner: 'Alex · Founder',
+        owner: 'Abdulaziz · Founder',
         hoursPerWeek: 10,
         tools: ['ledger'],
         edgeLabel: 'proposal',
@@ -1568,7 +1568,7 @@ const workflows: Workflow[] = [
         detail: '',
         branch: null,
         ownerKind: 'human',
-        owner: 'Alex · Founder',
+        owner: 'Abdulaziz · Founder',
         hoursPerWeek: 5,
         tools: ['proposal-gen', 'gmail'],
         edgeLabel: 'won',
@@ -1629,7 +1629,7 @@ const workflows: Workflow[] = [
         detail: '',
         branch: null,
         ownerKind: 'human',
-        owner: 'Alex · Founder',
+        owner: 'Abdulaziz · Founder',
         hoursPerWeek: 8,
         tools: ['ghl', 'calendar'],
         edgeLabel: 'closed',
@@ -1775,7 +1775,7 @@ function seededAgentRuns(agentList: Agent[]): AgentRun[] {
   return runs;
 }
 
-// --- Trading (Robinhood agentic account) -------------------------------------
+// --- Trading (brokerage agentic account) -------------------------------------
 // Seeded snapshot so /trading is alive before a real agent feeds it. Source
 // 'seed' marks it as dummy; a live push (source 'robinhood') supersedes it.
 const TRADING_AT = d('2026-08-13T15:00:00.000Z');
@@ -1795,20 +1795,20 @@ const tradingHistory: TradingAccountSnapshot[] = [
   { ...AGENTIC, capturedAt: d('2026-08-13T14:00:00.000Z'), accountValueUsd: 1016.4, buyingPowerUsd: 418.5, cashUsd: 418.5, dayPnlUsd: 16.4, totalPnlUsd: 16.4, source: 'seed' },
 ];
 const tradingPositions: TradingPosition[] = [
-  { ...INDIV, capturedAt: TRADING_AT, symbol: 'NVDA', quantity: 4, avgCostUsd: 902.1, marketValueUsd: 3812.6, unrealizedPnlUsd: 204.2 },
-  { ...INDIV, capturedAt: TRADING_AT, symbol: 'AAPL', quantity: 8, avgCostUsd: 214.35, marketValueUsd: 1760.4, unrealizedPnlUsd: 45.6 },
-  { ...INDIV, capturedAt: TRADING_AT, symbol: 'MSFT', quantity: 3, avgCostUsd: 428.0, marketValueUsd: 1301.7, unrealizedPnlUsd: 17.7 },
-  { ...INDIV, capturedAt: TRADING_AT, symbol: 'VOO', quantity: 5, avgCostUsd: 82.9, marketValueUsd: 413.79, unrealizedPnlUsd: -1.71 },
+  { ...INDIV, capturedAt: TRADING_AT, symbol: '2222', quantity: 4, avgCostUsd: 902.1, marketValueUsd: 3812.6, unrealizedPnlUsd: 204.2 },
+  { ...INDIV, capturedAt: TRADING_AT, symbol: '1120', quantity: 8, avgCostUsd: 214.35, marketValueUsd: 1760.4, unrealizedPnlUsd: 45.6 },
+  { ...INDIV, capturedAt: TRADING_AT, symbol: '7010', quantity: 3, avgCostUsd: 428.0, marketValueUsd: 1301.7, unrealizedPnlUsd: 17.7 },
+  { ...INDIV, capturedAt: TRADING_AT, symbol: '2010', quantity: 5, avgCostUsd: 82.9, marketValueUsd: 413.79, unrealizedPnlUsd: -1.71 },
 ];
 const agenticPositions: TradingPosition[] = [
-  { ...AGENTIC, capturedAt: TRADING_AT, symbol: 'SPY', quantity: 1, avgCostUsd: 601.4, marketValueUsd: 624.7, unrealizedPnlUsd: 23.3 },
+  { ...AGENTIC, capturedAt: TRADING_AT, symbol: '1010', quantity: 1, avgCostUsd: 601.4, marketValueUsd: 624.7, unrealizedPnlUsd: 23.3 },
 ];
 const tradingActivity: TradeActivity[] = [
-  { id: 'tr-seed-5', at: d('2026-08-13T14:58:00.000Z'), ...AGENTIC, agent: 'Markets Agent', action: 'buy', symbol: 'SPY', quantity: 1, priceUsd: 601.4, rationale: 'Parking idle buying power in the index sleeve.', status: 'filled' },
-  { id: 'tr-seed-4', at: d('2026-08-13T13:20:00.000Z'), ...AGENTIC, agent: 'Markets Agent', action: 'sell', symbol: 'TSLA', quantity: 2, priceUsd: 240.8, rationale: 'Trimming into strength; thesis played out, rotating to cash.', status: 'filled' },
-  { id: 'tr-seed-3', at: d('2026-08-12T18:05:00.000Z'), ...INDIV, agent: 'Operator (manual)', action: 'buy', symbol: 'AAPL', quantity: 4, priceUsd: 213.9, rationale: 'Dollar-cost tranche into the core holding.', status: 'filled' },
-  { id: 'tr-seed-2', at: d('2026-08-12T15:41:00.000Z'), ...AGENTIC, agent: 'Markets Agent', action: 'buy', symbol: 'VOO', quantity: 5, priceUsd: 83.02, rationale: 'Parking idle buying power in the index sleeve.', status: 'filled' },
-  { id: 'tr-seed-1', at: d('2026-08-11T16:12:00.000Z'), ...INDIV, agent: 'Operator (manual)', action: 'buy', symbol: 'MSFT', quantity: 3, priceUsd: 428.0, rationale: 'Initiating position per the approved watchlist.', status: 'filled' },
+  { id: 'tr-seed-5', at: d('2026-08-13T14:58:00.000Z'), ...AGENTIC, agent: 'Markets Agent', action: 'buy', symbol: '1010', quantity: 1, priceUsd: 601.4, rationale: 'Parking idle buying power in the index sleeve.', status: 'filled' },
+  { id: 'tr-seed-4', at: d('2026-08-13T13:20:00.000Z'), ...AGENTIC, agent: 'Markets Agent', action: 'sell', symbol: '1180', quantity: 2, priceUsd: 240.8, rationale: 'Trimming into strength; thesis played out, rotating to cash.', status: 'filled' },
+  { id: 'tr-seed-3', at: d('2026-08-12T18:05:00.000Z'), ...INDIV, agent: 'Operator (manual)', action: 'buy', symbol: '1120', quantity: 4, priceUsd: 213.9, rationale: 'Riyal-cost tranche into the core holding.', status: 'filled' },
+  { id: 'tr-seed-2', at: d('2026-08-12T15:41:00.000Z'), ...AGENTIC, agent: 'Markets Agent', action: 'buy', symbol: '2010', quantity: 5, priceUsd: 83.02, rationale: 'Parking idle buying power in the index sleeve.', status: 'filled' },
+  { id: 'tr-seed-1', at: d('2026-08-11T16:12:00.000Z'), ...INDIV, agent: 'Operator (manual)', action: 'buy', symbol: '7010', quantity: 3, priceUsd: 428.0, rationale: 'Initiating position per the approved watchlist.', status: 'filled' },
 ];
 
 
@@ -1828,7 +1828,7 @@ const tradingActivity: TradeActivity[] = [
  * or adding a proposal would land on a fresh clone and silently never reach the
  * host, whose database already has the old rows. Re-syncing here is cheap (a
  * handful of rows) and safe: seeded rows are replaced by id, and anything
- * Alex adds through the OS carries origin 'os' and is left alone.
+ * Abdulaziz adds through the OS carries origin 'os' and is left alone.
  */
 export function syncSeededProposals(db: GladosDb): void {
 }
@@ -1890,7 +1890,7 @@ export const seededCrons: AgentCron[] = [
   {
     id: 'cron-crm-pulse-0900',
     agentId: 'crm-pulse',
-    schedule: '0 9 * * 1-5',
+    schedule: '0 9 * * 0-4',
     description: 'Ledger deals pipeline across Vantage and Launchpad Cohort',
     enabled: true,
     createdAt: d('2026-08-18T00:00:00.000Z'),

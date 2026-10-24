@@ -10,8 +10,9 @@
 import { useState } from 'react';
 import { GCard, GEmpty, GLegend, GSampleBadge, GSectionHeader, GStackedBar, GTable, type GColumn, type StackKey } from '@/components/g';
 import type { ChannelRow, ChannelsCard } from '@/lib/funnel-channels';
+import { money } from '@/lib/currency';
 
-const usd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const usd = (n: number) => money(Math.round(n));
 const num = (n: number) => n.toLocaleString('en-US');
 
 const KEYS: StackKey[] = [

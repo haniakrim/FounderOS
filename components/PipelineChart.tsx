@@ -14,6 +14,7 @@
 
 import { useEffect, useState } from 'react';
 import { stageBarGeometry } from '@/lib/chart-geometry';
+import { money } from '@/lib/currency';
 
 export type PipelineStage = {
   label: string;
@@ -85,7 +86,7 @@ export interface PipelineChartProps<T extends PipelineStage> {
   onSelect?: (stage: T, index: number) => void;
   /** Formats the big numeral (defaults to a plain rounded integer, like a count). */
   formatValue?: (value: number) => string;
-  /** Formats the mono `usd` line (defaults to `$12,345`). */
+  /** Formats the mono `usd` line (defaults to `$12,345` / `SAR 12,345`). */
   formatUsd?: (value: number) => string;
   /** Blur every rendered figure (numeral, mono line, tooltip) — a hide-values mode. */
   maskValues?: boolean;
@@ -123,7 +124,7 @@ export function PipelineChart<T extends PipelineStage>({
   active,
   onSelect,
   formatValue = (v) => String(Math.round(v)),
-  formatUsd = (v) => `$${Math.round(v).toLocaleString('en-US')}`,
+  formatUsd = (v) => money(Math.round(v)),
   maskValues = false,
   searchSlot,
   numeralSize = 42,

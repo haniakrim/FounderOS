@@ -3,6 +3,7 @@
  * (v1 terminal.tsx, CountUp.tsx, slab.tsx, VolumeMeter.tsx). Kept out of the
  * components so it is unit-tested directly (tests/l-kit.test.ts).
  */
+import { money } from '@/lib/currency';
 
 export type DotState = 'ok' | 'warn' | 'err' | 'off';
 
@@ -40,8 +41,8 @@ export type CountKind = 'int' | 'usd' | 'usdCents' | 'tokens' | 'pct';
 
 const FORMAT: Record<CountKind, (n: number) => string> = {
   int: (n) => Math.round(n).toLocaleString('en-US'),
-  usd: (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }),
-  usdCents: (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+  usd: (n) => money(n),
+  usdCents: (n) => money(n, { cents: true }),
   tokens: (n) =>
     n >= 1e9 ? `${(n / 1e9).toFixed(1)}B` : n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : n >= 1e3 ? `${(n / 1e3).toFixed(1)}k` : String(Math.round(n)),
   pct: (n) => `${Math.round(n)}%`,

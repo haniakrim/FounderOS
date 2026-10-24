@@ -38,6 +38,7 @@ import { treeFor } from '@/lib/appearance';
 import { channelsNetChange, netChange, seriesWindow } from '@/lib/social-range';
 import { formatFull } from '@/lib/format-number';
 import { SERIES_INDEX } from '@/lib/series';
+import { money } from '@/lib/currency';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,7 +52,7 @@ const PLATFORM_ICONS: Record<SocialPlatform, LucideIcon> = {
 
 // Value + small-unit split per tile (compact for audience, $ for money).
 function tileValue(value: number, unit: string): { main: string; small: string } {
-  if (unit === 'usd') return { main: `$${value.toLocaleString('en-US')}`, small: '' };
+  if (unit === 'usd') return { main: money(value), small: '' };
   if (unit === 'followers') return { main: formatFollowers(value), small: '' };
   return { main: value.toLocaleString('en-US'), small: unit };
 }

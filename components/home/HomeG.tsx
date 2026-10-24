@@ -34,6 +34,7 @@ import type { IncomeCategory } from '@/lib/finances';
 import type { StatusPill, Tone } from '@/lib/pulse-history';
 import { DONE_TODAY_EMPTY, NEEDS_YOU_EMPTY, type DoneToday, type NeedsYou } from '@/lib/home-today';
 import { InterjectG } from './Interject';
+import { money } from '@/lib/currency';
 
 /**
  * Home under the GladOS style (glados-ui SPEC S01, X5). Home6Console gathers
@@ -112,7 +113,7 @@ export type HomeGData = {
   now: { quarter: string; items: { id: string; title: string }[] } | null;
 };
 
-const usd = (n: number) => `$${formatFull(Math.round(n))}`;
+const usd = (n: number) => money(Math.round(n));
 const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 /** Comms sources on the inbound chart: email is the C19 email slot; the chat sources take categorical slots. */

@@ -7,20 +7,22 @@
  */
 import { AGENTIC_ID, filterActivity, isHumanTrade, LIMIT_FIELDS, LIMIT_LABELS, LIMIT_RANGES, type ActivityFilter, type TradingPayload } from '@/lib/trading-view';
 import type { TradeActivity, TradingAccountSnapshot, TradingLimitsRow } from '@/lib/schemas';
+import { currencyPrefix, money } from '@/lib/currency';
 
 // ── formatting (shared by every tree) ──────────────────────────────────────
 
-/** `$11,290` (whole dollars) or `$11,290.40` with cents. */
+/** `$11,290` / `SAR 11,290` (whole dollars) or `$11,290.40` with cents. */
 export function usd(n: number, cents = false): string {
-  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: cents ? 2 : 0, maximumFractionDigits: cents ? 2 : 0 });
+  return money(n, { cents });
 }
 
 /** Axis labels: `$12.5k`, `$980`, `$1.2M`. */
 export function usdCompact(n: number): string {
   const a = Math.abs(n);
-  if (a >= 1e6) return `$${(n / 1e6).toFixed(a >= 1e7 ? 0 : 1)}M`;
-  if (a >= 1e4) return `$${(n / 1e3).toFixed(a >= 1e5 ? 0 : 1)}k`;
-  if (a >= 1e3) return `$${(n / 1e3).toFixed(2)}k`;
+  const p = currencyPrefix();
+  if (a >= 1e6) return `${p}${(n / 1e6).toFixed(a >= 1e7 ? 0 : 1)}M`;
+  if (a >= 1e4) return `${p}${(n / 1e3).toFixed(a >= 1e5 ? 0 : 1)}k`;
+  if (a >= 1e3) return `${p}${(n / 1e3).toFixed(2)}k`;
   return usd(n);
 }
 

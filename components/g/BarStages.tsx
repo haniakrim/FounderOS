@@ -5,6 +5,7 @@ import { stageBarGeometry, stackSegments } from '@/lib/chart-geometry';
 import { formatCompact, formatFull, formatUsdCompact } from '@/lib/format-number';
 import { GChartTooltip } from './GChartTooltip';
 import { useWidth, VizStateBody, type VizStateProps } from './viz-shared';
+import { money as fmtMoney } from '@/lib/currency';
 
 export type StageColumn = {
   id: string;
@@ -88,7 +89,7 @@ export function BarStages({
   const barW = Math.max(12, narrow ? colW * 0.6 : Math.min(72, colW * 0.46));
   const money = measure === 'usd';
   const compact = (v: number) => (money ? formatUsdCompact(v) : narrow ? formatCompact(v) : formatFull(v));
-  const full = (v: number) => (money ? `$${formatFull(Math.round(v))}` : formatFull(v));
+  const full = (v: number) => (money ? fmtMoney(Math.round(v)) : formatFull(v));
   const conv = columns.map((c) => (c.conversion === undefined ? null : c.conversion));
   const realConv = conv.filter((c): c is number => c !== null && Number.isFinite(c));
   const worst = conversionRow && realConv.length > 1 ? Math.min(...realConv) : null;

@@ -15,6 +15,7 @@ import {
   ago, day, logRows, usdCompact, qty, signedUsd, stamp, toneOf, tradeLine, usd, whoOf, type ActivityFilter, type TradingModel,
 } from '@/lib/trading-model';
 import type { TradeActivity, TradingOrder, TradingPosition } from '@/lib/schemas';
+import { money } from '@/lib/currency';
 import { useTrading, type TradingUi } from './use-trading';
 
 export type TradingTreeProps = { model: TradingModel; pushPath: string; setup: { robinhood: string; phantom: string } };
@@ -321,7 +322,7 @@ function Positions({ m, ui }: { m: TradingModel; ui: TradingUi }) {
               highlight={biggest.count > 0 ? biggest.label : null}
               height={64}
               formatValue={(v) => String(v)}
-              label="Positions by size: under $50, $50 to $250, $250 to $1k, over $1k"
+              label={`Positions by size: under ${money(50)}, ${money(50)} to ${money(250)}, ${money(250)} to ${money(1000)}, over ${money(1000)}`}
             />
           </div>
           <div className="trd-g-pos-table">

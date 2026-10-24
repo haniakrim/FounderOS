@@ -27,6 +27,7 @@ import { pushEscape } from '@/lib/escape-stack';
 import {
   GButton, GCard, GDelta, GDotMatrix, GDriverBars, GEmpty, GList, GRingGauge, GRow, GSearch, GSectionHeader, GSegmented, GShareBar, GTag,
 } from '@/components/g';
+import { money as fmtMoney } from '@/lib/currency';
 
 const Globe = dynamic(() => import('@/components/adpilot/Globe').then((m) => m.Globe), {
   ssr: false,
@@ -34,8 +35,8 @@ const Globe = dynamic(() => import('@/components/adpilot/Globe').then((m) => m.G
 });
 
 const nf = new Intl.NumberFormat('en-US');
-const money = (v: number) => `$${nf.format(Math.round(v))}`;
-const money2 = (v: number | null) => (v === null ? null : `$${v.toFixed(2)}`);
+const money = (v: number) => fmtMoney(Math.round(v));
+const money2 = (v: number | null) => (v === null ? null : fmtMoney(v, { cents: true }));
 const pct = (v: number | null) => (v === null ? null : `${(v * 100).toFixed(2)}%`);
 
 const RAIL_FILTER_THRESHOLD = 10;

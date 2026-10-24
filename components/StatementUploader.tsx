@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Upload } from 'lucide-react';
+import { money } from '@/lib/currency';
 
 /** Phase-2 statement uploader: posts a bank/CC CSV to the ingestion route, then
     refreshes so the expenses-by-category section reflects the real parsed spend. */
@@ -30,7 +31,7 @@ export function StatementUploader() {
       if (!res.ok) {
         setStatus(`✗ ${data.error ?? 'upload failed'}`);
       } else if (isPdf) {
-        setStatus(`✓ ${data.summary.business} ${data.summary.month}: ${'$' + (data.summary.creditsCents / 100).toLocaleString('en-US', { maximumFractionDigits: 0 })} in`);
+        setStatus(`✓ ${data.summary.business} ${data.summary.month}: ${money(data.summary.creditsCents / 100)} in`);
         router.refresh();
       } else {
         setStatus(`✓ ${data.inserted} new of ${data.parsed} parsed rows`);

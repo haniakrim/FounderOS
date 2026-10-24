@@ -29,8 +29,8 @@ const FILLER = [
   'Quick question about the rollout order', 'Sending the signed copy over',
   'Team is aligned, ready to proceed', 'Sharing this with our ops lead',
 ] as const;
-const NAMES = ['Dara Whitfield','Priya Raman','Marcus Alder','Grant Mercer','Elena Sokolov',
-  'Theo Bassett','Nina Petrov','Hana Kim','Elias Juniper','Cody Lang','Rowan Hale','Ruben Diaz'] as const;
+const NAMES = ['Dhuha Al Fahad','Hind Al Rumaih','Majed Al Anazi','Ghassan Al Zahrani','Eman Al Sulaimani',
+  'Turki Al Qarni','Nawal Al Otaibi','Haifa Al Rasheed','Eyad Al Najjar','Fawaz Al Lami','Rakan Al Hamdan','Rashed Al Dosari'] as const;
 const SRC = ['email', 'whatsapp', 'slack'] as const;
 
 /**
@@ -107,7 +107,7 @@ export function demoTasks(): DemoTask[] {
   // ── fleet work landing across this week, so the grid has cards ──────────
   add('d-t1', 'kanye', 'Lock the September content angle: the agent-hierarchy series', 'doing',
     { dueAt: slot(1, 10), priority: 'high', detail: 'Three-part series. Angle is the org chart dissolving, not the tooling.' });
-  add('d-t2', 'drake', 'Northwind Logistics: send the order form and book the kickoff', 'doing',
+  add('d-t2', 'drake', 'Shamal Logistics: send the order form and book the kickoff', 'doing',
     { dueAt: slot(0, 9), priority: 'high', detail: 'Order form is signed. Kickoff week needs to clear delivery capacity first.' });
   add('d-t3', 'carti', 'Cut the 14 minute walkthrough into six verticals', 'doing',
     { dueAt: slot(2, 13), detail: 'Hooks at 0:00, 2:40, 6:15, 8:50, 11:05, 12:40.' });
@@ -117,9 +117,9 @@ export function demoTasks(): DemoTask[] {
     { dueAt: slot(4, 15), createdAt: daysAgo(8), priority: 'high' });
   add('d-t6', 'don-toliver', 'Tune the tone gate, two false positives this week', 'open',
     { dueAt: slot(1, 16), createdAt: daysAgo(4) });
-  add('d-t7', 'crm-pulse', 'Re-score the pipeline after the Ironwood close', 'doing',
+  add('d-t7', 'crm-pulse', 'Re-score the pipeline after the Al Dawood close', 'doing',
     { dueAt: slot(2, 9), createdAt: daysAgo(2) });
-  add('d-t8', 'cudi', 'Draft the Halcyon rollout one-pager', 'open',
+  add('d-t8', 'cudi', 'Draft the Lamsa rollout one-pager', 'open',
     { dueAt: slot(3, 14), createdAt: daysAgo(5) });
 
   // ── blocked: the "Needs you" tile, each saying what it waits on ─────────
@@ -127,7 +127,7 @@ export function demoTasks(): DemoTask[] {
     { createdAt: daysAgo(2), priority: 'high', detail: 'Waiting on you to approve the send batch. Nothing leaves until you do.' });
   add('d-b2', 'data-agent', 'Re-index the brain-store after the September import', 'blocked',
     { createdAt: daysAgo(5), detail: 'Waiting on a ZeroEntropy key with write scope.' });
-  add('d-b3', 'drake', 'Vertex Freight security questionnaire', 'blocked',
+  add('d-b3', 'drake', 'Hejaz Freight security questionnaire', 'blocked',
     { createdAt: daysAgo(1), dueAt: slot(4, 10), priority: 'high', detail: 'Waiting on your sign-off for the data-retention answer.' });
 
   // ── your own lane, grouped for the To-Do rail ───────────────────────────
@@ -149,10 +149,10 @@ export function demoTasks(): DemoTask[] {
   const finished = [
     'Ship the funnel dashboard', 'Migrate the brand-deal pipeline', 'Rebuild the wizard',
     'Import the Claude archive', 'Wire the Attio connector', 'Cut the Q2 sizzle reel',
-    'Close the Ironwood contract', 'Rewrite the onboarding SOP', 'Audit the vector index',
+    'Close the Al Dawood contract', 'Rewrite the onboarding SOP', 'Audit the vector index',
     'Ship the blueprint view', 'Retire the org chart', 'Tune the inbound watcher',
     'Publish module three', 'Reconcile the August close', 'Fix the tone gate regressions',
-    'Onboard Cascade Health', 'Batch the September verticals', 'Refresh the skills library',
+    'Onboard Afia Clinics', 'Batch the September verticals', 'Refresh the skills library',
   ];
   const owners = ['kanye', 'drake', 'carti', 'future', 'kendrick', 'yeat', 'markdown-auditor', 'cudi', 'crm-pulse'];
   finished.forEach((title, i) => {
@@ -182,7 +182,7 @@ export function demoConnectors(): ConnectorStatus[] {
     c('calendar', 'Calendar', 'calendar', '3 calendars · 11 events this week', { events: 11 }),
     c('attio', 'Attio', 'crm', '68 open deals · pipeline synced 4m ago', { deals: 68 }),
     c('zernio', 'Zernio', 'social', '4 platforms · 24 posts queued', { platforms: 4 }),
-    c('payments', 'Stripe', 'payments', 'Live · $84,500 recurring, $12,240 available', { available: 12240 }),
+    c('payments', 'Stripe', 'payments', 'Live · SAR 84,500 recurring, SAR 12,240 available', { available: 12240 }),
     c('notion', 'Notion', 'notion', '61 pages synced · 3 databases'),
     c('manychat', 'ManyChat', 'social', 'IG DM automation live · 1,284 conversations', { conversations: 1284 }),
     c('beehiiv', 'beehiiv', 'ads', '18,400 subscribers · 42% open rate', { subscribers: 18400 }),
@@ -203,28 +203,28 @@ type Thread = [CommsItem['source'], string, string, number, number?, string?];
 /** The unified inbox: a believable morning across four channels. */
 export function demoComms(): CommsItem[] {
   const threads: Thread[] = [
-    ['email', 'Dara Whitfield — Northwind Logistics', 'Order form is signed and back with you. When can the team start onboarding?', 14, 2, 'whitfield@northwind.example'],
-    ['whatsapp', 'Sol Vantage (brand)', 'Sending the campaign brief over this afternoon — can you review before Friday?', 26, 1],
-    ['email', 'Priya Raman — Halcyon Dental', 'Partners reviewed the proposal. Two questions on the rollout order.', 48, 1, 'raman@halcyon.example'],
-    ['slack', '#delivery — Juno Bellamy', 'Ironwood environment is provisioned. Security review is the last gate.', 63, 1],
-    ['email', 'Grant Mercer — Ironwood Legal', 'Our GC cleared the contract. Sending the countersigned copy today.', 92, 1, 'mercer@ironwood.example'],
-    ['whatsapp', 'Mars Delacroix', 'Shot the walkthrough this morning — footage is in the drive.', 110, 1],
-    ['email', 'Elena Sokolov — Vertex Freight', 'Security questionnaire attached. Procurement needs it back by the 29th.', 145, 1, 'sokolov@vertex.example'],
-    ['slack', '#pipeline — Sable Whitmore', 'Kestrel moved to a Q4 timeline. Parking it in nurture.', 168, undefined],
-    ['email', 'Marcus Alder — Brightpath Realty', 'Partner meeting is set for Tuesday. Can you join for 15 minutes?', 190, 1, 'alder@brightpath.example'],
-    ['whatsapp', 'Theo Bassett — Lumen Studios', 'The editing pipeline scope looks right. What is the lead time?', 220, 1],
-    ['email', 'Cassian & Vale', 'August close is done. Nine lines still need a category before we file.', 265, 1, 'team@cassianvale.example'],
+    ['email', 'Dhuha Al Fahad — Shamal Logistics', 'Order form is signed and back with you. When can the team start onboarding?', 14, 2, 'dhuha@shamal.example'],
+    ['whatsapp', 'Salem Vantage (brand)', 'Sending the campaign brief over this afternoon — can you review before Friday?', 26, 1],
+    ['email', 'Hind Al Rumaih — Lamsa Dental', 'Partners reviewed the proposal. Two questions on the rollout order.', 48, 1, 'hind@lamsa.example'],
+    ['slack', '#delivery — Jumana Al Bakr', 'Al Dawood environment is provisioned. Security review is the last gate.', 63, 1],
+    ['email', 'Ghassan Al Zahrani — Al Dawood Legal', 'Our GC cleared the contract. Sending the countersigned copy today.', 92, 1, 'ghassan@aldawood.example'],
+    ['whatsapp', 'Mazen Al Dakhil', 'Shot the walkthrough this morning — footage is in the drive.', 110, 1],
+    ['email', 'Eman Al Sulaimani — Hejaz Freight', 'Security questionnaire attached. Procurement needs it back by the 29th.', 145, 1, 'eman@hejaz.example'],
+    ['slack', '#pipeline — Sahar Al Mulhim', 'Shifa Al Waha moved to a Q4 timeline. Parking it in nurture.', 168, undefined],
+    ['email', 'Majed Al Anazi — Manarat Realty', 'Partner meeting is set for Tuesday. Can you join for 15 minutes?', 190, 1, 'majed@manarat.example'],
+    ['whatsapp', 'Turki Al Qarni — Al Hadeel Studio', 'The editing pipeline scope looks right. What is the lead time?', 220, 1],
+    ['email', 'Al Qalam Accounting', 'August close is done. Nine lines still need a category before we file.', 265, 1, 'team@alqalam.example'],
     ['slack', '#alerts — Yeat', 'Delivery host disk crossed 70%. Cleared 12GB of build cache.', 300, undefined],
-    ['email', 'Ruben Diaz — Atlas Media', 'Finished module 3. The agent-routing section finally made it click.', 340, undefined, 'diaz@atlasmedia.example'],
-    ['whatsapp', 'Koda Reyes', 'Two inbound partnership asks from the conference. Forwarding now.', 380, 2],
-    ['email', 'Nina Petrov — Solace Interiors', 'Circling back on the automation quote from last month.', 430, 1, 'petrov@solace.example'],
-    ['slack', '#content — Remy Alvarez', 'The vertical cut is outperforming the long form 3:1 on saves.', 470, undefined],
-    ['email', 'Hana Kim — Orbit Labs', 'Payment plan works for us. Where do I sign?', 520, 1, 'kim@orbitlabs.example'],
-    ['whatsapp', 'Elias Juniper', 'Technical walkthrough Thursday still good on your end?', 560, 1],
-    ['email', 'Dr. Amara Osei — Cascade Health', 'Sharing the one-pager with our ops committee this week.', 610, undefined, 'osei@cascade.example'],
-    ['slack', '#delivery — Vince Staples', 'Brightpath usage down 30% week over week. Opening a check-in.', 660, 1],
-    ['email', 'Sasha Bright — Quill Agency', 'Enrolled and started module 1. This is exactly what I needed.', 720, undefined, 'bright@quill.example'],
-    ['whatsapp', 'Atlas Nguyen', 'Multi-tenant model review notes are in the doc.', 790, undefined],
+    ['email', 'Rashed Al Dosari — Sada Media', 'Finished module 3. The agent-routing section finally made it click.', 340, undefined, 'rashed@sada.example'],
+    ['whatsapp', 'Kinan Al Rayes', 'Two inbound partnership asks from the conference. Forwarding now.', 380, 2],
+    ['email', 'Nawal Al Otaibi — Zakhrafa Interiors', 'Circling back on the automation quote from last month.', 430, 1, 'nawal@zakhrafa.example'],
+    ['slack', '#content — Reema Al Suwailem', 'The vertical cut is outperforming the long form 3:1 on saves.', 470, undefined],
+    ['email', 'Haifa Al Rasheed — Fanar Labs', 'Payment plan works for us. Where do I sign?', 520, 1, 'haifa@fanar.example'],
+    ['whatsapp', 'Eyad Al Najjar', 'Technical walkthrough Thursday still good on your end?', 560, 1],
+    ['email', 'Dr. Amal Al Osaimi — Afia Clinics', 'Sharing the one-pager with our ops committee this week.', 610, undefined, 'amal@afia.example'],
+    ['slack', '#delivery — Sami Al Turki', 'Manarat usage down 30% week over week. Opening a check-in.', 660, 1],
+    ['email', 'Shahad Al Barrak — Ibdaa Creative', 'Enrolled and started module 1. This is exactly what I needed.', 720, undefined, 'shahad@ibdaa.example'],
+    ['whatsapp', 'Anas Al Nujaidi', 'Multi-tenant model review notes are in the doc.', 790, undefined],
   ];
   // deterministic older traffic spread across the full trailing month, with a
   // weekday-ish rhythm so the activity chart has shape instead of a flat wall
@@ -267,8 +267,8 @@ export function demoPostDays(): { date: string; platforms: string[] }[] {
   for (let d = 0; d < 90; d++) {
     const day = new Date(Date.now() - d * 86_400_000).toISOString().slice(0, 10);
     const weekday = new Date(day).getUTCDay();
-    // 5-6 posting days a week, 1-2 posts on each
-    if (weekday === 0 || (weekday === 6 && d % 3 === 0)) continue;
+    // 5-6 posting days a week (Sun-Thu work week, Friday off, Saturday occasional), 1-2 posts on each
+    if (weekday === 5 || (weekday === 6 && d % 3 !== 0)) continue;
     const n = d % 4 === 0 ? 2 : 1;
     for (let k = 0; k < n; k++) out.push({ date: day, platforms: COMBOS[(d + k) % COMBOS.length] });
   }
@@ -291,18 +291,18 @@ export function demoEvents(): CalEvent[] {
     location: null, joinUrl: null, ...extra,
   });
   return [
-    ev('e1', 'Work', '#5ec9f8', 'Northwind onboarding kickoff', 0, 14, 0, 45, { joinUrl: 'https://meet.example/northwind' }),
-    ev('e2', 'Work', '#5ec9f8', 'Ironwood security review', 0, 16, 30, 30, { joinUrl: 'https://meet.example/ironwood' }),
-    ev('e3', 'Personal', '#3df08c', 'Gym', 0, 18, 30, 60, { location: 'Equinox' }),
-    ev('e4', 'Work', '#5ec9f8', 'Brightpath partner meeting', 1, 10, 0, 30, { joinUrl: 'https://meet.example/brightpath' }),
+    ev('e1', 'Work', '#5ec9f8', 'Shamal onboarding kickoff', 0, 14, 0, 45, { joinUrl: 'https://meet.example/shamal' }),
+    ev('e2', 'Work', '#5ec9f8', 'Al Dawood security review', 0, 16, 30, 30, { joinUrl: 'https://meet.example/aldawood' }),
+    ev('e3', 'Personal', '#3df08c', 'Gym', 0, 18, 30, 60, { location: 'Quwwa Fitness' }),
+    ev('e4', 'Work', '#5ec9f8', 'Manarat partner meeting', 1, 10, 0, 30, { joinUrl: 'https://meet.example/manarat' }),
     ev('e5', 'Content', '#e1306c', 'Walkthrough edit review with Mars', 1, 13, 0, 45),
-    ev('e6', 'Work', '#5ec9f8', 'Lumen Studios scope call', 2, 11, 0, 30, { joinUrl: 'https://meet.example/lumen' }),
-    ev('e7', 'Work', '#5ec9f8', 'Halcyon rollout Q&A', 2, 15, 0, 30, { joinUrl: 'https://meet.example/halcyon' }),
+    ev('e6', 'Work', '#5ec9f8', 'Al Hadeel Studio scope call', 2, 11, 0, 30, { joinUrl: 'https://meet.example/alhadeel' }),
+    ev('e7', 'Work', '#5ec9f8', 'Lamsa rollout Q&A', 2, 15, 0, 30, { joinUrl: 'https://meet.example/lamsa' }),
     ev('e8', 'Content', '#e1306c', 'Film day', 3, 9, 0, 240, { location: 'Studio B' }),
-    ev('e9', 'Work', '#5ec9f8', 'Vertex procurement follow-up', 4, 10, 30, 30, { joinUrl: 'https://meet.example/vertex' }),
-    ev('e10', 'Personal', '#3df08c', 'Dinner with Koda', 4, 19, 0, 120, { location: 'Miku' }),
+    ev('e9', 'Work', '#5ec9f8', 'Hejaz procurement follow-up', 4, 10, 30, 30, { joinUrl: 'https://meet.example/hejaz' }),
+    ev('e10', 'Personal', '#3df08c', 'Dinner with Kinan', 4, 19, 0, 120, { location: 'Bait Al Majlis' }),
     ev('e11', 'Work', '#5ec9f8', 'Weekly pipeline review', -1, 9, 30, 30),
-    ev('e12', 'Work', '#5ec9f8', 'Orbit Labs payment plan', -1, 14, 0, 30),
+    ev('e12', 'Work', '#5ec9f8', 'Fanar Labs payment plan', -1, 14, 0, 30),
   ];
 }
 
@@ -315,54 +315,54 @@ export function demoThreadBodies(): Record<string, ThreadMessage[]> {
     turns.map(([from, text, mins]) => ({ from, text, ts: t(mins) })),
   ];
   return Object.fromEntries([
-    x('Dara Whitfield',
+    x('Dhuha Al Fahad',
       ['me', 'Order form is attached. Once it is signed we can lock the onboarding week.', 2 * 1440 + 30],
       ['them', 'Legal had one wording change on the data clause, sending back shortly.', 1440 + 200],
       ['me', 'Change accepted. Countersigned copy is on its way back to you now.', 1440 + 90],
       ['them', 'Order form is signed and back with you. When can the team start onboarding?', 14],
     ),
-    x('Sol Vantage',
+    x('Salem Vantage',
       ['them', 'We want to run the Q4 launch through your team again. Same format as last time?', 3 * 1440],
       ['me', 'Same format works. Send the brief when it is ready and I will scope the deliverables.', 3 * 1440 - 40],
       ['them', 'Sending the campaign brief over this afternoon — can you review before Friday?', 26],
     ),
-    x('Priya Raman',
+    x('Hind Al Rumaih',
       ['me', 'Proposal attached. The rollout order is front desk first, then the two clinics.', 4 * 1440],
       ['them', 'Partners reviewed the proposal. Two questions on the rollout order.', 48],
     ),
-    x('Juno Bellamy',
-      ['them', 'Provisioning Ironwood today. Security review is scheduled for 4:30.', 300],
-      ['them', 'Ironwood environment is provisioned. Security review is the last gate.', 63],
+    x('Jumana Al Bakr',
+      ['them', 'Provisioning Al Dawood today. Security review is scheduled for 4:30.', 300],
+      ['them', 'Al Dawood environment is provisioned. Security review is the last gate.', 63],
     ),
-    x('Grant Mercer',
+    x('Ghassan Al Zahrani',
       ['me', 'Contract is with your GC. Let me know if the indemnity language needs another pass.', 5 * 1440],
       ['them', 'Our GC cleared the contract. Sending the countersigned copy today.', 92],
     ),
-    x('Mars Delacroix',
+    x('Mazen Al Dakhil',
       ['me', 'Walkthrough shoot is tomorrow morning. Drop the footage in the shared drive when done.', 1440 + 60],
       ['them', 'Shot the walkthrough this morning — footage is in the drive.', 110],
     ),
-    x('Elena Sokolov',
+    x('Eman Al Sulaimani',
       ['them', 'Procurement wants a security questionnaire before they issue the PO.', 2 * 1440],
       ['me', 'Send it over and I will turn it around this week.', 2 * 1440 - 30],
       ['them', 'Security questionnaire attached. Procurement needs it back by the 29th.', 145],
     ),
-    x('Marcus Alder',
+    x('Majed Al Anazi',
       ['them', 'Partner meeting is set for Tuesday. Can you join for 15 minutes?', 190],
     ),
-    x('Theo Bassett',
+    x('Turki Al Qarni',
       ['me', 'Scope for the editing pipeline is in the doc: intake, rough cut, review, delivery.', 1440 + 30],
       ['them', 'The editing pipeline scope looks right. What is the lead time?', 220],
     ),
-    x('Hana Kim',
+    x('Haifa Al Rasheed',
       ['me', 'Two options: pay in full, or three monthly payments starting on signature.', 2 * 1440],
       ['them', 'Payment plan works for us. Where do I sign?', 520],
     ),
-    x('Elias Juniper',
+    x('Eyad Al Najjar',
       ['me', 'Thursday 11am for the technical walkthrough. I will send the invite.', 3 * 1440],
       ['them', 'Technical walkthrough Thursday still good on your end?', 560],
     ),
-    x('Nina Petrov',
+    x('Nawal Al Otaibi',
       ['them', 'Circling back on the automation quote from last month.', 430],
     ),
   ]);

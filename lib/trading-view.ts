@@ -5,6 +5,7 @@
  * DOM, no CSS: every tree (GladOS, Classic, Legacy) imports this file, and the
  * page lane picks colours.
  */
+import { currencyPrefix } from '@/lib/currency-code';
 import type { ConnectorStatus } from '@/lib/connectors/types';
 import type {
   TradeActivity,
@@ -43,17 +44,21 @@ export function freshness(accounts: TradingAccountSnapshot[], now: number = Date
   return { state: 'live', label, ageMs };
 }
 
-const SIZE_BUCKETS: Array<{ label: string; max: number }> = [
-  { label: '<$50', max: 50 },
-  { label: '$50-250', max: 250 },
-  { label: '$250-1k', max: 1000 },
-  { label: '$1k+', max: Infinity },
-];
+const SIZE_BUCKETS = (): Array<{ label: string; max: number }> => {
+  const c = currencyPrefix();
+  return [
+    { label: `<${c}50`, max: 50 },
+    { label: `${c}50-250`, max: 250 },
+    { label: `${c}250-1k`, max: 1000 },
+    { label: `${c}1k+`, max: Infinity },
+  ];
+};
 
 /** The book by market value; every bucket present so the chart keeps its columns. */
 export function positionSizes(positions: TradingPosition[]): Array<{ label: string; count: number }> {
-  return SIZE_BUCKETS.map((b, i) => {
-    const min = i === 0 ? -Infinity : SIZE_BUCKETS[i - 1].max;
+  const buckets = SIZE_BUCKETS();
+  return buckets.map((b, i) => {
+    const min = i === 0 ? -Infinity : buckets[i - 1].max;
     return { label: b.label, count: positions.filter((p) => p.marketValueUsd >= min && p.marketValueUsd < b.max).length };
   });
 }

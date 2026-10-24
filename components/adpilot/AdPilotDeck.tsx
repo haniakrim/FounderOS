@@ -25,6 +25,7 @@ import { patchUrlParams, prefersReducedMotion } from '@/components/adpilot/url';
 import { cityBreakdown, cityKey, type CityBreakdown } from '@/lib/adpilot-globe';
 import { angleBetween } from '@/components/adpilot/projection';
 import { pushEscape } from '@/lib/escape-stack';
+import { money as fmtMoney } from '@/lib/currency';
 
 /**
  * The AdPilot command deck: status chip → globe (naked over the page grid,
@@ -43,8 +44,8 @@ const Globe = dynamic(() => import('@/components/adpilot/Globe').then((m) => m.G
 });
 
 const nf = new Intl.NumberFormat('en-US');
-const money = (v: number) => `$${nf.format(Math.round(v))}`;
-const money2 = (v: number | null) => (v === null ? '—' : `$${v.toFixed(2)}`);
+const money = (v: number) => fmtMoney(Math.round(v));
+const money2 = (v: number | null) => (v === null ? '—' : fmtMoney(v, { cents: true }));
 const times = (v: number | null) => (v === null ? '—' : `${v.toFixed(2)}x`);
 const pct = (v: number | null) => (v === null ? '—' : `${(v * 100).toFixed(2)}%`);
 const alpha = (a: number) => ({ '--ap-a': a }) as CSSProperties;

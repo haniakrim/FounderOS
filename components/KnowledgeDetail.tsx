@@ -8,6 +8,7 @@ import { useGc } from '@/components/system-g/style-context';
 import type { Personnel } from '@/lib/personnel';
 import type { MemoryNode } from '@/lib/memory-core';
 import type { Person, RosterClient, SopTask } from '@/lib/schemas';
+import { money } from '@/lib/currency';
 
 export type AgentLite = { id: string; name: string; role: string; model: string };
 export type ToolLite = { id: string; slug: string; name: string; mcp: boolean };
@@ -328,7 +329,7 @@ export function ClientRosterCard({
                     key={c.id}
                     color={color}
                     title={c.name}
-                    sub={c.amountUsd ? `$${c.amountUsd.toLocaleString('en-US')}` : 'active client'}
+                    sub={c.amountUsd ? money(c.amountUsd) : 'active client'}
                   />
                 ))}
             </div>
@@ -343,7 +344,7 @@ export function ClientRosterCard({
                   key={c.id}
                   color={color}
                   title={c.name}
-                  sub={c.amountUsd ? `$${c.amountUsd.toLocaleString('en-US')}` : c.status}
+                  sub={c.amountUsd ? money(c.amountUsd) : c.status}
                 />
               ))}
             </div>

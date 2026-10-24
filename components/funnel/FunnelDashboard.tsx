@@ -30,6 +30,7 @@ export type DashboardConnector = {
 };
 
 import { LANES, type Compare, type DashboardInitial, type Grain, type Lane, type Period, type View } from './state';
+import { money } from '@/lib/currency';
 
 export type DashboardProps = {
   journeys: FunnelJourney[];
@@ -65,7 +66,7 @@ const LANE_VAR: Record<Lane, string> = {
 };
 const STAGE_VAR = (i: number) => `var(--funnel-s${i})`;
 
-const usd = (n: number) => `$${Math.round(n).toLocaleString('en-US')}`;
+const usd = (n: number) => money(Math.round(n));
 const num = (n: number) => n.toLocaleString('en-US');
 const dateOf = (s: string) => new Date(`${s}T00:00:00Z`).getTime();
 const firstAt = (j: FunnelJourney) => j.touches[0]?.at ?? j.createdAt;

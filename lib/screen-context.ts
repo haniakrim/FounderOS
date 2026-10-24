@@ -13,6 +13,7 @@ import { funnelSummary, journeyMeta, splitFunnelJourneys, FUNNEL_STAGES } from '
 import { attioFunnelJourneys } from '@/lib/funnel-live';
 import { ghlFunnelJourneys } from '@/lib/funnel-ghl';
 import type { LabStore } from '@/lib/lab/store';
+import { money } from '@/lib/currency';
 
 /** The fallback line when a view has no richer summary: names the product by
  *  this deployment's BRAND.name, never a literal (glados-ui §3.6). */
@@ -45,7 +46,7 @@ export type FunnelContextInput = {
 /** Pure formatter — what the Wizard reads about the funnel screen. */
 export function describeFunnelContext(d: FunnelContextInput): string {
   return [
-    `Funnel: ${d.clients} active leads across ${d.sources}; ${d.converted} converted ($${Math.round(d.revenueUsd).toLocaleString('en-US')}); ${d.archived} archived (>90d quiet).`,
+    `Funnel: ${d.clients} active leads across ${d.sources}; ${d.converted} converted (${money(Math.round(d.revenueUsd))}); ${d.archived} archived (>90d quiet).`,
     `Current stage counts — ${d.stageCounts.map(([label, n]) => `${label}: ${n}`).join(' · ')}.`,
     `${d.decaying} fading toward the 90-day archive (quiet >21d).`,
     d.reddest.length > 0

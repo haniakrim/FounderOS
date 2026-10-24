@@ -26,12 +26,12 @@ import type { BusinessSeries } from '@/lib/bank-statements';
 import { processorPeriodLabel, processorSetupHref, type ExpensesSource } from '@/lib/finances';
 import type { SpendCard } from '@/lib/spend-report';
 import { Spending } from './Spending';
+import { money } from '@/lib/currency';
 
 const HIDE_VALUES_KEY = 'finances:hide-values';
 const MASK_STYLE: React.CSSProperties = { filter: 'blur(6px)', userSelect: 'none' };
 
-const usd = (n: number, cents = false) =>
-  n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: cents ? 2 : 0 });
+const usd = (n: number, cents = false) => money(n, { cents });
 
 function ago(unix: number): string {
   const mins = Math.round((Date.now() - unix * 1000) / 60_000);

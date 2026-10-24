@@ -11,8 +11,9 @@
 import { useState } from 'react';
 import { GButton, GCard, GEmpty, GLegend, GList, GRow, GSampleBadge, GSectionHeader, GSheet, GStackedBar, GTable, type GColumn, type VizColor } from '@/components/g';
 import type { SpendCard, SpendTxn } from '@/lib/spend-report';
+import { money } from '@/lib/currency';
 
-const usd = (n: number, cents = false) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: cents ? 2 : 0 });
+const usd = (n: number, cents = false) => money(n, { cents });
 /** One series slot per stack key: at most five categories plus Other (lib/spend-report.ts). */
 const seriesColor = (i: number): VizColor => `series-${Math.min(6, i + 1) as 1 | 2 | 3 | 4 | 5 | 6}`;
 const pct = (n: number) => `${Math.round(n * 100)}%`;

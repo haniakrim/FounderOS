@@ -202,9 +202,9 @@ export function writeSiteFiles(site: Site): void {
     const sent = !['New', 'Negotiating', 'Aligned'].includes(d.status);
     announced[id] = Math.floor(at / 1000);
     tags[id] = (d.dealValueUsd ?? 0) >= 12000 ? ['UNIQUE', 'Category fit and a budget above the floor'] : ['NORMAL', ''];
-    summaries[id] = `${d.brand} wants a ${['YouTube integration', 'newsletter feature', 'podcast read'][i % 3]}. ${d.status === 'Declined' ? 'Declined on timing.' : d.dealValueUsd ? `Budget around $${d.dealValueUsd.toLocaleString('en-US')}.` : 'No budget named yet.'}`;
+    summaries[id] = `${d.brand} wants a ${['YouTube integration', 'newsletter feature', 'podcast read'][i % 3]}. ${d.status === 'Declined' ? 'Declined on timing.' : d.dealValueUsd ? `Budget around SAR ${d.dealValueUsd.toLocaleString('en-US')}.` : 'No budget named yet.'}`;
     const day = new Date(at - DAY).toUTCString().slice(0, 22);
-    const ask = d.dealValueUsd ? `For an integration in the main video we are at $${d.dealValueUsd.toLocaleString('en-US')}, which includes the newsletter mention.` : 'Happy to share rates once we know the format you have in mind.';
+    const ask = d.dealValueUsd ? `For an integration in the main video we are at SAR ${d.dealValueUsd.toLocaleString('en-US')}, which includes the newsletter mention.` : 'Happy to share rates once we know the format you have in mind.';
     chains[id] = [
       `Full chain, 2 messages\n<b>${esc(d.contactName)}</b> <i>${day}</i> <blockquote expandable>Hi, we have been following the channel and think ${esc(d.brand)} fits your audience. Would you be open to a partnership this quarter?</blockquote>\n<b>Operator</b> <i>${new Date(at).toUTCString().slice(0, 22)}</i> <blockquote expandable>Thanks for reaching out. ${esc(ask)}</blockquote>`,
     ];
@@ -227,35 +227,35 @@ export function writeSiteFiles(site: Site): void {
       detectedAt: new Date(now - 5 * 3_600_000).toISOString(),
       canon: { file: 'writing/sop-sop-10.md', passage: 'Prepare an onboarding pack: assemble the scope, book the kickoff, send day one. Live inside ten working days.' },
       occurrences: [
-        { source: 'Call with Halden & Roe', speaker: 'Pike', date: dayAgo(2), excerpt: 'Realistically you are looking at three weeks before the inboxes are live.' },
-        { source: 'Email to Calder Supply', speaker: 'Vera', date: dayAgo(4), excerpt: 'Onboarding usually runs about three weeks end to end.' },
-        { source: 'Slack #client-northwind', speaker: 'Koda', date: dayAgo(6), excerpt: 'told them three weeks for onboarding, same as last time' },
+        { source: 'Call with Al Hadeel & Partners', speaker: 'Pike', date: dayAgo(2), excerpt: 'Realistically you are looking at three weeks before the inboxes are live.' },
+        { source: 'Email to Al Safwa Supply', speaker: 'Vera', date: dayAgo(4), excerpt: 'Onboarding usually runs about three weeks end to end.' },
+        { source: 'Slack #client-shamal', speaker: 'Koda', date: dayAgo(6), excerpt: 'told them three weeks for onboarding, same as last time' },
       ],
     },
     {
       id: 'drift-retainer-floor',
-      claim: 'The retainer starts at $3,500 a month',
+      claim: 'The retainer starts at SAR 3,500 a month',
       confidence: 'high',
       state: 'reviewed',
       detectedAt: new Date(now - 2 * DAY).toISOString(),
-      canon: { file: 'writing/skill-skill-1.md', passage: 'Retainers start at $4,500 a month. Hold the price; trade scope, not rate.' },
+      canon: { file: 'writing/skill-skill-1.md', passage: 'Retainers start at SAR 4,500 a month plus 15% VAT. Hold the price; trade scope, not rate.' },
       occurrences: [
-        { source: 'Call with Ossington Partners', speaker: 'Beacon', date: dayAgo(3), excerpt: 'Retainers start around three and a half a month.' },
-        { source: 'DM thread, Kestrel Health', speaker: 'Lark', date: dayAgo(5), excerpt: 'Monthly support starts at $3.5k.' },
-        { source: 'Proposal draft, Dunmore Foods', speaker: 'Nomad', date: dayAgo(8), excerpt: 'Ongoing retainer: $3,500 per month.' },
+        { source: 'Call with Al Faisal Partners', speaker: 'Beacon', date: dayAgo(3), excerpt: 'Retainers start around three and a half thousand riyals a month.' },
+        { source: 'DM thread, Shifa Al Waha Health', speaker: 'Lark', date: dayAgo(5), excerpt: 'Monthly support starts at SAR 3.5k.' },
+        { source: 'Proposal draft, Barakah Foods', speaker: 'Nomad', date: dayAgo(8), excerpt: 'Ongoing retainer: SAR 3,500 per month.' },
       ],
     },
     {
       id: 'drift-newsletter-day',
-      claim: 'The newsletter goes out on Fridays',
+      claim: 'The newsletter goes out on Thursdays',
       confidence: 'medium',
       state: 'new',
       detectedAt: new Date(now - 9 * 3_600_000).toISOString(),
       canon: { file: 'projects/workflow-wf-content.md', passage: 'Wren writes the weekly newsletter from what shipped; it sends Tuesday at 9am.' },
       occurrences: [
-        { source: 'Content standup notes', speaker: 'Juno', date: dayAgo(1), excerpt: 'Friday send, so the hooks need to be in by Thursday.' },
-        { source: 'Reply to a reader', speaker: 'Lark', date: dayAgo(3), excerpt: 'It lands every Friday morning.' },
-        { source: 'Sponsor brief, Hollis Audio', speaker: 'Wren', date: dayAgo(7), excerpt: 'Placement runs in the Friday issue.' },
+        { source: 'Content standup notes', speaker: 'Juno', date: dayAgo(1), excerpt: 'Thursday send, so the hooks need to be in by Wednesday.' },
+        { source: 'Reply to a reader', speaker: 'Lark', date: dayAgo(3), excerpt: 'It lands every Thursday morning.' },
+        { source: 'Sponsor brief, Sawt Audio', speaker: 'Wren', date: dayAgo(7), excerpt: 'Placement runs in the Thursday issue.' },
       ],
     },
     {
@@ -267,7 +267,7 @@ export function writeSiteFiles(site: Site): void {
       canon: { file: 'writing/sop-sop-8.md', passage: 'Reconcile the day: match charges to the ledger every night and raise the exceptions as work.' },
       occurrences: [
         { source: 'Board pack draft', speaker: 'Tessel', date: dayAgo(12), excerpt: 'Ledger reconciled weekly against the bank feed.' },
-        { source: 'Call with the bookkeeper', speaker: 'Sable', date: dayAgo(13), excerpt: 'We close the books every Friday.' },
+        { source: 'Call with the bookkeeper', speaker: 'Sable', date: dayAgo(13), excerpt: 'We close the books every Thursday.' },
         { source: 'Slack #finance', speaker: 'Brisk', date: dayAgo(14), excerpt: 'weekly recon is done, two exceptions' },
       ],
     },
@@ -289,8 +289,8 @@ export function writeSiteFiles(site: Site): void {
     createdAt: at(h), updatedAt: at(Math.max(1, h - 6)),
   });
   const projects = [
-    project('wp-halden', 'Get Halden & Roe live by the 14th', 'active', 30,
-      'Halden & Roe signed. I want them live by the 14th without me chasing anyone.',
+    project('wp-halden', 'Get Al Hadeel & Partners live by the 14th', 'active', 30,
+      'Al Hadeel & Partners signed. I want them live by the 14th without me chasing anyone.',
       'Split it three ways: Pike builds the onboarding pack, Vera takes the scope change reply, Atlas puts the kickoff on the plan. I will move it to done when all three close.',
       [task('wt-1', 'Assemble the onboarding pack', 'ag-pike', 'Pike', 20, 30), task('wt-2', 'Reply on the scope change', 'ag-vera', 'Vera', null, 30), task('wt-3', 'Book the kickoff and add it to the plan', 'ag-atlas', 'Atlas', 26, 30)]),
     project('wp-september', 'Close September', 'active', 54,

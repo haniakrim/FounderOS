@@ -55,7 +55,7 @@ export function writeDemoBrain(): number {
     },
     'launchpad-cohort': {
       title: 'Launchpad Cohort',
-      body: 'The mentorship programme. Six weeks, live, a small group building their own operating system with guidance. Sold paid-in-full or on a three-payment plan; leads arrive from the webinar and Instagram DMs.',
+      body: 'The mentorship programme. Six weeks, live, a small group building their own operating system with guidance. Sold paid-in-full, on a three-payment plan or through Tabby and Tamara instalments; leads arrive from the webinar and Instagram DMs.',
     },
   };
   for (const [id, v] of Object.entries(VENTURES)) {
@@ -114,7 +114,7 @@ export function writeDemoBrain(): number {
     const company = s(c.company) || companyFromName || '';
     const slug = `contact-${s(c.id).replace(/^fc-/, '')}`;
     if (company) companies.set(company, [...(companies.get(company) ?? []), slug]);
-    const deal = c.product ? `\n\nDeal: ${s(c.product)}, $${Number(c.amount_usd ?? 0).toLocaleString('en-US')}.` : '';
+    const deal = c.product ? `\n\nDeal: ${s(c.product)}, SAR ${Number(c.amount_usd ?? 0).toLocaleString('en-US')}.` : '';
     page(
       'people',
       slug,
@@ -155,7 +155,7 @@ export function writeDemoBrain(): number {
       `workflow-${s(w.id)}`,
       s(w.name),
       ['workflow'],
-      `${s(w.subtitle)}\n\n${steps.map((st, i) => `${i + 1}. ${st.name ?? st.title ?? 'Step'}`).join('\n')}\n\nRevenue it carries: $${Number(w.revenue_usd ?? 0).toLocaleString('en-US')}. See ${link('venture-vantage')} and ${link('venture-launchpad-cohort')}.`,
+      `${s(w.subtitle)}\n\n${steps.map((st, i) => `${i + 1}. ${st.name ?? st.title ?? 'Step'}`).join('\n')}\n\nRevenue it carries: SAR ${Number(w.revenue_usd ?? 0).toLocaleString('en-US')}. See ${link('venture-vantage')} and ${link('venture-launchpad-cohort')}.`,
     );
   }
   for (const r of roadmap) {

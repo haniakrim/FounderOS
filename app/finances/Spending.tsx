@@ -10,8 +10,9 @@
 
 import { useState, type CSSProperties } from 'react';
 import type { SpendCard } from '@/lib/spend-report';
+import { money } from '@/lib/currency';
 
-const usd = (n: number, cents = false) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: cents ? 2 : 0 });
+const usd = (n: number, cents = false) => money(n, { cents });
 const MASK: CSSProperties = { filter: 'blur(6px)', userSelect: 'none' };
 /** Stack colours: the data ramp, then two funnel hues (Classic tokens, every theme). */
 const COLORS = ['var(--ramp-1)', 'var(--ramp-3)', 'var(--ramp-4)', 'var(--ramp-2)', 'var(--funnel-s3)', 'var(--funnel-s5)'];

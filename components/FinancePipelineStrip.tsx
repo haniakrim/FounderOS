@@ -6,6 +6,7 @@ import { SectionHead } from '@/components/terminal';
 import { PipelineChart, type PipelineStage } from '@/components/PipelineChart';
 import { formatCompact, formatFull, formatUsdCompact } from '@/lib/format-number';
 import type { IncomeCategory } from '@/lib/finances';
+import { money } from '@/lib/currency';
 
 /**
  * Homepage finance widget — the same Pipeline design as /brand-deals' hero
@@ -24,7 +25,7 @@ import type { IncomeCategory } from '@/lib/finances';
  * one it was actually handed.
  */
 
-const usd = (n: number) => `$${formatFull(Math.round(n))}`;
+const usd = (n: number) => money(Math.round(n));
 
 export function FinancePipelineStrip({ categories, period }: { categories: IncomeCategory[]; period: 'MTD' | 'YTD' }) {
   const router = useRouter();
