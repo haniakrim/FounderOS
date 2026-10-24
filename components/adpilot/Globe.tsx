@@ -55,7 +55,9 @@ const CHIP_MIN_WIDTH = 320;
 const CHIP_GAP = 12;
 /** Chips hide a little before the horizon so they don't flicker at the limb (F-G5). */
 const HORIZON_Z = 0.08;
-const IDLE_SPIN = 0.0016;
+const IDLE_SPIN = 0.0004;
+/** Where the globe opens: Riyadh. */
+const HOME = { lat: 24.71, lng: 46.68 };
 const FRAME_MS = 1000 / 60;
 const LAND_BUCKETS = 8;
 const SIZE_BUCKETS = 8;
@@ -341,8 +343,10 @@ export function Globe({ geo, height = 560, focus, onFocus, emptyLabel }: Props) 
     };
 
     // Rotation state.
-    let yaw = 0;
-    let pitch = TILT;
+    // The globe opens on Riyadh (the home market) and drifts slowly, so Saudi Arabia stays in view.
+    const home = centreOn(HOME.lat, HOME.lng);
+    let yaw = home.yaw;
+    let pitch = Math.max(TILT, home.pitch);
     let velocity = reduced ? 0 : IDLE_SPIN;
     let idle = 0;
     let spinOn = !reduced;
